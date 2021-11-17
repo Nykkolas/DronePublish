@@ -4,8 +4,12 @@ open System.IO
 open FSharp.Json
 open Elmish
 
+type ModelErrors =
+    | CantDeserializeFile
+
 type Model = {
     Conf: Conf
+    DestDir: string
 }
 
 module Model =
@@ -25,7 +29,10 @@ module Model =
         saveStateToFile state Const.saveFile
 
     let loadStateFromFile (file:string) =
-        File.ReadAllText file |> Json.deserialize<Model> |> Ok
+        try 
+            File.ReadAllText file |> Json.deserialize<Model> |> Ok
+        with
+            | ex -> Error CantDeserializeFile
 
     let loadState () =
         loadStateFromFile Const.saveFile
@@ -38,5 +45,6 @@ module Model =
             | Error _ -> 
                 {
                     Conf = { ExecutablesPath = "" }
+                    DestDir = ""
                 }
         (state, Cmd.none)

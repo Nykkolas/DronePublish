@@ -70,6 +70,10 @@ module Program =
     type MainControl(window: Window) as this =
         inherit HostControl()
         do
+            window.Title <- "DronePublish"
+            window.Width <- 600.0
+            window.Height <- 400.0
+            
             // Instead of just creating default init state, try to recover state from window.DataContext
             let hotInit () = 
                 match transferState<Model> window.DataContext with

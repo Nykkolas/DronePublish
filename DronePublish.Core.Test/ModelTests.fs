@@ -12,6 +12,7 @@ module ModelTests =
             Conf = {
                 ExecutablesPath = executablesPath
             }
+            DestDir = destDir
         }
 
     let generateSaveFileName () =
@@ -49,7 +50,8 @@ module ModelTests =
 {
   \"Conf\": {
     \"ExecutablesPath\": \"\"
-  }
+  },
+  \"DestDir\": \"\"
 }\
 "
 

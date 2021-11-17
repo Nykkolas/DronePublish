@@ -1,12 +1,15 @@
 ﻿namespace DronePublish.FuncUI
 
 open System
+open System.IO
 open Avalonia.Controls
 
 module Dialogs =
-    let getFolderDialog =
-        let dialog = OpenFolderDialog()
-        dialog.Directory <- Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)
-        dialog.Title <- "Choose where to look up for music"
+    let getFolderDialog title directory =
+        let dialog = OpenFolderDialog ()
+        dialog.Title <- title 
+        dialog.Directory <- 
+            if Directory.Exists directory then directory
+            else Environment.GetFolderPath Environment.SpecialFolder.Personal
         dialog
 

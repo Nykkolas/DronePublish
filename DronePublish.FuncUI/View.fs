@@ -23,7 +23,6 @@ module View =
                     StackPanel.margin 10.0
                     StackPanel.children [
                         TextBlock.create [
-                            //TextBlock.dock Dock.Left
                             TextBlock.verticalAlignment VerticalAlignment.Center
                             TextBlock.fontWeight FontWeight.Bold
                             TextBlock.margin (0.0, 0.0, 5.0, 0.0)
@@ -35,7 +34,6 @@ module View =
                                 TextBlock.text "Executables KO"
                         ]
                         Button.create [
-                            //Button.dock Dock.Right
                             Button.verticalAlignment VerticalAlignment.Center
                             Button.width 20.0
                             Button.content "..."
@@ -53,46 +51,16 @@ module View =
                             Button.dock Dock.Right
                             Button.width 20.0
                             Button.content "..."
+                            Button.onClick (fun _ -> ChooseDestDir |> dispatch)
                         ]
                         TextBox.create [
                             TextBox.verticalAlignment VerticalAlignment.Center
                             TextBox.dock Dock.Left
-                            //TextBox.text state.Conf.DestDir
+                            TextBox.text state.DestDir
                         ]
                     ]
                 ]
 
             ]
         ]
-        //DockPanel.create [
-        //    DockPanel.children [
-        //         Button.create [
-        //             Button.dock Dock.Bottom
-        //             //Button.onClick (fun _ -> dispatch Reset)
-        //             Button.content "reset"
-        //         ]
-        //         Button.create [
-        //             Button.dock Dock.Bottom
-        //             //Button.onClick (fun _ -> dispatch Decrement)
-        //             Button.content "-"
-        //         ]
-        //         Button.create [
-        //            Button.dock Dock.Bottom
-        //            //Button.onClick (fun _ -> dispatch Increment)
-        //            Button.content "+"
-        //         ]
-        //         Button.create [
-        //             Button.dock Dock.Bottom
-        //             Button.onClick (fun _ -> dispatch Test)
-        //             Button.content "Lancer un test, est-ce vraiment raisonnable ?"
-        //         ]
-        //         TextBlock.create [
-        //             TextBlock.dock Dock.Top
-        //             TextBlock.fontSize 48.0
-        //             TextBlock.verticalAlignment VerticalAlignment.Center
-        //             TextBlock.horizontalAlignment HorizontalAlignment.Center
-        //             TextBlock.text (string state.Conf.ExecutablesPath)
-        //         ]
-        //    ]
-        //]       
         
