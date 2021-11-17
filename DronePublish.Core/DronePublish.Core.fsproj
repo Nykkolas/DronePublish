@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <WarnOn>3390;$(WarnOn)</WarnOn>
+    <UseWpf>true</UseWpf>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Fichiers.fs" />
+    <Compile Include="Types.fs" />
+    <Compile Include="Const.fs" />
+    <Compile Include="Model.fs" />
+    <Compile Include="WpfUpdate.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Elmish.WPF" Version="4.0.0-beta-42" />
+    <PackageReference Include="FSharp.Json" Version="0.4.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Watch Include="**/*.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Watch Remove="Const.fs" />
+    <Watch Remove="Model.fs" />
+    <Watch Remove="WpfUpdate.fs" />
+  </ItemGroup>
+</Project>

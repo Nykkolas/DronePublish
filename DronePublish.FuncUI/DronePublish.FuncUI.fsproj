@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Dialogs.fs" />
+    <Compile Include="Update.fs" />
+    <Compile Include="View.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Add the 'Watch' directive to watch for FS file changes. -->
+    <Watch Include="**\*.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DronePublish.Core\DronePublish.Core.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Desktop" Version="0.9.9" />
+    <PackageReference Include="FSharp.SystemTextJson" Version="0.17.4" />
+    <PackageReference Include="JaggerJo.Avalonia.FuncUI" Version="0.4.1" />
+    <PackageReference Include="JaggerJo.Avalonia.FuncUI.DSL" Version="0.4.3" />
+    <PackageReference Include="JaggerJo.Avalonia.FuncUI.Elmish" Version="0.4.0" />
+    <PackageReference Include="Live.Avalonia" Version="1.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove=".template.config\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Watch Remove="Dialogs.fs" />
+    <Watch Remove="Update.fs" />
+  </ItemGroup>
+</Project>

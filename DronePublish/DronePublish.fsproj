@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <WarnOn>3390;$(WarnOn)</WarnOn>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="proto\Proto_Conf.fsx" />
+    <None Include="proto\Proto_JSON.fsx" />
+    <Compile Include="proto\ProtoFuncs.fs" />
+    <Compile Include="Types.fs" />
+    <Compile Include="Fichiers.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup />
+</Project>

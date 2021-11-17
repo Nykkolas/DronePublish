@@ -1,0 +1,10 @@
+*/bin/**
+*/obj/**
+*/output/**
+
+.vscode/**
+.vs/**
+
+.fake
+.ionide
+FichiersTest/Peniche_Julien_TimeLine_1.mov
