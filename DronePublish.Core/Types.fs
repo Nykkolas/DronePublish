@@ -6,9 +6,9 @@ type Conf = {
     ExecutablesPath: string
 }
 
-type Source = string // fichier
+type SourceFile = string 
 
-type Destination = string array // Liste des fichiers générés dans le répertoire de destination
+type OutputFiles = string array
 
 type ProfileData = {
     Nom: string

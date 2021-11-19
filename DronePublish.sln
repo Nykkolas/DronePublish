@@ -7,8 +7,6 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "DronePublish", "DronePublis
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "DronePublish.Core", "DronePublish.Core\DronePublish.Core.fsproj", "{5B2E8B50-F7F9-42FE-900A-F9596BC480B3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DronePublish.WPF", "DronePublish.WPF\DronePublish.WPF.csproj", "{BDC7BDAD-F929-4213-A8B5-57145B9BCC02}"
-EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "DronePublish.FuncUI", "DronePublish.FuncUI\DronePublish.FuncUI.fsproj", "{A3A566A5-DEC3-4AD8-938F-F488B54008D3}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "DronePublish.Core.Test", "DronePublish.Core.Test\DronePublish.Core.Test.fsproj", "{B88B4FC5-F21B-4D81-8C35-1E154AE460D2}"
@@ -27,10 +25,6 @@ Global
 		{5B2E8B50-F7F9-42FE-900A-F9596BC480B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B2E8B50-F7F9-42FE-900A-F9596BC480B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B2E8B50-F7F9-42FE-900A-F9596BC480B3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BDC7BDAD-F929-4213-A8B5-57145B9BCC02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BDC7BDAD-F929-4213-A8B5-57145B9BCC02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BDC7BDAD-F929-4213-A8B5-57145B9BCC02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BDC7BDAD-F929-4213-A8B5-57145B9BCC02}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A3A566A5-DEC3-4AD8-938F-F488B54008D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A3A566A5-DEC3-4AD8-938F-F488B54008D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3A566A5-DEC3-4AD8-938F-F488B54008D3}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,4 +1,4 @@
-namespace DronePublish.FuncUI
+﻿namespace DronePublish.FuncUI
 
 open DronePublish.Core
 open Avalonia.Controls
@@ -41,22 +41,31 @@ module View =
                         ]
                     ]
                 ]
-                DockPanel.create [
-                    DockPanel.row 1
-                    DockPanel.column 1
-                    DockPanel.margin 10.0
-                    DockPanel.children [
-                        Button.create [
-                            Button.verticalAlignment VerticalAlignment.Center
-                            Button.dock Dock.Right
-                            Button.width 20.0
-                            Button.content "..."
-                            Button.onClick (fun _ -> ChooseDestDir |> dispatch)
+                StackPanel.create [
+                    StackPanel.row 1
+                    StackPanel.column 1
+                    StackPanel.children [
+                        TextBlock.create [
+                            //TextBlock.fontFamily (FontFamily.Parse "Arial")
+                            TextBlock.text "Répertoire de destination :"
                         ]
-                        TextBox.create [
-                            TextBox.verticalAlignment VerticalAlignment.Center
-                            TextBox.dock Dock.Left
-                            TextBox.text state.DestDir
+                        DockPanel.create [
+                            DockPanel.margin 10.0
+                            DockPanel.children [
+                                Button.create [
+                                    Button.verticalAlignment VerticalAlignment.Center
+                                    Button.dock Dock.Right
+                                    Button.width 20.0
+                                    Button.content "..."
+                                    Button.onClick (fun _ -> ChooseDestDir |> dispatch)
+                                ]
+                                TextBox.create [
+                                    TextBox.verticalAlignment VerticalAlignment.Center
+                                    TextBox.dock Dock.Left
+                                    TextBlock.isEnabled false
+                                    TextBox.text state.DestDir
+                                ]
+                            ]
                         ]
                     ]
                 ]

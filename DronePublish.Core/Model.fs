@@ -8,6 +8,7 @@ type ModelErrors =
     | CantDeserializeFile
 
 type Model = {
+    ConfFile: string
     Conf: Conf
     DestDir: string
 }
@@ -26,24 +27,22 @@ module Model =
         //Error CantSaveState
 
     let saveState state =
-        saveStateToFile state Const.saveFile
+        saveStateToFile state state.ConfFile
 
     let loadStateFromFile (file:string) =
         try 
             File.ReadAllText file |> Json.deserialize<Model> |> Ok
         with
-            | ex -> Error CantDeserializeFile
+            | _ -> Error CantDeserializeFile
 
-    let loadState () =
-        loadStateFromFile Const.saveFile
-
-    let init () = 
-        let stateResult = loadState ()
+    let init confFile = 
+        let stateResult = loadStateFromFile confFile
         let state = 
             match stateResult with
             | Ok s -> s
             | Error _ -> 
                 {
+                    ConfFile = confFile
                     Conf = { ExecutablesPath = "" }
                     DestDir = ""
                 }

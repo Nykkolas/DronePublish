@@ -6,6 +6,7 @@ open System.Text.Json.Serialization
 open Elmish
 open Avalonia
 open Avalonia.Controls
+open Avalonia.Input
 open Avalonia.Controls.ApplicationLifetimes
 open Live.Avalonia
 open Avalonia.FuncUI
@@ -75,21 +76,27 @@ module Program =
             window.Height <- 400.0
             
             // Instead of just creating default init state, try to recover state from window.DataContext
-            let hotInit () = 
+            let hotInit confFile = 
                 match transferState<Model> window.DataContext with
                 | Some newState ->
                     Console.WriteLine $"Restored state %O{newState}"
                     (newState, Cmd.none)
-                | None -> Model.init ()
+                | None -> Model.init confFile
         
+#if DEBUG
+            window.AttachDevTools(KeyGesture(Key.F12))
+#endif
+
             let updateWithServices msg state =
                 Update.update msg state window
+
+            let confFile = sprintf @"%s\DronePublish\conf.json" (Environment.GetFolderPath Environment.SpecialFolder.LocalApplicationData)
 
             Program.mkProgram hotInit updateWithServices View.view
             |> Program.withHost this
             // Every time state changes, save state to window.DataContext
             |> Program.withTrace (fun _ state -> window.DataContext <- state)
-            |> Program.run
+            |> Program.runWith confFile
 
         
     type App() =

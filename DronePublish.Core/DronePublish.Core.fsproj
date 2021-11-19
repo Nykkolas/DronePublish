@@ -8,9 +8,7 @@
   <ItemGroup>
     <Compile Include="Fichiers.fs" />
     <Compile Include="Types.fs" />
-    <Compile Include="Const.fs" />
     <Compile Include="Model.fs" />
-    <Compile Include="WpfUpdate.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Elmish.WPF" Version="4.0.0-beta-42" />
@@ -20,8 +18,6 @@
     <Watch Include="**/*.fs" />
   </ItemGroup>
   <ItemGroup>
-    <Watch Remove="Const.fs" />
     <Watch Remove="Model.fs" />
-    <Watch Remove="WpfUpdate.fs" />
   </ItemGroup>
 </Project>
