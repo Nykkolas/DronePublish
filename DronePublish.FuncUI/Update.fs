@@ -22,17 +22,17 @@ module Update =
             let showDialog window = dialog.ShowAsync (window) |> Async.AwaitTask
             (state, Cmd.OfAsync.perform showDialog window ExecutablesPathChosen) 
         | ExecutablesPathChosen f ->
-            let newState = { state with Conf = { state.Conf with ExecutablesPath = f } }
-            //Model.saveState newState |> ignore
-            (newState, Cmd.ofMsg SaveState)
+            match f with
+            | "" -> (state, Cmd.none)
+            | _ -> ({ state with Conf = { state.Conf with ExecutablesPath = f } }, Cmd.ofMsg SaveState)
         | ChooseDestDir -> 
             let dialog = Dialogs.getFolderDialog "Répertoire de destination" state.DestDir
             let showDialog window = dialog.ShowAsync (window) |> Async.AwaitTask
             (state, Cmd.OfAsync.perform showDialog window DestDirChosen) 
         | DestDirChosen f ->
-            let newState = { state with DestDir = f }
-            //Model.saveState newState |> ignore
-            (newState, Cmd.ofMsg SaveState) 
+            match f with
+            | "" -> (state, Cmd.none)
+            | _ -> ({ state with DestDir = f }, Cmd.ofMsg SaveState)
         | SaveState ->
             Model.saveState state |> ignore
             (state, Cmd.none)
