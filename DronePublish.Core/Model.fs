@@ -10,6 +10,7 @@ type ModelErrors =
 type Model = {
     ConfFile: string
     Conf: Conf
+    SourceFile: string
     DestDir: string
 }
 
@@ -22,9 +23,6 @@ module Model =
         let serializedState = Json.serialize state
 
         File.WriteAllText (file, serializedState)
-        
-        Ok ()
-        //Error CantSaveState
 
     let saveState state =
         saveStateToFile state state.ConfFile
@@ -44,6 +42,7 @@ module Model =
                 {
                     ConfFile = confFile
                     Conf = { ExecutablesPath = "" }
+                    SourceFile = ""
                     DestDir = ""
                 }
         (state, Cmd.none)

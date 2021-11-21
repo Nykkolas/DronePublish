@@ -47,6 +47,28 @@ module View =
                     StackPanel.children [
                         TextBlock.create [
                             //TextBlock.fontFamily (FontFamily.Parse "Arial")
+                            TextBlock.text "Fichier à convertir :"
+                        ]
+                        DockPanel.create [
+                            DockPanel.margin 10.0
+                            DockPanel.children [
+                                Button.create [
+                                    Button.verticalAlignment VerticalAlignment.Center
+                                    Button.dock Dock.Right
+                                    Button.width 20.0
+                                    Button.content "..."
+                                    Button.onClick (fun _ -> ChooseSourceFile |> dispatch)
+                                ]
+                                TextBox.create [
+                                    TextBox.verticalAlignment VerticalAlignment.Center
+                                    TextBox.dock Dock.Left
+                                    TextBlock.isEnabled false
+                                    TextBox.text state.SourceFile
+                                ]
+                            ]
+                        ]
+                        TextBlock.create [
+                            //TextBlock.fontFamily (FontFamily.Parse "Arial")
                             TextBlock.text "Répertoire de destination :"
                         ]
                         DockPanel.create [

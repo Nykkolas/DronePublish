@@ -10,6 +10,8 @@ open DronePublish.Core
 type Msg =
     | ChooseExecutablesPath
     | ExecutablesPathChosen of string
+    | ChooseSourceFile
+    | SourceFileChosen of string array
     | ChooseDestDir
     | DestDirChosen of string
     | SaveState
@@ -25,6 +27,14 @@ module Update =
             match f with
             | "" -> (state, Cmd.none)
             | _ -> ({ state with Conf = { state.Conf with ExecutablesPath = f } }, Cmd.ofMsg SaveState)
+        | ChooseSourceFile ->
+            let dialog = Dialogs.getSourceFileDialog None state.SourceFile
+            let showDialog window = dialog.ShowAsync (window) |> Async.AwaitTask
+            (state, Cmd.OfAsync.perform showDialog window SourceFileChosen)
+        | SourceFileChosen f ->
+            match Array.length f with
+            | 0 -> (state, Cmd.none)
+            | _ -> ({state with SourceFile = f.[0] }, Cmd.ofMsg SaveState)
         | ChooseDestDir -> 
             let dialog = Dialogs.getFolderDialog "Répertoire de destination" state.DestDir
             let showDialog window = dialog.ShowAsync (window) |> Async.AwaitTask
@@ -34,6 +44,6 @@ module Update =
             | "" -> (state, Cmd.none)
             | _ -> ({ state with DestDir = f }, Cmd.ofMsg SaveState)
         | SaveState ->
-            Model.saveState state |> ignore
+            Model.saveState state
             (state, Cmd.none)
         
