@@ -68,7 +68,7 @@ module View =
                                                     Resolution : %ix%i\n\
                                                     Codec : %s\n\
                                                     Bitrate : %i" s.Width s.Height s.Codec (int s.Bitrate)
-                                                | Error e -> sprintf "Erreur : %A" e
+                                                | Error e -> sprintf "Il y a des erreurs :\n %A" e
                                         TextBlock.create [ TextBlock.text text ]
                                     )
                                 ]

@@ -3,6 +3,7 @@
 open System.IO
 open FSharp.Json
 open Elmish
+open FsToolkit.ErrorHandling
 
 type ModelErrors =
     | CantDeserializeFile
@@ -18,7 +19,7 @@ type Model = {
     ConfFile: string
     Conf: Conf
     SourceFile: string
-    SourceInfos: Deferred<Result<MediaFileInfos, ModelErrors>>
+    SourceInfos: Deferred<Validation<MediaFileInfos, ModelErrors>>
     DestDir: string
 }
 

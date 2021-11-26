@@ -7,6 +7,8 @@ open Avalonia.Controls
 open Elmish
 open DronePublish.Core
 open Xabe.FFmpeg
+open FsToolkit.ErrorHandling
+open FsToolkit.ErrorHandling.Operator.Validation
 
 type Msg =
     | ChooseExecutablesPath
@@ -14,7 +16,7 @@ type Msg =
     | ChooseSourceFile
     | SourceFileChosen of string array
     | GetSourceFileInfos
-    | GotSourceFileInfos of Result<IMediaInfo,ModelErrors>
+    | GotSourceFileInfos of Validation<IMediaInfo,ModelErrors>
     | ChooseDestDir
     | DestDirChosen of string
     | SaveState
@@ -42,21 +44,20 @@ module Update =
             match state.SourceInfos with
             | Started -> (state, Cmd.none)
             | NotStarted | Resolved _  ->
-                let startGetInfos path file =
-                    match path, file with
-                    | Ok p, Ok f -> 
-                        FFmpeg.SetExecutablesPath p
-                        ({ state with SourceInfos = Started}, Cmd.OfTask.perform FFmpeg.GetMediaInfo f (Ok >> GotSourceFileInfos))
-                    | Error pe, Ok _ -> 
-                        (state, Cmd.ofMsg (GotSourceFileInfos (Error pe)) )
-                    | Ok _, Error fe ->
-                        (state, Cmd.ofMsg (GotSourceFileInfos (Error fe)) )
-                    | Error _, Error fe -> 
-                        (state, Cmd.ofMsg (GotSourceFileInfos (Error fe)) )
+                let createCmd p f =
+                    FFmpeg.SetExecutablesPath p
+                    ({ state with SourceInfos = Started}, Cmd.OfTask.perform FFmpeg.GetMediaInfo f (Ok >> GotSourceFileInfos))
+                    
+                let tryActualCmd =
+                    createCmd
+                    <!^> Model.validateExecutablePath state.Conf.ExecutablesPath
+                    <*^> Model.validateSourceFile state.SourceFile
                 
-                let path = Model.validateExecutablePath state.Conf.ExecutablesPath
-                let file = Model.validateSourceFile state.SourceFile
-                startGetInfos path file
+                tryActualCmd
+                |> function 
+                    | Ok c -> c
+                    | Error e -> (state, Cmd.ofMsg (GotSourceFileInfos (Error e)))
+                
         | GotSourceFileInfos i ->
             let mediaFileInfos =
                 match i with
