@@ -2,6 +2,7 @@ namespace DronePublish
 
 open System.IO
 
+
 module Fichiers =
     let createDestFileName destDir (sourceFile:string) suffixe =
         sprintf @"%s\%s %s%s" destDir (Path.GetFileNameWithoutExtension sourceFile) suffixe ".mp4"

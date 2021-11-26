@@ -6,12 +6,15 @@ open System.IO
 open Avalonia.Controls
 open Elmish
 open DronePublish.Core
+open Xabe.FFmpeg
 
 type Msg =
     | ChooseExecutablesPath
     | ExecutablesPathChosen of string
     | ChooseSourceFile
     | SourceFileChosen of string array
+    | GetSourceFileInfos
+    | GotSourceFileInfos of Result<IMediaInfo,ModelErrors>
     | ChooseDestDir
     | DestDirChosen of string
     | SaveState
@@ -26,7 +29,7 @@ module Update =
         | ExecutablesPathChosen f ->
             match f with
             | "" -> (state, Cmd.none)
-            | _ -> ({ state with Conf = { state.Conf with ExecutablesPath = f } }, Cmd.ofMsg SaveState)
+            | _ -> ({ state with Conf = { state.Conf with ExecutablesPath = f } }, Cmd.batch [ Cmd.ofMsg SaveState; Cmd.ofMsg GetSourceFileInfos ])
         | ChooseSourceFile ->
             let dialog = Dialogs.getSourceFileDialog None state.SourceFile
             let showDialog window = dialog.ShowAsync (window) |> Async.AwaitTask
@@ -34,7 +37,39 @@ module Update =
         | SourceFileChosen f ->
             match Array.length f with
             | 0 -> (state, Cmd.none)
-            | _ -> ({state with SourceFile = f.[0] }, Cmd.ofMsg SaveState)
+            | _ -> 
+                
+                ({state with SourceFile = f.[0] }, Cmd.batch [ Cmd.ofMsg SaveState; Cmd.ofMsg GetSourceFileInfos ] )
+        | GetSourceFileInfos ->
+            match state.SourceInfos with
+            | NotStarted | Resolved _  ->
+                let startGetInfos path file =
+                    match path, file with
+                    | Ok p, Ok f -> 
+                        FFmpeg.SetExecutablesPath p
+                        ({ state with SourceInfos = Started}, Cmd.OfTask.perform FFmpeg.GetMediaInfo f (Ok >> GotSourceFileInfos))
+                    | Error pe, Ok _ -> 
+                        (state, Cmd.ofMsg (GotSourceFileInfos (Error pe)) )
+                    | Ok _, Error fe ->
+                        (state, Cmd.ofMsg (GotSourceFileInfos (Error fe)) )
+                    | Error _, Error fe -> 
+                        (state, Cmd.ofMsg (GotSourceFileInfos (Error fe)) )
+                
+                let path = Model.validateExecutablePath state.Conf.ExecutablesPath
+                let file = Model.validateSourceFile state.SourceFile
+                startGetInfos path file
+
+            | Started -> (state, Cmd.none)
+        | GotSourceFileInfos i ->
+            let mediaFileInfos =
+                match i with
+                | Ok media ->
+                    let sourceVideoStream = 
+                        media.VideoStreams 
+                        |> Seq.head
+                    Ok { Codec = sourceVideoStream.Codec }
+                | Error e -> Error e
+            ({ state with SourceInfos = Resolved mediaFileInfos}, Cmd.ofMsg SaveState)
         | ChooseDestDir -> 
             let dialog = Dialogs.getFolderDialog "Répertoire de destination" state.DestDir
             let showDialog window = dialog.ShowAsync (window) |> Async.AwaitTask

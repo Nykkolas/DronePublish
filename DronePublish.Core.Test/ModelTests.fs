@@ -15,6 +15,7 @@ module ModelTests =
                 ExecutablesPath = executablesPath
             }
             SourceFile = sourceFile
+            SourceInfos = NotStarted
             DestDir = destDir
         }
 

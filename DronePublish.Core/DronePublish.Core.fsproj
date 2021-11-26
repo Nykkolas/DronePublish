@@ -13,6 +13,8 @@
   <ItemGroup>
     <PackageReference Include="Elmish.WPF" Version="4.0.0-beta-42" />
     <PackageReference Include="FSharp.Json" Version="0.4.1" />
+    <PackageReference Include="FsToolkit.ErrorHandling" Version="2.11.0" />
+    <PackageReference Include="Xabe.FFmpeg" Version="5.0.2" />
   </ItemGroup>
   <ItemGroup>
     <Watch Include="**/*.fs" />

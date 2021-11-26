@@ -6,15 +6,39 @@ open Elmish
 
 type ModelErrors =
     | CantDeserializeFile
+    | CantFindFFMpegExe
+    | CantFindSourceFile
+
+type Deferred<'a> =
+    | NotStarted
+    | Started
+    | Resolved of 'a
+
+type MediaFileInfos = {
+    Codec: string
+}
 
 type Model = {
     ConfFile: string
     Conf: Conf
     SourceFile: string
+    SourceInfos: Deferred<Result<MediaFileInfos, ModelErrors>>
     DestDir: string
 }
 
 module Model =
+    let validateExecutablePath path =
+        if (File.Exists (Path.Combine (path, "ffmpeg.exe"))) then
+            Ok path
+        else
+            Error CantFindFFMpegExe
+
+    let validateSourceFile file =
+        if (File.Exists file) then
+            Ok file
+        else
+            Error CantFindSourceFile
+
     let saveStateToFile (state:Model) (file:string) =
         let saveFolder = Path.GetDirectoryName file
         if not (Directory.Exists saveFolder) then
@@ -43,6 +67,7 @@ module Model =
                     ConfFile = confFile
                     Conf = { ExecutablesPath = "" }
                     SourceFile = ""
+                    SourceInfos = NotStarted
                     DestDir = ""
                 }
         (state, Cmd.none)
