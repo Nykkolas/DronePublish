@@ -64,10 +64,7 @@ module Update =
             let mediaFileInfos =
                 match i with
                 | Ok media ->
-                    let sourceVideoStream = 
-                        media.VideoStreams 
-                        |> Seq.head
-                    Ok { Codec = sourceVideoStream.Codec }
+                    MediaFileInfos.createWithIMediaInfo media |> Ok
                 | Error e -> Error e
             ({ state with SourceInfos = Resolved mediaFileInfos}, Cmd.ofMsg SaveState)
         | ChooseDestDir -> 

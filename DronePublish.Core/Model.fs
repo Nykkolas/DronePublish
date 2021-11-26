@@ -14,10 +14,6 @@ type Deferred<'a> =
     | Started
     | Resolved of 'a
 
-type MediaFileInfos = {
-    Codec: string
-}
-
 type Model = {
     ConfFile: string
     Conf: Conf

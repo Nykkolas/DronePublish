@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="Fichiers.fs" />
     <Compile Include="Types.fs" />
+    <Compile Include="MediaFileInfos.fs" />
     <Compile Include="Model.fs" />
   </ItemGroup>
   <ItemGroup>
@@ -20,6 +21,7 @@
     <Watch Include="**/*.fs" />
   </ItemGroup>
   <ItemGroup>
+    <Watch Remove="MediaFileInfos.fs" />
     <Watch Remove="Model.fs" />
   </ItemGroup>
 </Project>

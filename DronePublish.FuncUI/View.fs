@@ -64,7 +64,10 @@ module View =
                                             | Started -> "En cours..."
                                             | Resolved r -> 
                                                 match r with 
-                                                | Ok s -> sprintf "Done\nCodec : %s" s.Codec
+                                                | Ok s -> sprintf "\
+                                                    Resolution : %ix%i\n\
+                                                    Codec : %s\n\
+                                                    Bitrate : %i" s.Width s.Height s.Codec (int s.Bitrate)
                                                 | Error e -> sprintf "Erreur : %A" e
                                         TextBlock.create [ TextBlock.text text ]
                                     )
