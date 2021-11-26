@@ -37,11 +37,10 @@ module Update =
         | SourceFileChosen f ->
             match Array.length f with
             | 0 -> (state, Cmd.none)
-            | _ -> 
-                
-                ({state with SourceFile = f.[0] }, Cmd.batch [ Cmd.ofMsg SaveState; Cmd.ofMsg GetSourceFileInfos ] )
+            | _ -> ({ state with SourceFile = f.[0] }, Cmd.batch [ Cmd.ofMsg SaveState; Cmd.ofMsg GetSourceFileInfos ])
         | GetSourceFileInfos ->
             match state.SourceInfos with
+            | Started -> (state, Cmd.none)
             | NotStarted | Resolved _  ->
                 let startGetInfos path file =
                     match path, file with
@@ -58,13 +57,10 @@ module Update =
                 let path = Model.validateExecutablePath state.Conf.ExecutablesPath
                 let file = Model.validateSourceFile state.SourceFile
                 startGetInfos path file
-
-            | Started -> (state, Cmd.none)
         | GotSourceFileInfos i ->
             let mediaFileInfos =
                 match i with
-                | Ok media ->
-                    MediaFileInfos.createWithIMediaInfo media |> Ok
+                | Ok media -> MediaFileInfos.createWithIMediaInfo media |> Ok
                 | Error e -> Error e
             ({ state with SourceInfos = Resolved mediaFileInfos}, Cmd.ofMsg SaveState)
         | ChooseDestDir -> 
