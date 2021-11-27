@@ -6,9 +6,12 @@ open Avalonia.FuncUI.DSL
 open Avalonia.Layout
 open Avalonia.Media
 open System.IO
+open FsToolkit.ErrorHandling
 
 module View = 
     let view (state:Model) dispatch =
+        let convertionReadyness = Model.validateConvertionReadiness state.Conf.ExecutablesPath state.SourceFile state.DestDir
+
         Grid.create [
             Grid.row 2
             Grid.column 2
@@ -43,15 +46,17 @@ module View =
                         ]
                     ]
                 ]
-                StackPanel.create [
-                    StackPanel.row 1
-                    StackPanel.column 1
-                    StackPanel.children [
+                DockPanel.create [
+                    DockPanel.row 1
+                    DockPanel.column 1
+                    DockPanel.children [
                         TextBlock.create [
+                            TextBlock.dock Dock.Top
                             //TextBlock.fontFamily (FontFamily.Parse "Arial")
                             TextBlock.text "Fichier à convertir :"
                         ]
                         DockPanel.create [
+                            DockPanel.dock Dock.Top
                             DockPanel.margin 10.0
                             DockPanel.children [
                                 Expander.create [
@@ -93,9 +98,11 @@ module View =
                             ]
                         ]
                         TextBlock.create [
+                            TextBlock.dock Dock.Top
                             TextBlock.text "Répertoire de destination :"
                         ]
                         DockPanel.create [
+                            DockPanel.dock Dock.Top
                             DockPanel.margin 10.0
                             DockPanel.children [
                                 Button.create [
@@ -113,9 +120,45 @@ module View =
                                 ]
                             ]
                         ]
+                        DockPanel.create [
+                            DockPanel.dock Dock.Bottom
+                            DockPanel.margin 10.0
+                            DockPanel.children [
+                                Expander.create [
+                                    Expander.dock Dock.Bottom
+                                    convertionReadyness 
+                                    |> Result.either (fun _ -> Expander.isVisible false) (fun _ -> Expander.isVisible true)
+                                    Expander.header "Erreurs"
+                                    Expander.content (
+                                        convertionReadyness
+                                        |> Result.either 
+                                            (fun _ -> TextBlock.create [ TextBlock.text "Pas d'erreur" ])
+                                            (fun e -> TextBlock.create [ TextBlock.text (sprintf "Erreurs : \n%A" e) ])
+                                    )
+                                ]
+                                Button.create [
+                                    Button.dock Dock.Right
+                                    Button.verticalAlignment VerticalAlignment.Center
+                                    convertionReadyness
+                                    |> Result.either 
+                                        (fun _ -> Button.isEnabled true)
+                                        (fun _ -> Button.isEnabled false)
+                                    Button.content "Convertir"
+                                ]
+                                TextBlock.create [
+                                    TextBlock.dock Dock.Right
+                                    TextBlock.verticalAlignment VerticalAlignment.Center
+                                    TextBlock.margin (horizontal = 10.0, vertical = 0.0)
+                                    TextBlock.textAlignment TextAlignment.Right
+                                    convertionReadyness
+                                    |> Result.either 
+                                        (fun _ -> TextBlock.text "Prêt !") 
+                                        (fun _ -> TextBlock.text "Pas prêt !")                                    
+                                ]
+                            ]
+                        ]
                     ]
                 ]
-
             ]
         ]
         

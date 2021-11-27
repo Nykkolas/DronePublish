@@ -4,6 +4,7 @@ open System.IO
 open FSharp.Json
 open Elmish
 open FsToolkit.ErrorHandling
+open FsToolkit.ErrorHandling.Operator.Validation
 
 type ModelError =
     | CantDeserializeFile
@@ -42,6 +43,15 @@ module Model =
             Ok destDir
         else
             Error CantFindDestDir
+
+    let validateConvertionReadiness exePath sourceFile destDir =
+        let checkStatus e s d =
+            ()
+
+        checkStatus
+        <!^> validateExecutablePath exePath
+        <*^> validateSourceFile sourceFile
+        <*^> validateDestDir destDir
 
     let saveStateToFile (state:Model) (file:string) =
         let saveFolder = Path.GetDirectoryName file
