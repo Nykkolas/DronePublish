@@ -7,6 +7,14 @@ open DronePublish.Core.Test
 open Elmish
 
 module UpdateTests =
+    let extractMsg cmd =
+        let mutable msgArray = [||]
+        let dispatch msg =
+            msgArray <- Array.append msgArray [| msg |]
+            ()
+        cmd |> List.iter (fun call -> call dispatch)
+        msgArray
+
     [<Tests>]
     let tests =
         testList "Répertoire d'exécutables" [
@@ -22,7 +30,7 @@ module UpdateTests =
                 let (resultState, _) = updateWithServices message initialState
 
                 resultState.Conf.ExecutablesPath |> Expect.equal "Le répertoire est dans le nouvel état" exePath
-
+                
                 ModelTests.cleanSaveFile saveFile
 
             testCase "Cas Cancel : l'utilisateur a annulé son choix" <| fun _ ->
@@ -34,9 +42,10 @@ module UpdateTests =
                     Update.update message state dialogs
                 let message = Msg.ExecutablesPathChosen exePath
 
-                let (resultState, _) = updateWithServices message initialState
+                let (resultState, resultCmd) = updateWithServices message initialState
 
                 resultState.Conf.ExecutablesPath |> Expect.equal "Le répertoire est l'ancien" exePath
+                resultCmd |> extractMsg |> Expect.equal "La sauvegarde est lancée et les infos mises à jour" [| Msg.SaveState; Msg.GetSourceFileInfos |]
 
                 ModelTests.cleanSaveFile saveFile
         ]

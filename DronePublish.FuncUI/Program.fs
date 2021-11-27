@@ -86,6 +86,7 @@ module Program =
 #if DEBUG
             window.AttachDevTools(KeyGesture(Key.F12))
 #endif
+            /// Interface pour permettre de tester
             let dialogs = {
                 ShowFolderDialog = Dialogs.showFolderDialog window
                 ShowSourceFileDialog = Dialogs.showSourceFileDialog window
@@ -94,6 +95,7 @@ module Program =
             let updateWithServices msg state =
                 Update.update msg state dialogs
 
+            /// Fichier de configuration, passé en paramètre 
             let confFile = sprintf @"%s\DronePublish\conf.json" (Environment.GetFolderPath Environment.SpecialFolder.LocalApplicationData)
 
             Program.mkProgram hotInit updateWithServices View.view
