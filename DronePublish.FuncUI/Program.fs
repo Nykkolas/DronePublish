@@ -86,9 +86,13 @@ module Program =
 #if DEBUG
             window.AttachDevTools(KeyGesture(Key.F12))
 #endif
+            let dialogs = {
+                ShowFolderDialog = Dialogs.showFolderDialog window
+                ShowSourceFileDialog = Dialogs.showSourceFileDialog window
+            }
 
             let updateWithServices msg state =
-                Update.update msg state window
+                Update.update msg state dialogs
 
             let confFile = sprintf @"%s\DronePublish\conf.json" (Environment.GetFolderPath Environment.SpecialFolder.LocalApplicationData)
 

@@ -5,10 +5,11 @@ open FSharp.Json
 open Elmish
 open FsToolkit.ErrorHandling
 
-type ModelErrors =
+type ModelError =
     | CantDeserializeFile
     | CantFindFFMpegExe
     | CantFindSourceFile
+    | CantFindDestDir
 
 type Deferred<'a> =
     | NotStarted
@@ -19,7 +20,7 @@ type Model = {
     ConfFile: string
     Conf: Conf
     SourceFile: string
-    SourceInfos: Deferred<Validation<MediaFileInfos, ModelErrors>>
+    SourceInfos: Deferred<Validation<MediaFileInfos, ModelError>>
     DestDir: string
 }
 
@@ -35,6 +36,12 @@ module Model =
             Ok file
         else
             Error CantFindSourceFile
+
+    let validateDestDir destDir =
+        if (Directory.Exists destDir) then
+            Ok destDir
+        else
+            Error CantFindDestDir
 
     let saveStateToFile (state:Model) (file:string) =
         let saveFolder = Path.GetDirectoryName file

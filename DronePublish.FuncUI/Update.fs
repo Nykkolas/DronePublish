@@ -16,26 +16,22 @@ type Msg =
     | ChooseSourceFile
     | SourceFileChosen of string array
     | GetSourceFileInfos
-    | GotSourceFileInfos of Validation<IMediaInfo,ModelErrors>
+    | GotSourceFileInfos of Validation<IMediaInfo,ModelError>
     | ChooseDestDir
     | DestDirChosen of string
     | SaveState
 
 module Update =
-    let update msg state window =
+    let update msg state dialogs =
         match msg with
         | ChooseExecutablesPath -> 
-            let dialog = Dialogs.getFolderDialog "Répertoire des binaires" state.Conf.ExecutablesPath
-            let showDialog window = dialog.ShowAsync (window) |> Async.AwaitTask
-            (state, Cmd.OfAsync.perform showDialog window ExecutablesPathChosen) 
+            (state, Cmd.OfAsync.perform dialogs.ShowFolderDialog ("Répertoire des binaires", state.Conf.ExecutablesPath) ExecutablesPathChosen)
         | ExecutablesPathChosen f ->
             match f with
             | "" -> (state, Cmd.none)
             | _ -> ({ state with Conf = { state.Conf with ExecutablesPath = f } }, Cmd.batch [ Cmd.ofMsg SaveState; Cmd.ofMsg GetSourceFileInfos ])
         | ChooseSourceFile ->
-            let dialog = Dialogs.getSourceFileDialog None state.SourceFile
-            let showDialog window = dialog.ShowAsync (window) |> Async.AwaitTask
-            (state, Cmd.OfAsync.perform showDialog window SourceFileChosen)
+            (state, Cmd.OfAsync.perform dialogs.ShowSourceFileDialog state.SourceFile SourceFileChosen)
         | SourceFileChosen f ->
             match Array.length f with
             | 0 -> (state, Cmd.none)
@@ -65,9 +61,7 @@ module Update =
                 | Error e -> Error e
             ({ state with SourceInfos = Resolved mediaFileInfos}, Cmd.ofMsg SaveState)
         | ChooseDestDir -> 
-            let dialog = Dialogs.getFolderDialog "Répertoire de destination" state.DestDir
-            let showDialog window = dialog.ShowAsync (window) |> Async.AwaitTask
-            (state, Cmd.OfAsync.perform showDialog window DestDirChosen) 
+            (state, Cmd.OfAsync.perform dialogs.ShowFolderDialog ("Répertoire de destination", state.DestDir) DestDirChosen)
         | DestDirChosen f ->
             match f with
             | "" -> (state, Cmd.none)

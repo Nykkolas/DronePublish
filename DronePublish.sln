@@ -11,6 +11,8 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "DronePublish.FuncUI", "Dron
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "DronePublish.Core.Test", "DronePublish.Core.Test\DronePublish.Core.Test.fsproj", "{B88B4FC5-F21B-4D81-8C35-1E154AE460D2}"
 EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "DronePublish.FuncUI.Test", "DronePublish.FuncUI.Test\DronePublish.FuncUI.Test.fsproj", "{60204A3C-56FF-4DD9-B3E9-BE7F1957CB05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B88B4FC5-F21B-4D81-8C35-1E154AE460D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B88B4FC5-F21B-4D81-8C35-1E154AE460D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B88B4FC5-F21B-4D81-8C35-1E154AE460D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60204A3C-56FF-4DD9-B3E9-BE7F1957CB05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60204A3C-56FF-4DD9-B3E9-BE7F1957CB05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60204A3C-56FF-4DD9-B3E9-BE7F1957CB05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60204A3C-56FF-4DD9-B3E9-BE7F1957CB05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

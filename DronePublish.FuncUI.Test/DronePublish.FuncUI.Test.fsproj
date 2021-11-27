@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <GenerateProgramFile>false</GenerateProgramFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="DialogsTest.fs" />
+    <Compile Include="UpdateTests.fs" />
+    <Compile Include="Sample.fs" />
+    <Compile Include="Main.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Elmish" Version="3.1.0" />
+    <PackageReference Include="Expecto" Version="9.*" />
+    <PackageReference Include="YoloDev.Expecto.TestSdk" Version="0.*" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.*" />
+    <ProjectReference Include="..\DronePublish.Core.Test\DronePublish.Core.Test.fsproj" />
+    <ProjectReference Include="..\DronePublish.FuncUI\DronePublish.FuncUI.fsproj" />
+    <PackageReference Update="FSharp.Core" Version="6.0.1" />
+  </ItemGroup>
+</Project>
