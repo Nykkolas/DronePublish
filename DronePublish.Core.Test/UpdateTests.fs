@@ -1,9 +1,8 @@
-﻿namespace DronePublish.FuncUI.Test
+﻿namespace DronePublish.Core.Test
 
 open Expecto
 open Expecto.Flip
-open DronePublish.FuncUI
-open DronePublish.Core.Test
+open DronePublish.Core
 open Elmish
 
 module UpdateTests =
@@ -19,8 +18,8 @@ module UpdateTests =
     let tests =
         testList "Répertoire d'exécutables" [
             testCase "Cas passant : état mis à jour" <| fun _ ->
-                let saveFile = ModelTests.generateSaveFileName ()
-                let initialState = ModelTests.initTestState saveFile "" "" ""
+                let saveFile = TestHelpers.generateSaveFileName ()
+                let initialState = TestHelpers.initTestState saveFile "" "" ""
                 let exePath = @"C:\Exe\Path"
                 let dialogs = DialogsTest.create exePath ""
                 let updateWithServices message state =
@@ -31,11 +30,11 @@ module UpdateTests =
 
                 resultState.Conf.ExecutablesPath |> Expect.equal "Le répertoire est dans le nouvel état" exePath
                 
-                ModelTests.cleanSaveFile saveFile
+                TestHelpers.cleanSaveFile saveFile
 
             testCase "Cas Cancel : l'utilisateur a annulé son choix" <| fun _ ->
-                let saveFile = ModelTests.generateSaveFileName ()
-                let initialState = ModelTests.initTestState saveFile "" "" ""
+                let saveFile = TestHelpers.generateSaveFileName ()
+                let initialState = TestHelpers.initTestState saveFile "" "" ""
                 let exePath = @"C:\Exe\Path"
                 let dialogs = DialogsTest.create "" ""
                 let updateWithServices message state =
@@ -47,6 +46,6 @@ module UpdateTests =
                 resultState.Conf.ExecutablesPath |> Expect.equal "Le répertoire est l'ancien" exePath
                 resultCmd |> extractMsg |> Expect.equal "La sauvegarde est lancée et les infos mises à jour" [| Msg.SaveState; Msg.GetSourceFileInfos |]
 
-                ModelTests.cleanSaveFile saveFile
+                TestHelpers.cleanSaveFile saveFile
         ]
 

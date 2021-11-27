@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="DialogsTest.fs" />
+    <Compile Include="TestHelpers.fs" />
+    <Compile Include="UpdateTests.fs" />
     <Compile Include="ModelTests.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>

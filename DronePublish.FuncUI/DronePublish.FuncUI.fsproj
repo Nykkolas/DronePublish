@@ -5,7 +5,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Dialogs.fs" />
-    <Compile Include="Update.fs" />
     <Compile Include="View.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
@@ -29,6 +28,5 @@
   </ItemGroup>
   <ItemGroup>
     <Watch Remove="Dialogs.fs" />
-    <Watch Remove="Update.fs" />
   </ItemGroup>
 </Project>

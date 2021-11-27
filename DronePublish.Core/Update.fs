@@ -1,11 +1,9 @@
-﻿namespace DronePublish.FuncUI
+﻿namespace DronePublish.Core
 
 open System
 open System.Diagnostics
 open System.IO
-open Avalonia.Controls
 open Elmish
-open DronePublish.Core
 open Xabe.FFmpeg
 open FsToolkit.ErrorHandling
 open FsToolkit.ErrorHandling.Operator.Validation

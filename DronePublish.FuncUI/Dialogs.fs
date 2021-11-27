@@ -4,11 +4,6 @@ open System
 open System.IO
 open Avalonia.Controls
 
-type Dialogs = {
-    ShowFolderDialog: string * string -> Async<string>
-    ShowSourceFileDialog: string -> Async<string []>
-}
-
 module Dialogs =
     let getFolderDialog title directory =
         let dialog = OpenFolderDialog ()

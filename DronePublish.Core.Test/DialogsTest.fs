@@ -1,6 +1,6 @@
-﻿namespace DronePublish.FuncUI.Test
+﻿namespace DronePublish.Core.Test
 
-open DronePublish.FuncUI
+open DronePublish.Core
 
 module DialogsTest =
     let showFolderDialog (result:string) (title:string, directory:string) =
