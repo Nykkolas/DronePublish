@@ -5,6 +5,7 @@ open FSharp.Json
 open Elmish
 open FsToolkit.ErrorHandling
 open FsToolkit.ErrorHandling.Operator.Validation
+open Xabe.FFmpeg
 
 type ModelError =
     | CantDeserializeFile

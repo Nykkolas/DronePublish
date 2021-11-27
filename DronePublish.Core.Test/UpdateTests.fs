@@ -7,7 +7,7 @@ open Elmish
 
 module UpdateTests =
     let extractMsg cmd =
-        let mutable msgArray = [||]
+        let mutable msgArray = Array.empty
         let dispatch msg =
             msgArray <- Array.append msgArray [| msg |]
             ()

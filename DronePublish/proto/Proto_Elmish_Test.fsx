@@ -14,6 +14,7 @@ module Proto_Elmish_Test =
             msgArray <- Array.append msgArray [| msg |]
             ()
         cmd |> List.iter (fun call -> call dispatch)
+        
         msgArray
 
     let cmd = Cmd.batch [ Cmd.ofMsg PasDeMessage; Cmd.ofMsg UnMessage ]
