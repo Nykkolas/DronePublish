@@ -126,23 +126,29 @@ module View =
                             DockPanel.children [
                                 Expander.create [
                                     Expander.dock Dock.Bottom
-                                    convertionReadyness 
-                                    |> Result.either (fun _ -> Expander.isVisible false) (fun _ -> Expander.isVisible true)
+                                    Expander.isVisible (
+                                        convertionReadyness 
+                                        |> Result.either (fun _ -> false) (fun _ -> true)
+                                    )
                                     Expander.header "Erreurs"
                                     Expander.content (
-                                        convertionReadyness
-                                        |> Result.either 
-                                            (fun _ -> TextBlock.create [ TextBlock.text "Pas d'erreur" ])
-                                            (fun e -> TextBlock.create [ TextBlock.text (sprintf "Erreurs : \n%A" e) ])
-                                    )
+                                        TextBlock.create [ 
+                                            TextBlock.text (
+                                                convertionReadyness
+                                                |> Result.either 
+                                                    (fun _ ->  "Pas d'erreur" )
+                                                    (fun e -> sprintf "Erreurs : \n%A" e)
+                                            )
+                                        ]
+                                    )   
                                 ]
                                 Button.create [
                                     Button.dock Dock.Right
                                     Button.verticalAlignment VerticalAlignment.Center
-                                    convertionReadyness
-                                    |> Result.either 
-                                        (fun _ -> Button.isEnabled true)
-                                        (fun _ -> Button.isEnabled false)
+                                    Button.isEnabled (
+                                        convertionReadyness
+                                        |> Result.either (fun _ -> true) (fun _ -> false)
+                                    )
                                     Button.content "Convertir"
                                 ]
                                 TextBlock.create [
@@ -150,10 +156,12 @@ module View =
                                     TextBlock.verticalAlignment VerticalAlignment.Center
                                     TextBlock.margin (horizontal = 10.0, vertical = 0.0)
                                     TextBlock.textAlignment TextAlignment.Right
-                                    convertionReadyness
-                                    |> Result.either 
-                                        (fun _ -> TextBlock.text "Prêt !") 
-                                        (fun _ -> TextBlock.text "Pas prêt !")                                    
+                                    TextBlock.text (
+                                        convertionReadyness
+                                        |> Result.either 
+                                            (fun _ -> "Prêt !") 
+                                            (fun _ -> "Pas prêt !")                                    
+                                    )
                                 ]
                             ]
                         ]
