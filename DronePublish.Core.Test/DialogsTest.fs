@@ -13,8 +13,14 @@ module DialogsTest =
             return [| result |]
         }
 
+    let showConvertionWindow () =
+        async {
+            return ()
+        }
+
     let create folderResult sourceFileResult =
         {
             ShowFolderDialog = showFolderDialog folderResult
             ShowSourceFileDialog = showSourceFileDialog sourceFileResult
+            ShowConvertionWindow = showConvertionWindow 
         }

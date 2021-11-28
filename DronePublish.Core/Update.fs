@@ -17,6 +17,8 @@ type Msg =
     | GotSourceFileInfos of Validation<IMediaInfo,ModelError>
     | ChooseDestDir
     | DestDirChosen of string
+    | StartConvertion
+    | ConvertionDone of unit
     | SaveState
 
 module Update =
@@ -64,7 +66,12 @@ module Update =
             match f with
             | "" -> (state, Cmd.none)
             | _ -> ({ state with DestDir = f }, Cmd.ofMsg SaveState)
+        | StartConvertion ->
+            (state, Cmd.OfAsync.perform dialogs.ShowConvertionWindow () ConvertionDone)
+        | ConvertionDone u ->
+            (state, Cmd.none)
         | SaveState ->
             Model.saveState state
             (state, Cmd.none)
+
         

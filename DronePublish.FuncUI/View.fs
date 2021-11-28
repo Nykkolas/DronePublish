@@ -135,6 +135,7 @@ module View =
                         |> Result.either (fun _ -> true) (fun _ -> false)
                     )
                     Button.content "Convertir"
+                    Button.onClick (fun _ -> StartConvertion |> dispatch)
                 ]
                 TextBlock.create [
                     TextBlock.dock Dock.Right

@@ -90,6 +90,7 @@ module Program =
             let dialogs = {
                 ShowFolderDialog = Dialogs.showFolderDialog window
                 ShowSourceFileDialog = Dialogs.showSourceFileDialog window
+                ShowConvertionWindow = Dialogs.showConvertionWindow window
             }
 
             let updateWithServices msg state =
