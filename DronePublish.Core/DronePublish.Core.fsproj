@@ -6,6 +6,12 @@
     <UseWpf>true</UseWpf>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="Ressources\bin\ffmpeg.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Ressources\bin\ffprobe.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="IDialogs.fs" />
     <Compile Include="Fichiers.fs" />
     <Compile Include="Types.fs" />
@@ -28,4 +34,5 @@
     <Watch Remove="Model.fs" />
     <Watch Remove="Update.fs" />
   </ItemGroup>
+  <ItemGroup />
 </Project>

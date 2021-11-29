@@ -84,7 +84,7 @@ module Model =
             | Error _ -> 
                 {
                     ConfFile = confFile
-                    Conf = { ExecutablesPath = "" }
+                    Conf = { ExecutablesPath = @"./Ressources/bin" }
                     SourceFile = ""
                     SourceInfos = NotStarted
                     DestDir = ""
