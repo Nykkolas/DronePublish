@@ -18,17 +18,21 @@ type Deferred<'a> =
     | Started
     | Resolved of 'a
 
+
 type Model = {
     ConfFile: string
     Conf: Conf
     SourceFile: string
     SourceInfos: Deferred<Validation<MediaFileInfos, ModelError>>
     DestDir: string
+    Convertion: Deferred<Validation<IConversionResult, ModelError>>
 }
 
 module Model =
     let validateExecutablePath path =
-        if (File.Exists (Path.Combine (path, "ffmpeg.exe"))) then
+        let ffmpeg = File.Exists (Path.Combine (path, "ffmpeg.exe"))
+        let ffprobe = File.Exists (Path.Combine (path, "ffprobe.exe"))
+        if (ffmpeg && ffprobe) then
             Ok path
         else
             Error CantFindFFMpegExe
@@ -84,5 +88,6 @@ module Model =
                     SourceFile = ""
                     SourceInfos = NotStarted
                     DestDir = ""
+                    Convertion = NotStarted
                 }
         (state, Cmd.none)

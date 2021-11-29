@@ -22,5 +22,5 @@ module DialogsTest =
         {
             ShowFolderDialog = showFolderDialog folderResult
             ShowSourceFileDialog = showSourceFileDialog sourceFileResult
-            ShowConvertionWindow = showConvertionWindow 
+            //ShowConvertionWindow = showConvertionWindow 
         }

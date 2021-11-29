@@ -21,3 +21,6 @@ module MediaFileInfos =
             Bitrate = sourceVideoStream.Bitrate
         }
 
+    let readIMediaInfo p f =
+        FFmpeg.SetExecutablesPath p
+        FFmpeg.GetMediaInfo f

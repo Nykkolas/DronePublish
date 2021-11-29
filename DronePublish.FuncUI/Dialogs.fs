@@ -4,7 +4,6 @@ open System
 open System.IO
 open Avalonia.Controls
 open Avalonia.Threading
-open Avalonia.FuncUI.Components.Hosts
 
 module Dialogs =
     let getFolderDialog title directory =
@@ -45,11 +44,12 @@ module Dialogs =
         let dialog = getSourceFileDialog None title
         dialog.ShowAsync (window) |> Async.AwaitTask
 
-    let showConvertionWindow (window:Window) () =
-        Dispatcher.UIThread.InvokeAsync<unit>(fun _ ->
-            let convertionWindow = ConvertionWindow()
-            convertionWindow.ShowDialog<unit> window)
-        |> Async.AwaitTask
+    (* EXEMPLE DE FENETRE MODALE cf ConvertionView.fs/IDialogs.fs/Dialogs.fs/Program.fs/DialogTest.fs *)    
+    //let showConvertionWindow (window:Window) () =
+    //    Dispatcher.UIThread.InvokeAsync<unit>(fun _ ->
+    //        let convertionWindow = ConvertionWindow()
+    //        convertionWindow.ShowDialog<unit> window)
+    //    |> Async.AwaitTask
 
 
     

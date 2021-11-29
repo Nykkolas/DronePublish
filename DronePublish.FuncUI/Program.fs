@@ -90,7 +90,8 @@ module Program =
             let dialogs = {
                 ShowFolderDialog = Dialogs.showFolderDialog window
                 ShowSourceFileDialog = Dialogs.showSourceFileDialog window
-                ShowConvertionWindow = Dialogs.showConvertionWindow window
+                (* EXEMPLE DE FENETRE MODALE cf ConvertionView.fs/IDialogs.fs/Dialogs.fs/Program.fs/DialogTest.fs *)    
+                //ShowConvertionWindow = Dialogs.showConvertionWindow window
             }
 
             let updateWithServices msg state =

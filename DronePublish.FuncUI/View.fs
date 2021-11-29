@@ -102,62 +102,17 @@ module View =
             ]
         ]
 
-    let convertion state dispatch =
-        let convertionReadyness = Model.validateConvertionReadiness state.Conf.ExecutablesPath state.SourceFile state.DestDir
-        
-        DockPanel.create [
-            DockPanel.dock Dock.Top
-            DockPanel.margin 10.0
-            DockPanel.children [
-                Expander.create [
-                    Expander.dock Dock.Bottom
-                    Expander.isVisible (
-                        convertionReadyness 
-                        |> Result.either (fun _ -> false) (fun _ -> true)
-                    )
-                    Expander.header "Erreurs"
-                    Expander.content (
-                        TextBlock.create [ 
-                            TextBlock.text (
-                                convertionReadyness
-                                |> Result.either 
-                                    (fun _ ->  "Pas d'erreur" )
-                                    (fun e -> sprintf "Erreurs : \n%A" e)
-                            )
-                        ]
-                    )   
-                ]
-                Button.create [
-                    Button.dock Dock.Right
-                    Button.verticalAlignment VerticalAlignment.Center
-                    Button.isEnabled (
-                        convertionReadyness
-                        |> Result.either (fun _ -> true) (fun _ -> false)
-                    )
-                    Button.content "Convertir"
-                    Button.onClick (fun _ -> StartConvertion |> dispatch)
-                ]
-                TextBlock.create [
-                    TextBlock.dock Dock.Right
-                    TextBlock.verticalAlignment VerticalAlignment.Center
-                    TextBlock.margin (horizontal = 10.0, vertical = 0.0)
-                    TextBlock.textAlignment TextAlignment.Right
-                    TextBlock.text (
-                        convertionReadyness
-                        |> Result.either 
-                            (fun _ -> "Prêt !") 
-                            (fun _ -> "Pas prêt !")                                    
-                    )
-                ]
-            ]
-        ]
-
     let view (state:Model) dispatch =
         Grid.create [
             Grid.row 2
             Grid.column 2
             Grid.rowDefinitions "50,*"
             Grid.columnDefinitions "*,2*"
+            Grid.isEnabled (
+                match state.Convertion with
+                | Started -> false
+                | _ -> true
+            )
             //Grid.showGridLines true
             Grid.children [
                 (* Exécutables *)
@@ -182,7 +137,7 @@ module View =
                         destDir state dispatch
 
                         (* Bouton de convertion *)
-                        convertion state dispatch
+                        ConvertionView.view state dispatch
                     ]
                 ]
             ]
