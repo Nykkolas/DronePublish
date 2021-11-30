@@ -15,7 +15,7 @@
     <Compile Include="IDialogs.fs" />
     <Compile Include="Fichiers.fs" />
     <Compile Include="Types.fs" />
-    <Compile Include="MediaFileInfos.fs" />
+    <Compile Include="Conversion.fs" />
     <Compile Include="Model.fs" />
     <Compile Include="Update.fs" />
   </ItemGroup>
@@ -29,8 +29,8 @@
     <Watch Include="**/*.fs" />
   </ItemGroup>
   <ItemGroup>
+    <Watch Remove="Conversion.fs" />
     <Watch Remove="IDialogs.fs" />
-    <Watch Remove="MediaFileInfos.fs" />
     <Watch Remove="Model.fs" />
     <Watch Remove="Update.fs" />
   </ItemGroup>

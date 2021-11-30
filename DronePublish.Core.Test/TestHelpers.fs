@@ -15,7 +15,7 @@ module TestHelpers =
             SourceFile = sourceFile
             SourceInfos = NotStarted
             DestDir = destDir
-            Convertion = NotStarted
+            Conversion = NotStarted
         }
 
     let generateSaveFileName () =

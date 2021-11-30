@@ -14,11 +14,11 @@ type Msg =
     | ChooseSourceFile
     | SourceFileChosen of string array
     | GetSourceFileInfos
-    | GotSourceFileInfos of Validation<IMediaInfo,ModelError>
+    | GotSourceFileInfos of Validation<IMediaInfo,ConversionError>
     | ChooseDestDir
     | DestDirChosen of string
     | StartConvertion
-    | ConvertionDone of IConversionResult
+    | ConvertionDone of Validation<IConversionResult,ConversionError>
     | SaveState
 
 module Update =
@@ -44,20 +44,11 @@ module Update =
             match state.SourceInfos with
             | Started -> (state, Cmd.none)
             | NotStarted | Resolved _  ->
-                let createCmd p f =
-                    (
-                        { state with SourceInfos = Started}, 
-                        Cmd.OfTask.perform (fun (p, f) -> MediaFileInfos.readIMediaInfo p f) (p, f) (Ok >> GotSourceFileInfos)
-                    )
-                    
-                let tryCreateCmd =
-                    createCmd
-                    <!^> Model.validateExecutablePath state.Conf.ExecutablesPath
-                    <*^> Model.validateSourceFile state.SourceFile
-                
-                tryCreateCmd
+                MediaFileInfos.tryReadIMediaInfo state.Conf.ExecutablesPath state.SourceFile
                 |> function 
-                    | Ok c -> c
+                    | Ok c -> 
+                        { state with SourceInfos = Started}, 
+                        Cmd.OfTask.perform (fun _ -> c) () (Ok >> GotSourceFileInfos)
                     | Error e -> (state, Cmd.ofMsg (GotSourceFileInfos (Error e)))
                 
         | GotSourceFileInfos i ->
@@ -76,11 +67,18 @@ module Update =
             | _ -> ({ state with DestDir = f }, Cmd.ofMsg SaveState)
         
         | StartConvertion ->
-            //(state, Cmd.OfAsync.perform dialogs.ShowConvertionWindow () ConvertionDone)
-            (state, Cmd.none)
+            match state.Conversion with
+            | Started -> (state, Cmd.none)
+            | Resolved _ | NotStarted ->
+                match Conversion.tryStart state.Conf.ExecutablesPath state.SourceFile state.DestDir @"output.mp4" with
+                | Ok c -> 
+                    ( { state with Conversion = Started }, Cmd.OfAsync.perform (fun _ -> c) () (Ok >> ConvertionDone))
+                | Error e -> (state, Cmd.ofMsg (ConvertionDone (Error e)))
         
         | ConvertionDone r ->
-            (state, Cmd.none)
+            match r with
+            | Error e -> ( { state with Conversion = Resolved (Error e) }, Cmd.none)
+            | Ok c -> ( { state with Conversion = ConversionResult.create c |> Ok |> Resolved }, Cmd.ofMsg SaveState)
         
         | SaveState ->
             Model.saveState state

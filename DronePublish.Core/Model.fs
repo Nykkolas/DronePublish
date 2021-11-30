@@ -18,46 +18,16 @@ type Deferred<'a> =
     | Started
     | Resolved of 'a
 
-
 type Model = {
     ConfFile: string
     Conf: Conf
     SourceFile: string
-    SourceInfos: Deferred<Validation<MediaFileInfos, ModelError>>
+    SourceInfos: Deferred<Validation<MediaFileInfos, ConversionError>>
     DestDir: string
-    Convertion: Deferred<Validation<IConversionResult, ModelError>>
+    Conversion: Deferred<Validation<ConversionResult, ConversionError>>
 }
 
 module Model =
-    let validateExecutablePath path =
-        let ffmpeg = File.Exists (Path.Combine (path, "ffmpeg.exe"))
-        let ffprobe = File.Exists (Path.Combine (path, "ffprobe.exe"))
-        if (ffmpeg && ffprobe) then
-            Ok path
-        else
-            Error CantFindFFMpegExe
-
-    let validateSourceFile file =
-        if (File.Exists file) then
-            Ok file
-        else
-            Error CantFindSourceFile
-
-    let validateDestDir destDir =
-        if (Directory.Exists destDir) then
-            Ok destDir
-        else
-            Error CantFindDestDir
-
-    let validateConvertionReadiness exePath sourceFile destDir =
-        let checkStatus e s d =
-            ()
-
-        checkStatus
-        <!^> validateExecutablePath exePath
-        <*^> validateSourceFile sourceFile
-        <*^> validateDestDir destDir
-
     let saveStateToFile (state:Model) (file:string) =
         let saveFolder = Path.GetDirectoryName file
         if not (Directory.Exists saveFolder) then
@@ -88,6 +58,6 @@ module Model =
                     SourceFile = ""
                     SourceInfos = NotStarted
                     DestDir = ""
-                    Convertion = NotStarted
+                    Conversion = NotStarted
                 }
         (state, Cmd.none)

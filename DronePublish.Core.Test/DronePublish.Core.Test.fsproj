@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Ressources\output\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Ressources\bin_only_ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -22,6 +25,7 @@
     <Compile Include="DialogsTest.fs" />
     <Compile Include="TestHelpers.fs" />
     <Compile Include="UpdateTests.fs" />
+    <Compile Include="ConversionTests.fs" />
     <Compile Include="ModelTests.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>

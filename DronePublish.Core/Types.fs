@@ -16,6 +16,7 @@ type ProfileData = {
     Bitrate: int64
     Width: uint
     Height: uint
+    Codec: string
 }
 
 type Profile =

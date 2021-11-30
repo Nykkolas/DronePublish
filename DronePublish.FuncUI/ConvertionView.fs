@@ -12,7 +12,7 @@ open DronePublish.Core
 
 module ConvertionView =
     let view state dispatch =
-        let convertionReadyness = Model.validateConvertionReadiness state.Conf.ExecutablesPath state.SourceFile state.DestDir
+        let convertionReadyness = Conversion.validateReadiness state.Conf.ExecutablesPath state.SourceFile state.DestDir
         
         DockPanel.create [
             DockPanel.dock Dock.Top
@@ -54,9 +54,20 @@ module ConvertionView =
                             TextBox.isReadOnly true
                             TextBox.text (
                                 convertionReadyness
-                                |> Result.either 
-                                    (fun _ ->  "Pas d'erreur : .\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n." )
-                                    (fun e -> sprintf "Erreurs : \n%A" e)
+                                |> function 
+                                    | Error e -> sprintf "Erreurs à résoudre avant le lancer : \n%A" e
+                                    | Ok _ ->  
+                                        match state.Conversion with
+                                        | NotStarted -> sprintf "Conversion pas démarrée"
+                                        | Started -> sprintf "Conversion en cours..."
+                                        | Resolved r -> 
+                                            match r with
+                                            | Ok c -> sprintf "\
+                                                        La conversion a réussi\n\
+                                                        Durée : %s" c.Duration
+                                            | Error e -> sprintf "\
+                                                            La conversion a échoué. Erreurs : \n\
+                                                            %A" e
                             )
                         ]
                     )   

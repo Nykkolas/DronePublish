@@ -20,7 +20,7 @@ module View =
                     TextBlock.verticalAlignment VerticalAlignment.Center
                     TextBlock.fontWeight FontWeight.Bold
                     TextBlock.margin (0.0, 0.0, 5.0, 0.0)
-                    match Model.validateExecutablePath state.Conf.ExecutablesPath with
+                    match Conversion.validateExecutablePath state.Conf.ExecutablesPath with
                     | Ok _ ->
                         TextBlock.foreground "Green"
                         TextBlock.text "Executables OK"
@@ -109,7 +109,7 @@ module View =
             Grid.rowDefinitions "50,*"
             Grid.columnDefinitions "*,2*"
             Grid.isEnabled (
-                match state.Convertion with
+                match state.Conversion with
                 | Started -> false
                 | _ -> true
             )
