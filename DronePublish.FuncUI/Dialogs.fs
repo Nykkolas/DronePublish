@@ -5,6 +5,7 @@ open System.IO
 open Avalonia.Controls
 open Avalonia.Threading
 
+
 module Dialogs =
     let getFolderDialog title directory =
         let dialog = OpenFolderDialog ()
@@ -44,12 +45,10 @@ module Dialogs =
         let dialog = getSourceFileDialog None title
         dialog.ShowAsync (window) |> Async.AwaitTask
 
-    (* EXEMPLE DE FENETRE MODALE cf ConvertionView.fs/IDialogs.fs/Dialogs.fs/Program.fs/DialogTest.fs *)    
-    //let showConvertionWindow (window:Window) () =
-    //    Dispatcher.UIThread.InvokeAsync<unit>(fun _ ->
-    //        let convertionWindow = ConvertionWindow()
-    //        convertionWindow.ShowDialog<unit> window)
-    //    |> Async.AwaitTask
-
+    let showInfoDialog (window:Window) title message =
+        Dispatcher.UIThread.InvokeAsync<unit>(fun _ ->
+            let infoDialog = InfoDialog (title, message)
+            infoDialog.ShowDialog<unit> window)
+        |> Async.AwaitTask
 
     

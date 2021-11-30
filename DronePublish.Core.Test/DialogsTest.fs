@@ -13,7 +13,7 @@ module DialogsTest =
             return [| result |]
         }
 
-    let showConvertionWindow () =
+    let showInfoDialog (title:string) (message:string) =
         async {
             return ()
         }
@@ -22,5 +22,5 @@ module DialogsTest =
         {
             ShowFolderDialog = showFolderDialog folderResult
             ShowSourceFileDialog = showSourceFileDialog sourceFileResult
-            //ShowConvertionWindow = showConvertionWindow 
+            ShowInfoDialog = showInfoDialog 
         }

@@ -4,6 +4,7 @@
     <TargetFramework>net5.0-windows</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="InfoDialogView.fs" />
     <Compile Include="ConvertionView.fs" />
     <Compile Include="Dialogs.fs" />
     <Compile Include="View.fs" />
@@ -30,5 +31,6 @@
   <ItemGroup>
     <Watch Remove="ConvertionView.fs" />
     <Watch Remove="Dialogs.fs" />
+    <Watch Remove="InfoDialogView.fs" />
   </ItemGroup>
 </Project>

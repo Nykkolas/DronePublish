@@ -5,8 +5,6 @@ open Avalonia.Controls
 open Avalonia.Media
 open Avalonia.Layout
 open Avalonia.FuncUI.DSL
-open Avalonia.FuncUI.Components.Hosts
-open Avalonia.FuncUI.Elmish
 open FsToolkit.ErrorHandling
 open DronePublish.Core
 
@@ -76,17 +74,5 @@ module ConvertionView =
             ]
         ]
         
-(* EXEMPLE DE FENETRE MODALE cf ConvertionView.fs/IDialogs.fs/Dialogs.fs/Program.fs/DialogTest.fs *)    
-//type ConvertionWindow () as this =
-//    inherit HostWindow ()
-
-//    do
-//        base.Title <- "Convertion en cours..."
-//        base.Width <- 400.0
-//        base.Height <- 400.0
-
-//        Elmish.Program.mkSimple (fun _ -> ()) (fun _  _ -> ()) ConvertionView.view
-//        |> Program.withHost this
-//        |> Program.run
 
 

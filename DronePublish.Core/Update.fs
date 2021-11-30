@@ -20,6 +20,8 @@ type Msg =
     | StartConvertion
     | ConvertionDone of Validation<IConversionResult,ConversionError>
     | SaveState
+    | ShowDialog
+    | DialogShown
 
 module Update =
     let update msg state dialogs =
@@ -84,4 +86,8 @@ module Update =
             Model.saveState state
             (state, Cmd.none)
 
-        
+        | ShowDialog ->
+            (state, Cmd.OfAsync.perform (fun _ -> dialogs.ShowInfoDialog "Test" "Toto") () (fun _ -> DialogShown))
+
+        | DialogShown ->
+            (state, Cmd.none)

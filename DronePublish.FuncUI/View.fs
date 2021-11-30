@@ -118,6 +118,13 @@ module View =
                 (* Exécutables *)
                 executables state dispatch
 
+                Button.create [
+                    Button.row 0
+                    Button.column 1
+                    Button.content "Dialog"
+                    Button.onClick (fun _ -> dispatch ShowDialog)
+                ]
+
                 DockPanel.create [
                     DockPanel.row 1
                     DockPanel.column 1

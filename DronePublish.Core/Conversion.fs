@@ -4,7 +4,6 @@ open Xabe.FFmpeg
 open System.IO
 open FsToolkit.ErrorHandling.Operator.Validation
 
-
 type ConversionError =
     | CantFindFFMpegExe
     | CantFindSourceFile

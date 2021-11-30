@@ -36,6 +36,6 @@ module ConversionTests =
 
             (* TODO : Génération du nom sur la base du profile *)
 
-            (* TODO :  Utilisation du profile pour déterminer les paramètres de convertion *)
+            (* TODO :  Utilisation du profile pour déterminer les paramètres de conversion *)
         ]
 
