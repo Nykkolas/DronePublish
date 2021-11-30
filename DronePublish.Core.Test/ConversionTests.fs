@@ -10,8 +10,17 @@ module ConversionTests =
     let tryStartTests =
         testList "tryStartTests" [
             testCase "Rien ne va" <| fun _ ->
+                let profile = {
+                    Nom = "Pour les tests"
+                    Suffixe = "_TESTS"
+                    Bitrate = int64 8000
+                    Width = uint 1920
+                    Height = uint 1080
+                    Codec = H264
+                }
+
                 let result = 
-                    match Conversion.tryStart "" "" "" "" with
+                    match Conversion.tryStart "" "" "" profile with
                     | Ok _ -> []
                     | Error e -> e
 
@@ -19,13 +28,21 @@ module ConversionTests =
 
             testCase "Cas passant" <| fun _ ->
                 let destDir = @"./Ressources/output"
-                let destFileName = @"output tryStartTests Passant.mp4"
-                
-                let destFile = Path.Join (destDir, destFileName)
-                if File.Exists (destFileName) then
+                let sourceFile = @"./Ressources/Peniche_Julien_TimeLine_1.mov"
+                let profile = {
+                    Nom = "Pour les tests"
+                    Suffixe = "_TESTS"
+                    Bitrate = int64 8000
+                    Width = uint 1920
+                    Height = uint 1080
+                    Codec = H264
+                }
+                let destFile = Conversion.createDestFile destDir sourceFile profile
+
+                if File.Exists (destFile) then
                     File.Delete destFile
 
-                Conversion.tryStart @"./Ressources/bin" @"./Ressources/Peniche_Julien_TimeLine_1.mov" destDir destFileName
+                Conversion.tryStart @"./Ressources/bin" sourceFile destDir profile
                 |> function
                     | Ok c -> c |> Async.RunSynchronously |> ignore
                     | Error _ -> ()
@@ -37,21 +54,54 @@ module ConversionTests =
 
             testCase "Le fichier destination existe déjà" <| fun _ ->
                 let destDir = @"./Ressources/output"
-                let destFileName = @"output tryStartTests Existe.mp4"
-                let destFile = Path.Join (destDir, destFileName)
+                let sourceFile = @"./Ressources/Peniche_Julien_TimeLine_1.mov"
+                let profile = {
+                    Nom = "Pour les tests"
+                    Suffixe = "_TESTS_Existe"
+                    Bitrate = int64 8000
+                    Width = uint 1920
+                    Height = uint 1080
+                    Codec = H264
+                }
+
+                let destFile = Conversion.createDestFile destDir sourceFile profile
                 
                 if not (File.Exists destFile) then
                     (File.Create(destFile)).Dispose() |> ignore
 
-                let result = Conversion.tryStart @"./Ressources/bin" @"./Ressources/Peniche_Julien_TimeLine_1.mov" destDir destFileName
+                let result = 
+                    Conversion.tryStart 
+                        @"./Ressources/bin" 
+                        @"./Ressources/Peniche_Julien_TimeLine_1.mov" 
+                        destDir 
+                        profile
 
-                result |> Expect.wantError "Une erreure est remontée" |> Expect.equal "L'erreur est pertinente" [ DestFileAlreadyExists ]
+                result 
+                |> Expect.wantError "Une erreure est remontée" 
+                |> Expect.equal "L'erreur est pertinente" [ DestFileAlreadyExists ]
 
                 if File.Exists (destFile) then
                     File.Delete destFile
             
-            (* TODO : Génération du nom de fichier destination sur la base du profile *)
-
             (* TODO :  Utilisation du profile pour déterminer les paramètres de conversion *)
+        ]
+
+    [<Tests>]
+    let createDestFileTests =
+        testList "createDestFileTests" [
+            testCase "Cas passant" <| fun _ ->
+                let destDir = @"./Ressources/output"
+                let sourceFile = @"./Ressources/Peniche_Julien_TimeLine_1.mov"
+                let profile = {
+                    Nom = "Pour les tests"
+                    Suffixe = "_TESTS"
+                    Bitrate = int64 8000
+                    Width = uint 1920
+                    Height = uint 1080
+                    Codec = H264
+                }
+
+                Conversion.createDestFile destDir sourceFile profile
+                |> Expect.equal "création du nom de fichier" @"./Ressources/output\Peniche_Julien_TimeLine_1_TESTS.mp4"
         ]
 

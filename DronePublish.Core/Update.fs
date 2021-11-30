@@ -65,10 +65,19 @@ module Update =
             | _ -> ({ state with DestDir = f }, Cmd.ofMsg SaveState)
         
         | StartConvertion ->
+            let profile = {
+                Nom = "Pour les tests"
+                Suffixe = "_TESTS"
+                Bitrate = int64 8000
+                Width = uint 1920
+                Height = uint 1080
+                Codec = H264
+            }
+
             match state.Conversion with
             | Started -> (state, Cmd.none)
             | Resolved _ | NotStarted ->
-                match Conversion.tryStart state.Conf.ExecutablesPath state.SourceFile state.DestDir @"output.mp4" with
+                match Conversion.tryStart state.Conf.ExecutablesPath state.SourceFile state.DestDir profile with
                 | Ok c -> 
                     ( { state with Conversion = Started }, Cmd.OfAsync.perform (fun _ -> c) () (Ok >> ConvertionDone))
                 | Error e -> (state, Cmd.ofMsg (ConvertionDone (Error e)))

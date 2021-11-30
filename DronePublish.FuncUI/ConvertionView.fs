@@ -8,6 +8,8 @@ open Avalonia.FuncUI.DSL
 open FsToolkit.ErrorHandling
 open DronePublish.Core
 
+(* TODO : boite de dialogue pour demander quoi faire si le fichier de destination existe quoi faire *)
+
 module ConvertionView =
     let view state dispatch =
         let convertionReadyness = Conversion.validateReadiness state.Conf.ExecutablesPath state.SourceFile state.DestDir

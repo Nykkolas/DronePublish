@@ -54,7 +54,11 @@ module Conversion =
         <*^> validateSourceFile sourceFile
         <*^> validateDestDir destDir
 
-    let tryStart exePath sourceFile (destDir:string) destFileName =
+    let createDestFile destDir (sourceFile:string) profile =
+        let sourceFileName = Path.GetFileNameWithoutExtension sourceFile
+        sprintf "%s%s" (Path.Join [| destDir; sprintf "%s%s"sourceFileName profile.Suffixe |]) ".mp4"
+
+    let tryStart exePath sourceFile (destDir:string) profile =
         let start exePath sourceFile (destDir:string) destFile =
             FFmpeg.SetExecutablesPath exePath
 
@@ -82,7 +86,7 @@ module Conversion =
                     |> Async.AwaitTask
             }
         
-        let destFile = Path.Join (destDir, destFileName)
+        let destFile = createDestFile destDir sourceFile profile
 
         start 
         <!^> validateExecutablePath exePath

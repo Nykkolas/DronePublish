@@ -6,9 +6,8 @@ type Conf = {
     ExecutablesPath: string
 }
 
-type SourceFile = string 
-
-type OutputFiles = string array
+type Codec =
+    | H264
 
 type ProfileData = {
     Nom: string
@@ -16,7 +15,7 @@ type ProfileData = {
     Bitrate: int64
     Width: uint
     Height: uint
-    Codec: string
+    Codec: Codec
 }
 
 type Profile =

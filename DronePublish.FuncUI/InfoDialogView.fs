@@ -8,7 +8,7 @@ open Avalonia.FuncUI.Elmish
 open Elmish
 
 (* TODO : Créer une boite qui renvoie une info à la fenêtre principale *)
-(* TODO : Rendre joli : texte centré + marges + bouton OK en bas à droite, pas de déco *)
+(* TODO : Rendre joli : plus petit + texte centré + marges + bouton OK en bas à droite, pas de déco *)
 
 module InfoDialogView =
     type State = {
