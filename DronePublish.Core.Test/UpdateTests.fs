@@ -1,6 +1,7 @@
 ﻿namespace DronePublish.Core.Test
 
 open System
+open System.IO
 open Expecto
 open Expecto.Flip
 open DronePublish.Core
@@ -160,6 +161,10 @@ module UpdateTests =
                 let dialogs = DialogsTest.create "" ""
                 let updateWithServices message state =
                     Update.update message state dialogs
+
+                let destFile = Path.Join (@"./Ressources/output", "output.mp4")
+                if File.Exists destFile then
+                    File.Delete destFile
 
                 let (resultState, resultCmd) = updateWithServices Msg.StartConvertion initialState
 

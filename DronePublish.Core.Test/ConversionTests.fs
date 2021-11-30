@@ -19,22 +19,38 @@ module ConversionTests =
 
             testCase "Cas passant" <| fun _ ->
                 let destDir = @"./Ressources/output"
-                let destFileName = @"output tryStartTests Rien.mp4"
+                let destFileName = @"output tryStartTests Passant.mp4"
                 
+                let destFile = Path.Join (destDir, destFileName)
+                if File.Exists (destFileName) then
+                    File.Delete destFile
+
                 Conversion.tryStart @"./Ressources/bin" @"./Ressources/Peniche_Julien_TimeLine_1.mov" destDir destFileName
                 |> function
                     | Ok c -> c |> Async.RunSynchronously |> ignore
                     | Error _ -> ()
 
-                let destFile = Path.Join (destDir, destFileName)
                 File.Exists (destFile) |> Expect.isTrue "Le fichier output existe" 
 
                 if File.Exists (destFile) then
                     File.Delete destFile
 
-            (* TODO : Erreur lorsque le fichier de destination existe déjà *)
+            testCase "Le fichier destination existe déjà" <| fun _ ->
+                let destDir = @"./Ressources/output"
+                let destFileName = @"output tryStartTests Existe.mp4"
+                let destFile = Path.Join (destDir, destFileName)
+                
+                if not (File.Exists destFile) then
+                    (File.Create(destFile)).Dispose() |> ignore
 
-            (* TODO : Génération du nom sur la base du profile *)
+                let result = Conversion.tryStart @"./Ressources/bin" @"./Ressources/Peniche_Julien_TimeLine_1.mov" destDir destFileName
+
+                result |> Expect.wantError "Une erreure est remontée" |> Expect.equal "L'erreur est pertinente" [ DestFileAlreadyExists ]
+
+                if File.Exists (destFile) then
+                    File.Delete destFile
+            
+            (* TODO : Génération du nom de fichier destination sur la base du profile *)
 
             (* TODO :  Utilisation du profile pour déterminer les paramètres de conversion *)
         ]

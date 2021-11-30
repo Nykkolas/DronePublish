@@ -8,6 +8,7 @@ type ConversionError =
     | CantFindFFMpegExe
     | CantFindSourceFile
     | CantFindDestDir
+    | DestFileAlreadyExists
 
 type ConversionResult = {
     Duration: string
@@ -41,6 +42,12 @@ module Conversion =
         else
             Error CantFindDestDir
 
+    let validateDestFile destFile =
+        if File.Exists destFile then
+            Error DestFileAlreadyExists
+        else
+            Ok destFile
+
     let validateReadiness exePath sourceFile destDir =
         (fun _ _ _ -> ())
         <!^> validateExecutablePath exePath
@@ -48,9 +55,8 @@ module Conversion =
         <*^> validateDestDir destDir
 
     let tryStart exePath sourceFile (destDir:string) destFileName =
-        let start destFileName exePath sourceFile (destDir:string)  =
+        let start exePath sourceFile (destDir:string) destFile =
             FFmpeg.SetExecutablesPath exePath
-            let destFile = Path.Join (destDir, destFileName)
 
             async {
                 let! mediaInfo = 
@@ -75,11 +81,14 @@ module Conversion =
                         .Start()
                     |> Async.AwaitTask
             }
+        
+        let destFile = Path.Join (destDir, destFileName)
 
-        start destFileName
+        start 
         <!^> validateExecutablePath exePath
         <*^> validateSourceFile sourceFile
         <*^> validateDestDir destDir
+        <*^> validateDestFile destFile
 
 module ConversionResult =
     let create (iConvertionResult:IConversionResult) =

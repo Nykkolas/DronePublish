@@ -1,12 +1,8 @@
 ﻿namespace DronePublish.Core
 
-open System
-open System.Diagnostics
-open System.IO
 open Elmish
 open Xabe.FFmpeg
 open FsToolkit.ErrorHandling
-open FsToolkit.ErrorHandling.Operator.Validation
 
 type Msg =
     | ChooseExecutablesPath
