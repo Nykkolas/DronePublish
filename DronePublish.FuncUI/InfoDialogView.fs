@@ -1,18 +1,47 @@
 ﻿namespace DronePublish.FuncUI
 
 open Avalonia.Controls
+open Avalonia.Threading
 open Avalonia.FuncUI.DSL
 open Avalonia.FuncUI.Components.Hosts
 open Avalonia.FuncUI.Elmish
 open Elmish
 
-(* TODO :  bouton OK, pas de déco *)
+(* TODO : Créer une boite qui renvoie une info à la fenêtre principale *)
+(* TODO : Rendre joli : texte centré + marges + bouton OK en bas à droite, pas de déco *)
 
 module InfoDialogView =
-    let init message = message
+    type State = {
+        InfoDialog: HostWindow
+        Message: string
+    }
+
+    type Msg =
+        | Close
+
+    let init (infoDialog, message) = 
+        {
+            InfoDialog = infoDialog
+            Message = message
+        }
+
+    let update msg state =
+        match msg with
+        | Close -> 
+            state.InfoDialog.Close ()
+            state
 
     let view state dispatch =
-        TextBlock.create [ TextBlock.text state ]
+        StackPanel.create [
+            StackPanel.children [
+                TextBlock.create [ TextBlock.text state.Message ]
+                Button.create [
+                    Button.content "Ok"
+                    Button.onClick (fun _ -> dispatch Close)
+                ]
+            ]
+        
+        ]
 
 type InfoDialog (title, message) as this =
     inherit HostWindow ()
@@ -23,6 +52,6 @@ type InfoDialog (title, message) as this =
         base.Height <- 200.0
         base.WindowStartupLocation <- WindowStartupLocation.CenterOwner
 
-        Elmish.Program.mkSimple InfoDialogView.init (fun _  _ -> message) InfoDialogView.view
+        Elmish.Program.mkSimple InfoDialogView.init InfoDialogView.update InfoDialogView.view
         |> Program.withHost this
-        |> Program.runWith message
+        |> Program.runWith (this, message)
