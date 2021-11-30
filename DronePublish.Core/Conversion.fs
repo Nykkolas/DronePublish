@@ -59,7 +59,7 @@ module Conversion =
         sprintf "%s%s" (Path.Join [| destDir; sprintf "%s%s"sourceFileName profile.Suffixe |]) ".mp4"
 
     let tryStart exePath sourceFile (destDir:string) profile =
-        let start exePath sourceFile (destDir:string) destFile =
+        let start (profile:ProfileData) exePath sourceFile (destDir:string) destFile =
             FFmpeg.SetExecutablesPath exePath
 
             async {
@@ -73,9 +73,9 @@ module Conversion =
                 
                 let todoVideoStream = 
                     sourceVideoStream
-                        .SetCodec(VideoCodec.h264)
-                        .SetSize(VideoSize.Hd1080)
-                        .SetBitrate(int64 8000000)
+                        .SetCodec(Profiles.convertCodec profile.Codec)
+                        .SetSize(profile.Width, profile.Height)
+                        .SetBitrate(profile.Bitrate)
                 
                 return! 
                     FFmpeg.Conversions.New()
@@ -88,7 +88,7 @@ module Conversion =
         
         let destFile = createDestFile destDir sourceFile profile
 
-        start 
+        start profile
         <!^> validateExecutablePath exePath
         <*^> validateSourceFile sourceFile
         <*^> validateDestDir destDir

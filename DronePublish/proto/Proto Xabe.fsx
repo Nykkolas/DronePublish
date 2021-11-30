@@ -26,11 +26,15 @@ module Proto_Xabe =
        mediaInfo.VideoStreams 
        |> Seq.head
     
+    let setBitrate bitrate (videoStream:IVideoStream) =
+        videoStream.SetBitrate bitrate
+
     let todoVideoStream = 
         sourceVideoStream
             .SetCodec(VideoCodec.h264)
             .SetSize(VideoSize.Hd1080)
-            .SetBitrate(int64 8000000)
+            //.SetBitrate(int64 8000000)
+        |> setBitrate (int64 8000000)
     
     let destFile = createDestFileName destDir DNxHRTestFile suffixe
     

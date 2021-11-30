@@ -68,9 +68,9 @@ module Update =
             let profile = {
                 Nom = "Pour les tests"
                 Suffixe = "_TESTS"
-                Bitrate = int64 8000
-                Width = uint 1920
-                Height = uint 1080
+                Bitrate = int64 8000000
+                Width = 1920
+                Height = 1080
                 Codec = H264
             }
 

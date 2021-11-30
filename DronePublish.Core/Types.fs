@@ -1,6 +1,6 @@
 ﻿namespace DronePublish.Core
 
-open System.IO
+open Xabe.FFmpeg
 
 type Conf = {
     ExecutablesPath: string
@@ -13,8 +13,8 @@ type ProfileData = {
     Nom: string
     Suffixe: string
     Bitrate: int64
-    Width: uint
-    Height: uint
+    Width: int
+    Height: int
     Codec: Codec
 }
 
@@ -25,6 +25,9 @@ type Profile =
 type Profiles = Profile array
 
 module Profiles =
+    let convertCodec = function
+        | H264 -> VideoCodec.h264
+
     let selectedProfiles profiles =
         profiles
         |> Array.filter (

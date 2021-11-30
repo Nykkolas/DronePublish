@@ -13,9 +13,9 @@ module ConversionTests =
                 let profile = {
                     Nom = "Pour les tests"
                     Suffixe = "_TESTS"
-                    Bitrate = int64 8000
-                    Width = uint 1920
-                    Height = uint 1080
+                    Bitrate = int64 8000000
+                    Width = 1920
+                    Height = 1080
                     Codec = H264
                 }
 
@@ -32,9 +32,9 @@ module ConversionTests =
                 let profile = {
                     Nom = "Pour les tests"
                     Suffixe = "_TESTS"
-                    Bitrate = int64 8000
-                    Width = uint 1920
-                    Height = uint 1080
+                    Bitrate = int64 8000000
+                    Width = 1920
+                    Height = 1080
                     Codec = H264
                 }
                 let destFile = Conversion.createDestFile destDir sourceFile profile
@@ -58,9 +58,9 @@ module ConversionTests =
                 let profile = {
                     Nom = "Pour les tests"
                     Suffixe = "_TESTS_Existe"
-                    Bitrate = int64 8000
-                    Width = uint 1920
-                    Height = uint 1080
+                    Bitrate = int64 8000000
+                    Width = 1920
+                    Height = 1080
                     Codec = H264
                 }
 
@@ -82,8 +82,6 @@ module ConversionTests =
 
                 if File.Exists (destFile) then
                     File.Delete destFile
-            
-            (* TODO :  Utilisation du profile pour déterminer les paramètres de conversion *)
         ]
 
     [<Tests>]
@@ -95,9 +93,9 @@ module ConversionTests =
                 let profile = {
                     Nom = "Pour les tests"
                     Suffixe = "_TESTS"
-                    Bitrate = int64 8000
-                    Width = uint 1920
-                    Height = uint 1080
+                    Bitrate = int64 8000000
+                    Width = 1920
+                    Height = 1080
                     Codec = H264
                 }
 
