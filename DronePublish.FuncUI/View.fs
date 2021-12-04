@@ -6,11 +6,10 @@ open Avalonia.FuncUI.DSL
 open Avalonia.Layout
 open Avalonia.Media
 
-(* TODO : Refacto + affichage basique de la liste *)
 (* TODO : Affichage avec sélection de la liste des profiles existants *)
+(* TODO : Suppression d'un profile *)
 (* TODO : bouton d'édition du profile en surbrillance (ou bouton éditer ?) *)
 (* TODO : Sélection de profiles et utilisation dans la conversion *)
-(* TODO : Suppression d'un profile *)
 
 module View = 
     let executables state dispatch =
@@ -111,7 +110,7 @@ module View =
             Grid.row 2
             Grid.column 2
             Grid.rowDefinitions "50,*"
-            Grid.columnDefinitions "*,2*"
+            Grid.columnDefinitions "2*,3*"
             Grid.isEnabled (
                 match state.Conversion with
                 | Started -> false

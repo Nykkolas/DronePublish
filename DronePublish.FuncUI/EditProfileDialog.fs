@@ -22,9 +22,6 @@ module EditProfileDialog =
         Codec: Codec
     }
 
-    let updateNom (notValidatedProfileData:NotValidatedProfileData) text validatedValue = 
-        { notValidatedProfileData with Nom = (text, validatedValue) }
-
     type Model = {
         Dialog: HostWindow
         Index: int
@@ -149,7 +146,9 @@ module EditProfileDialog =
                     TextBlock.dock Dock.Right
                     match field with
                     | _, Ok _ -> TextBlock.text ""
-                    | _, Error e -> TextBlock.text "!"
+                    | _, Error e -> 
+                        TextBlock.text "!"
+                        TextBlock.tip (sprintf "%A" e)
                 ]
                 TextBox.create [
                     TextBlock.dock Dock.Right

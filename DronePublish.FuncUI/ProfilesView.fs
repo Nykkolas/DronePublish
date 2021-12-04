@@ -25,10 +25,8 @@ module ProfilesView =
                         TextBlock.text "Pas de profile"
                     ]
                 | _ -> 
-                    TextBlock.create [
-                        TextBlock.dock Dock.Top
-                        TextBlock.text (sprintf "Un profile :\n%A" state.Profiles)
-                    ] 
+                    ListBox.create [
+                        ListBox.dataItems state.Profiles
+                    ]
             ]
         ]
-
