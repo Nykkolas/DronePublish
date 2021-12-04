@@ -6,4 +6,5 @@ type IDialogs = {
     ShowFolderDialog: string * string -> Async<string>
     ShowSourceFileDialog: string -> Async<string []>
     ShowInfoDialog: string -> string -> Async<unit>
+    ShowEditProfileDialog: int * Profile -> Async<int * Profile>
 }

@@ -5,8 +5,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="InfoDialogView.fs" />
-    <Compile Include="ConvertionView.fs" />
+    <Compile Include="ConversionView.fs" />
     <Compile Include="Dialogs.fs" />
+    <Compile Include="EditProfileDialog.fs" />
+    <Compile Include="ProfilesView.fs" />
     <Compile Include="View.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
@@ -29,8 +31,10 @@
     <EmbeddedResource Remove=".template.config\**" />
   </ItemGroup>
   <ItemGroup>
-    <Watch Remove="ConvertionView.fs" />
+    <Watch Remove="ConversionView.fs" />
     <Watch Remove="Dialogs.fs" />
+    <Watch Remove="EditProfileDialog.fs" />
     <Watch Remove="InfoDialogView.fs" />
+    <Watch Remove="ProfilesView.fs" />
   </ItemGroup>
 </Project>

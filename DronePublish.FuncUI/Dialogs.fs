@@ -45,10 +45,5 @@ module Dialogs =
         let dialog = getSourceFileDialog None title
         dialog.ShowAsync (window) |> Async.AwaitTask
 
-    let showInfoDialog (window:Window) title message =
-        Dispatcher.UIThread.InvokeAsync<unit>(fun _ ->
-            let infoDialog = InfoDialog (title, message)
-            infoDialog.ShowDialog<unit> window)
-        |> Async.AwaitTask
 
     

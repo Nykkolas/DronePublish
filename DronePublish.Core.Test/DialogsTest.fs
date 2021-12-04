@@ -18,9 +18,15 @@ module DialogsTest =
             return ()
         }
 
+    let showEditProfileDialog indexProfile =
+        async {
+            return indexProfile
+        }
+
     let create folderResult sourceFileResult =
         {
             ShowFolderDialog = showFolderDialog folderResult
             ShowSourceFileDialog = showSourceFileDialog sourceFileResult
-            ShowInfoDialog = showInfoDialog 
+            ShowInfoDialog = showInfoDialog
+            ShowEditProfileDialog = showEditProfileDialog
         }

@@ -6,7 +6,7 @@ open System.IO
 
 
 module TestHelpers =
-    let initTestState confFile executablesPath sourceFile destDir =
+    let initTestState confFile executablesPath sourceFile destDir profileList =
         { 
             ConfFile = confFile
             Conf = {
@@ -16,6 +16,7 @@ module TestHelpers =
             SourceInfos = NotStarted
             DestDir = destDir
             Conversion = NotStarted
+            Profiles = profileList
         }
 
     let generateSaveFileName () =
@@ -27,4 +28,12 @@ module TestHelpers =
             File.Delete saveFile
         if Directory.Exists (Path.GetDirectoryName saveFile) then
             Directory.Delete (Path.GetDirectoryName saveFile)
+
+    let extractMsg cmd =
+        let mutable msgArray = Array.empty
+        let dispatch msg =
+            msgArray <- Array.append msgArray [| msg |]
+            ()
+        cmd |> List.iter (fun call -> call dispatch)
+        msgArray
 

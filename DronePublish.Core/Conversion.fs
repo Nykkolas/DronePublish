@@ -56,7 +56,7 @@ module Conversion =
 
     let createDestFile destDir (sourceFile:string) profile =
         let sourceFileName = Path.GetFileNameWithoutExtension sourceFile
-        sprintf "%s%s" (Path.Join [| destDir; sprintf "%s%s"sourceFileName profile.Suffixe |]) ".mp4"
+        sprintf "%s%s" (Path.Join [| destDir; sprintf "%s%s"sourceFileName (NonEmptyString100.unWrap profile.Suffixe) |]) ".mp4"
 
     let tryStart exePath sourceFile (destDir:string) profile =
         let start (profile:ProfileData) exePath sourceFile (destDir:string) destFile =
@@ -73,9 +73,9 @@ module Conversion =
                 
                 let todoVideoStream = 
                     sourceVideoStream
-                        .SetCodec(Profiles.convertCodec profile.Codec)
-                        .SetSize(profile.Width, profile.Height)
-                        .SetBitrate(profile.Bitrate)
+                        .SetCodec(Profile.convertCodec profile.Codec)
+                        .SetSize(PositiveInt.unWrap profile.Width, PositiveInt.unWrap profile.Height)
+                        .SetBitrate(PositiveLong.unWrap profile.Bitrate)
                 
                 return! 
                     FFmpeg.Conversions.New()

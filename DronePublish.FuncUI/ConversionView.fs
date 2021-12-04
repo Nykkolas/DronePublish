@@ -8,9 +8,9 @@ open Avalonia.FuncUI.DSL
 open FsToolkit.ErrorHandling
 open DronePublish.Core
 
-(* TODO : boite de dialogue pour demander quoi faire si le fichier de destination existe quoi faire *)
+(* TODO : boite de dialogue pour demander quoi faire si le fichier de destination existe *)
 
-module ConvertionView =
+module ConversionView =
     let view state dispatch =
         let convertionReadyness = Conversion.validateReadiness state.Conf.ExecutablesPath state.SourceFile state.DestDir
         
@@ -36,12 +36,14 @@ module ConvertionView =
                             TextBlock.verticalAlignment VerticalAlignment.Center
                             TextBlock.margin (horizontal = 10.0, vertical = 0.0)
                             TextBlock.textAlignment TextAlignment.Right
-                            TextBlock.text (
-                                convertionReadyness
-                                |> Result.either 
-                                    (fun _ -> "Prêt !") 
-                                    (fun _ -> "Pas prêt !")                                    
-                            )
+                            TextBlock.fontWeight FontWeight.Bold
+                            match convertionReadyness with
+                            | Ok _ ->
+                                TextBlock.foreground "Green"
+                                TextBlock.text "Prêt !"
+                            | Error _ -> 
+                                TextBlock.foreground "Red"
+                                TextBlock.text "Pas prêt !"
                         ]
                     ]                
                 ]

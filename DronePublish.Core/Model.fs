@@ -18,6 +18,10 @@ type Deferred<'a> =
     | Started
     | Resolved of 'a
 
+type Conf = {
+    ExecutablesPath: string
+}
+
 type Model = {
     ConfFile: string
     Conf: Conf
@@ -25,6 +29,7 @@ type Model = {
     SourceInfos: Deferred<Validation<MediaFileInfos, ConversionError>>
     DestDir: string
     Conversion: Deferred<Validation<ConversionResult, ConversionError>>
+    Profiles: Profile list
 }
 
 module Model =
@@ -59,5 +64,6 @@ module Model =
                     SourceInfos = NotStarted
                     DestDir = ""
                     Conversion = NotStarted
+                    Profiles = List.empty
                 }
         (state, Cmd.none)

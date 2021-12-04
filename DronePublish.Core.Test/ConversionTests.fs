@@ -11,11 +11,11 @@ module ConversionTests =
         testList "tryStartTests" [
             testCase "Rien ne va" <| fun _ ->
                 let profile = {
-                    Nom = "Pour les tests"
-                    Suffixe = "_TESTS"
-                    Bitrate = int64 8000000
-                    Width = 1920
-                    Height = 1080
+                    Nom = NonEmptyString100 "Pour les tests"
+                    Suffixe = NonEmptyString100 "_TESTS"
+                    Bitrate = PositiveLong 8000000L
+                    Width = PositiveInt 1920
+                    Height = PositiveInt 1080
                     Codec = H264
                 }
 
@@ -30,11 +30,11 @@ module ConversionTests =
                 let destDir = @"./Ressources/output"
                 let sourceFile = @"./Ressources/Peniche_Julien_TimeLine_1.mov"
                 let profile = {
-                    Nom = "Pour les tests"
-                    Suffixe = "_TESTS"
-                    Bitrate = int64 8000000
-                    Width = 1920
-                    Height = 1080
+                    Nom = NonEmptyString100 "Pour les tests"
+                    Suffixe = NonEmptyString100 "_TESTS"
+                    Bitrate = PositiveLong 8000000L
+                    Width = PositiveInt 1920
+                    Height = PositiveInt 1080
                     Codec = H264
                 }
                 let destFile = Conversion.createDestFile destDir sourceFile profile
@@ -56,11 +56,11 @@ module ConversionTests =
                 let destDir = @"./Ressources/output"
                 let sourceFile = @"./Ressources/Peniche_Julien_TimeLine_1.mov"
                 let profile = {
-                    Nom = "Pour les tests"
-                    Suffixe = "_TESTS_Existe"
-                    Bitrate = int64 8000000
-                    Width = 1920
-                    Height = 1080
+                    Nom = NonEmptyString100 "Pour les tests"
+                    Suffixe = NonEmptyString100 "_TESTS_Existe"
+                    Bitrate = PositiveLong 8000000L
+                    Width = PositiveInt 1920
+                    Height = PositiveInt 1080
                     Codec = H264
                 }
 
@@ -91,11 +91,11 @@ module ConversionTests =
                 let destDir = @"./Ressources/output"
                 let sourceFile = @"./Ressources/Peniche_Julien_TimeLine_1.mov"
                 let profile = {
-                    Nom = "Pour les tests"
-                    Suffixe = "_TESTS"
-                    Bitrate = int64 8000000
-                    Width = 1920
-                    Height = 1080
+                    Nom = NonEmptyString100 "Pour les tests"
+                    Suffixe = NonEmptyString100 "_TESTS"
+                    Bitrate = PositiveLong 8000000L
+                    Width = PositiveInt 1920
+                    Height = PositiveInt 1080
                     Codec = H264
                 }
 

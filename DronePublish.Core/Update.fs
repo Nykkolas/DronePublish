@@ -18,6 +18,8 @@ type Msg =
     | SaveState
     | ShowDialog
     | DialogShown
+    | EditProfile of (int * Profile)
+    | ProfileEdited of (int * Profile)
 
 module Update =
     let update msg state dialogs =
@@ -66,11 +68,11 @@ module Update =
         
         | StartConvertion ->
             let profile = {
-                Nom = "Pour les tests"
-                Suffixe = "_TESTS"
-                Bitrate = int64 8000000
-                Width = 1920
-                Height = 1080
+                Nom = NonEmptyString100 "Pour l'appli"
+                Suffixe = NonEmptyString100 "_APP"
+                Bitrate = PositiveLong 8000000L
+                Width = PositiveInt 1920
+                Height = PositiveInt 1080
                 Codec = H264
             }
 
@@ -96,3 +98,14 @@ module Update =
 
         | DialogShown ->
             (state, Cmd.none)
+
+        | EditProfile indexProfile ->
+            (state, Cmd.OfAsync.perform dialogs.ShowEditProfileDialog indexProfile ProfileEdited)
+            
+        | ProfileEdited indexProfile ->
+            let (index, newProfile) = indexProfile
+
+            match newProfile with
+            | Empty -> (state, Cmd.none)
+            | p -> ( { state with Profiles = state.Profiles @ [ p ] }, Cmd.ofMsg SaveState)
+            

@@ -5,8 +5,12 @@ open Avalonia.Controls
 open Avalonia.FuncUI.DSL
 open Avalonia.Layout
 open Avalonia.Media
-open System.IO
-open FsToolkit.ErrorHandling
+
+(* TODO : Refacto + affichage basique de la liste *)
+(* TODO : Affichage avec sélection de la liste des profiles existants *)
+(* TODO : bouton d'édition du profile en surbrillance (ou bouton éditer ?) *)
+(* TODO : Sélection de profiles et utilisation dans la conversion *)
+(* TODO : Suppression d'un profile *)
 
 module View = 
     let executables state dispatch =
@@ -118,12 +122,14 @@ module View =
                 (* Exécutables *)
                 executables state dispatch
 
-                Button.create [
-                    Button.row 0
-                    Button.column 1
-                    Button.content "Dialog"
-                    Button.onClick (fun _ -> dispatch ShowDialog)
-                ]
+                //Button.create [
+                //    Button.row 0
+                //    Button.column 1
+                //    Button.content "Dialog"
+                //    Button.onClick (fun _ -> dispatch ShowDialog)
+                //]
+
+                ProfilesView.view state dispatch
 
                 DockPanel.create [
                     DockPanel.row 1
@@ -144,7 +150,7 @@ module View =
                         destDir state dispatch
 
                         (* Bouton de convertion *)
-                        ConvertionView.view state dispatch
+                        ConversionView.view state dispatch
                     ]
                 ]
             ]

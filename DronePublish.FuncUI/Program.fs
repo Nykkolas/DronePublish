@@ -90,7 +90,8 @@ module Program =
             let dialogs = {
                 ShowFolderDialog = Dialogs.showFolderDialog window
                 ShowSourceFileDialog = Dialogs.showSourceFileDialog window
-                ShowInfoDialog = Dialogs.showInfoDialog window
+                ShowInfoDialog = InfoDialogView.show window
+                ShowEditProfileDialog = EditProfileDialog.show window
             }
 
             let updateWithServices msg state =

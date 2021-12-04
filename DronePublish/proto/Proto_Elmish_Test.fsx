@@ -7,7 +7,27 @@ type Msg =
     | UnMessage
     | AsyncDone of string
 
+type State = int
+
 module Proto_Elmish_Test =
+    let init ():State*Cmd<Msg> = (0, Cmd.none)
+
+    let update msg state =
+        match msg with
+        | PasDeMessage | AsyncDone _ -> (state, Cmd.none)
+        | UnMessage -> (state + 1, Cmd.none)
+        
+    let view state dispatch =
+        dispatch UnMessage
+        dispatch UnMessage
+
+    Program.mkProgram init update view
+    |> Program.run
+
+    //printfn "***"
+    //printfn "%i" 
+    //printfn "***"
+(*
     let asyncFunc arg =
         async {
             do printfn "%s" arg
@@ -37,5 +57,5 @@ module Proto_Elmish_Test =
     //printfn "%A" (extractAsyncMsg asyncCmd)
     printfn "***"
     
-
+*)
 
