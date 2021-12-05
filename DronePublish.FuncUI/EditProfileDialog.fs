@@ -14,8 +14,8 @@ open FsToolkit.ErrorHandling.Operator
 
 module EditProfileDialog =
     type NotValidatedProfileData = {
-        Nom: string * Validation<NonEmptyString100,StringError>
-        Suffixe: string * Validation<NonEmptyString100,StringError>
+        Nom: string * Result<NonEmptyString100,StringError list>
+        Suffixe: string * Result<NonEmptyString100,StringError list>
         Bitrate: string * Result<PositiveLong,IntError>
         Width: string * Result<PositiveInt,IntError>
         Height: string * Result<PositiveInt,IntError>
@@ -52,16 +52,16 @@ module EditProfileDialog =
         let (index, profile) = indexProfile
         let notValidatedData = 
             match Profile.getProfileData profile with
+            | Some p -> create p
             | None -> 
                 {
                     Nom = ("", Error [ IsNullOrEmpty ])
                     Suffixe = ("", Error [ IsNullOrEmpty ])
-                    Bitrate = ("", Error IsLowerOrEqualThanZero)
-                    Width = ("", Error IsLowerOrEqualThanZero)
-                    Height = ("", Error IsLowerOrEqualThanZero)
+                    Bitrate = ("", Error ErrorParsingText)
+                    Width = ("", Error ErrorParsingText)
+                    Height = ("", Error ErrorParsingText)
                     Codec = H264
                 }
-            | Some p -> create p
 
         { Dialog = dialog; Index = index; Profile = profile; NotValidatedProfileData = notValidatedData }
 
@@ -71,6 +71,7 @@ module EditProfileDialog =
             state.Dialog.Close ((0, Empty))
             state
 
+        (* TODO : mais si les cas impossibles arrivent quand même ? (genre j'oublie de modifier la fonction isVald) *)
         | Enregistrer -> 
             let unWrapNotValidatedString = function
             | _, Ok s -> s
@@ -123,8 +124,18 @@ module EditProfileDialog =
             { state with NotValidatedProfileData = { state.NotValidatedProfileData with Height = (text, validatedHeight) } }
 
     let isValid notValidatedProfileData =
-        notValidatedProfileData.Nom 
-        |> (fun (_, nom) -> nom |> Result.isOk)
+        let fieldToBool field =
+            field 
+            ||> (fun _ result -> result |> Result.isOk)
+
+        [ 
+            fieldToBool notValidatedProfileData.Nom
+            fieldToBool notValidatedProfileData.Suffixe
+            fieldToBool notValidatedProfileData.Bitrate
+            fieldToBool notValidatedProfileData.Width
+            fieldToBool notValidatedProfileData.Height
+        ]
+        |> List.fold (fun state elem -> if not (elem) then false else state) true
 
     let ligne state dispatch label msgFunc field =
         DockPanel.create [
