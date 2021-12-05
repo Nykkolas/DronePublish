@@ -86,21 +86,22 @@ module EditProfileDialog =
                 | _, Ok i -> i
                 | _, Error _ -> PositiveLong 0L // Cas théroriquement impossible
 
+            let extractProfileData notValidatedProfileData =
+                Profile.createData 
+                    (unWrapNotValidatedString notValidatedProfileData.Nom)
+                    (unWrapNotValidatedString notValidatedProfileData.Suffixe)
+                    bitrate 
+                    (unWrapNotValidatedInt notValidatedProfileData.Width)
+                    (unWrapNotValidatedInt notValidatedProfileData.Height)
+                    notValidatedProfileData.Codec
+
             let newProfile = 
                 match state.Profile with
-                | Empty -> 
-                    NotSelected (
-                        Profile.createData 
-                            (unWrapNotValidatedString state.NotValidatedProfileData.Nom)
-                            (unWrapNotValidatedString state.NotValidatedProfileData.Suffixe)
-                            bitrate 
-                            (unWrapNotValidatedInt state.NotValidatedProfileData.Width)
-                            (unWrapNotValidatedInt state.NotValidatedProfileData.Height)
-                            state.NotValidatedProfileData.Codec
-                    )
-                | p -> Empty
+                | Empty -> NotSelected (extractProfileData state.NotValidatedProfileData)
+                | Selected _ -> Selected (extractProfileData state.NotValidatedProfileData)
+                | NotSelected _ -> NotSelected (extractProfileData state.NotValidatedProfileData)
 
-            state.Dialog.Close((0, newProfile))
+            state.Dialog.Close((state.Index, newProfile))
             state
 
         | UpdateNom text ->
@@ -137,7 +138,7 @@ module EditProfileDialog =
         ]
         |> List.fold (fun state elem -> if not (elem) then false else state) true
 
-    let ligne state dispatch label msgFunc field =
+    let ligne state dispatch label msgFunc (text, result) =
         DockPanel.create [
             DockPanel.margin 10.0
             DockPanel.children [
@@ -155,9 +156,9 @@ module EditProfileDialog =
                     TextBlock.verticalAlignment VerticalAlignment.Center
                     TextBlock.margin (5.0, 0.0)
                     TextBlock.dock Dock.Right
-                    match field with
-                    | _, Ok _ -> TextBlock.text ""
-                    | _, Error e -> 
+                    match result with
+                    | Ok _ -> TextBlock.text ""
+                    | Error e -> 
                         TextBlock.text "!"
                         TextBlock.tip (sprintf "%A" e)
                 ]
@@ -166,6 +167,7 @@ module EditProfileDialog =
                     TextBox.verticalAlignment VerticalAlignment.Center
                     TextBox.margin (5.0, 0.0)
                     TextBox.dock Dock.Right
+                    TextBox.text text
                     TextBox.onTextChanged (fun t -> msgFunc t |> dispatch)
                 ]
             ]
@@ -209,7 +211,7 @@ module EditProfileDialog =
                                 ]
                                 Button.create [
                                     Button.margin 10.0
-                                    Button.content "Ok"
+                                    Button.content "Enregistrer"
                                     isValid state.NotValidatedProfileData |> Button.isEnabled 
                                     Button.onClick (fun _ -> dispatch Enregistrer)
                                 ]

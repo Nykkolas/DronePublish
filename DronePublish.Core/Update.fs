@@ -20,6 +20,7 @@ type Msg =
     | DialogShown
     | EditProfile of (int * Profile)
     | ProfileEdited of (int * Profile)
+    | DeleteProfile of int
 
 module Update =
     let update msg state dialogs =
@@ -99,13 +100,23 @@ module Update =
         | DialogShown ->
             (state, Cmd.none)
 
-        | EditProfile indexProfile ->
-            (state, Cmd.OfAsync.perform dialogs.ShowEditProfileDialog indexProfile ProfileEdited)
+        | EditProfile (index, profile) ->
+            match profile with
+            | Empty -> (state, Cmd.OfAsync.perform dialogs.ShowEditProfileDialog (index, profile) ProfileEdited)
+            | _ -> (state, Cmd.OfAsync.perform dialogs.ShowEditProfileDialog (index, state.Profiles.[index]) ProfileEdited)
             
-        | ProfileEdited indexProfile ->
-            let (index, newProfile) = indexProfile
-
+        | ProfileEdited (index, newProfile) ->
             match newProfile with
             | Empty -> (state, Cmd.none)
-            | p -> ( { state with Profiles = state.Profiles @ [ p ] }, Cmd.ofMsg SaveState)
+            | _ -> 
+                match index with
+                | -1 -> ( { state with Profiles = state.Profiles @ [ newProfile ] }, Cmd.ofMsg SaveState)
+                | _ -> 
+                    let newProfiles = state.Profiles |> Profile.updateAt index newProfile
+                    ( { state with Profiles = newProfiles }, Cmd.ofMsg SaveState )
+
+        | DeleteProfile index ->
+            let newProfileList = state.Profiles |> Profile.removeAt index
+
+            ({ state with Profiles = newProfileList }, Cmd.ofMsg SaveState)
             

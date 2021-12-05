@@ -5,6 +5,8 @@
     <WarnOn>3390;$(WarnOn)</WarnOn>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="proto\Proto_Lists.fsx" />
+    <None Include="proto\Proto_Records.fsx" />
     <None Include="proto\Proto_Elmish_Test.fsx" />
     <None Include="proto\Proto_Conf.fsx" />
     <None Include="proto\Proto_JSON.fsx" />

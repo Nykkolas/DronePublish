@@ -41,3 +41,12 @@ module Profile =
         | Selected p -> Some p
         | NotSelected p -> Some p
 
+    let removeAt index profiles = 
+        profiles
+        |> List.mapi (fun i el -> (i <> index, el))
+        |> List.filter (fun (b, _) -> b = true)
+        |> List.map (fun (b, e) -> e)
+
+    let updateAt index value source =
+        source
+        |> List.mapi (fun i el -> if i = index then value else el)

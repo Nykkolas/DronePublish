@@ -6,15 +6,32 @@ open Avalonia.Controls
 open Avalonia.FuncUI.Components
 
 module ProfilesView =
-    let profileTemplate profile dispatch =
-        DockPanel.create [
-            DockPanel.children [
-                TextBlock.create [
-                    TextBlock.dock Dock.Left
-                    match profile with 
-                    | Empty -> TextBlock.text "Pas de profile"
-                    | Selected p | NotSelected p -> 
-                        TextBlock.text (NonEmptyString100.unWrap p.Nom)
+    let profileTemplate (index, profile) dispatch =
+        match profile with 
+        | Empty -> 
+            DockPanel.create [
+                DockPanel.children [ TextBlock.create [ TextBlock.text "Pas de profile" ] ]
+            ]
+        | Selected p | NotSelected p ->
+            DockPanel.create [
+                DockPanel.children [
+                    Button.create [
+                        Button.dock Dock.Right
+                        Button.margin (5.0, 0.0)
+                        Button.content "..."
+                        Button.onClick (fun _ -> EditProfile (index, profile) |> dispatch)
+                    ]
+
+                    Button.create [
+                        Button.dock Dock.Right
+                        Button.margin (5.0, 0.0)
+                        Button.content "-"
+                        Button.onClick (fun _ -> dispatch (DeleteProfile index))
+                    ]
+
+                    TextBlock.create [
+                        TextBlock.dock Dock.Left
+                        TextBlock.text (sprintf "%i : %s" index (NonEmptyString100.unWrap p.Nom))
                         TextBlock.tip (sprintf "\
                                             Suffixe : %s\n\
                                             Bitrate : %i\n\
@@ -24,9 +41,9 @@ module ProfilesView =
                                             (PositiveInt.unWrap p.Width)
                                             (PositiveInt.unWrap p.Height)
                                         )
+                    ]
                 ]
             ]
-        ]
 
     let view state dispatch =
         DockPanel.create [
@@ -38,7 +55,7 @@ module ProfilesView =
                     Button.dock Dock.Bottom
                     Button.content "Nouveau"
                     Button.width 60.0
-                    Button.onClick (fun _ -> EditProfile (0, Empty) |> dispatch)
+                    Button.onClick (fun _ -> EditProfile (-1, Empty) |> dispatch)
                 ]
                 match state.Profiles with
                 | [] -> 
@@ -49,8 +66,8 @@ module ProfilesView =
                     ]
                 | _ -> 
                     ListBox.create [
-                        ListBox.dataItems state.Profiles
-                        ListBox.itemTemplate (DataTemplateView<Profile>.create (fun item -> profileTemplate item dispatch))
+                        List.indexed state.Profiles |> ListBox.dataItems
+                        ListBox.itemTemplate (DataTemplateView<int * Profile>.create (fun item -> profileTemplate item dispatch))
                     ]
             ]
         ]
