@@ -146,3 +146,61 @@ module EditProfileTests =
                 resultState |> Expect.equal "Le profile a été mis à jour" { initialState with Profiles = [ modifiedProfile ] }
                 resultCmd |> TestHelpers.extractMsg |> Expect.equal "Sauvegarde" [| SaveState |] 
         ]
+
+    [<Tests>]
+    let checkTests =
+        testList "Sélection / Désélection" [
+            testCase "Sélection d'un profile" <| fun _ ->
+                let existingProfile1 = NotSelected {
+                    Nom = NonEmptyString100 "Profile existant 1"
+                    Suffixe = NonEmptyString100 "_ExistsProfile"
+                    Bitrate = PositiveLong 10000L
+                    Width = PositiveInt 1920
+                    Height = PositiveInt 1080
+                    Codec = H264
+                }
+                let existingProfile2 = NotSelected {
+                    Nom = NonEmptyString100 "Profile existant 2"
+                    Suffixe = NonEmptyString100 "_ExistsProfile"
+                    Bitrate = PositiveLong 10000L
+                    Width = PositiveInt 1920
+                    Height = PositiveInt 1080
+                    Codec = H264
+                }
+                let initialState = TestHelpers.initTestState "" "" "" "" [ existingProfile1; existingProfile2 ]
+                let dialogs = DialogsTest.create "" ""
+                let updateWithServices message state =
+                    Update.update message state dialogs
+
+                let (resultState, resultCmd) = updateWithServices (CheckProfile 1) initialState
+                
+                resultState |> Expect.equal "Le profile a été coché" { initialState with Profiles = [ existingProfile1; Profile.select existingProfile2 ] }
+                resultCmd |> TestHelpers.extractMsg |> Expect.equal "Sauvegarde" [| SaveState |] 
+
+            testCase "Désélection d'un profile" <| fun _ ->
+                let existingProfile1 = NotSelected {
+                    Nom = NonEmptyString100 "Profile existant 1"
+                    Suffixe = NonEmptyString100 "_ExistsProfile"
+                    Bitrate = PositiveLong 10000L
+                    Width = PositiveInt 1920
+                    Height = PositiveInt 1080
+                    Codec = H264
+                }
+                let existingProfile2 = Selected {
+                    Nom = NonEmptyString100 "Profile existant 2"
+                    Suffixe = NonEmptyString100 "_ExistsProfile"
+                    Bitrate = PositiveLong 10000L
+                    Width = PositiveInt 1920
+                    Height = PositiveInt 1080
+                    Codec = H264
+                }
+                let initialState = TestHelpers.initTestState "" "" "" "" [ existingProfile1; existingProfile2 ]
+                let dialogs = DialogsTest.create "" ""
+                let updateWithServices message state =
+                    Update.update message state dialogs
+
+                let (resultState, resultCmd) = updateWithServices (UnCheckProfile 1) initialState
+                
+                resultState |> Expect.equal "Le profile a été coché" { initialState with Profiles = [ existingProfile1; Profile.unSelect existingProfile2 ] }
+                resultCmd |> TestHelpers.extractMsg |> Expect.equal "Sauvegarde" [| SaveState |] 
+        ]

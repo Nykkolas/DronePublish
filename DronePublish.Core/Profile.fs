@@ -21,6 +21,20 @@ type Profile =
     | NotSelected of ProfileData
 
 module Profile =
+    let isSelected = function
+        | Empty | NotSelected _ -> false
+        | Selected _ -> true
+
+    let select = function
+        | Empty -> Empty
+        | Selected p -> Selected p
+        | NotSelected p -> Selected p
+
+    let unSelect = function
+        | Empty -> Empty
+        | Selected p -> NotSelected p
+        | NotSelected p -> NotSelected p
+
     let createData nom suffixe bitrate width height codec =
         {
             Nom = nom

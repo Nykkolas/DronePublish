@@ -21,6 +21,8 @@ type Msg =
     | EditProfile of int
     | ProfileEdited of (int * Profile)
     | DeleteProfile of int
+    | CheckProfile of int
+    | UnCheckProfile of int
 
 module Update =
     let update msg state dialogs =
@@ -120,3 +122,14 @@ module Update =
 
             ({ state with Profiles = newProfileList }, Cmd.ofMsg SaveState)
             
+        | CheckProfile index ->
+            let newProfiles =
+                state.Profiles
+                |> List.mapi (fun i el -> if i = index then Profile.select el else el)
+            ({ state with Profiles = newProfiles }, Cmd.ofMsg SaveState)
+
+        | UnCheckProfile index ->
+            let newProfiles =
+                state.Profiles
+                |> List.mapi (fun i el -> if i = index then Profile.unSelect el else el)
+            ({ state with Profiles = newProfiles }, Cmd.ofMsg SaveState)

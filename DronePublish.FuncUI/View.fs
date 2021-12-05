@@ -6,9 +6,6 @@ open Avalonia.FuncUI.DSL
 open Avalonia.Layout
 open Avalonia.Media
 
-(* TODO : Affichage avec sélection de la liste des profiles existants *)
-(* TODO : Suppression d'un profile *)
-(* TODO : bouton d'édition du profile en surbrillance (ou bouton éditer ?) *)
 (* TODO : Sélection de profiles et utilisation dans la conversion *)
 
 module View = 

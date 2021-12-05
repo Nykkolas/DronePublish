@@ -12,6 +12,10 @@ open Avalonia.FuncUI.Elmish
 open FsToolkit.ErrorHandling
 open FsToolkit.ErrorHandling.Operator
 
+(* TODO : boite de dialogue plus jolie *)
+(* TODO : unités pour le bitrate *)
+(* TODO : comment présenter la résolution ? *)
+
 module EditProfileDialog =
     type NotValidatedProfileData = {
         Nom: string * Result<NonEmptyString100,StringError list>

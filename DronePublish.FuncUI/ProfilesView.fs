@@ -3,6 +3,7 @@
 open DronePublish.Core
 open Avalonia.FuncUI.DSL
 open Avalonia.Controls
+open Avalonia.Layout
 open Avalonia.FuncUI.Components
 
 module ProfilesView =
@@ -14,10 +15,20 @@ module ProfilesView =
             ]
         | Selected p | NotSelected p ->
             DockPanel.create [
+                DockPanel.margin (5.0, 5.0)
                 DockPanel.children [
+                    CheckBox.create [
+                        CheckBox.dock Dock.Left
+                        CheckBox.margin (5.0, 0.0)
+                        Profile.isSelected profile |> CheckBox.isChecked
+                        CheckBox.onChecked (fun _ -> CheckProfile index |> dispatch)
+                        CheckBox.onUnchecked (fun _ -> UnCheckProfile index |> dispatch)
+                    ]
+
                     Button.create [
                         Button.dock Dock.Right
                         Button.margin (5.0, 0.0)
+                        Button.width 25.0
                         Button.content "..."
                         Button.onClick (fun _ -> EditProfile index |> dispatch)
                     ]
@@ -25,12 +36,15 @@ module ProfilesView =
                     Button.create [
                         Button.dock Dock.Right
                         Button.margin (5.0, 0.0)
+                        Button.width 25.0
                         Button.content "-"
                         Button.onClick (fun _ -> dispatch (DeleteProfile index))
                     ]
 
                     TextBlock.create [
                         TextBlock.dock Dock.Left
+                        TextBlock.verticalAlignment VerticalAlignment.Center
+                        TextBlock.margin (5.0, 0.0)
                         TextBlock.text (sprintf "%i : %s" index (NonEmptyString100.unWrap p.Nom))
                         TextBlock.tip (sprintf "\
                                             Suffixe : %s\n\
@@ -53,6 +67,7 @@ module ProfilesView =
             DockPanel.children [
                 Button.create [
                     Button.dock Dock.Bottom
+                    Button.margin 10.0
                     Button.content "Nouveau"
                     Button.width 60.0
                     Button.onClick (fun _ -> EditProfile -1 |> dispatch)
