@@ -19,7 +19,7 @@ module ProfilesView =
                         Button.dock Dock.Right
                         Button.margin (5.0, 0.0)
                         Button.content "..."
-                        Button.onClick (fun _ -> EditProfile (index, profile) |> dispatch)
+                        Button.onClick (fun _ -> EditProfile index |> dispatch)
                     ]
 
                     Button.create [
@@ -55,7 +55,7 @@ module ProfilesView =
                     Button.dock Dock.Bottom
                     Button.content "Nouveau"
                     Button.width 60.0
-                    Button.onClick (fun _ -> EditProfile (-1, Empty) |> dispatch)
+                    Button.onClick (fun _ -> EditProfile -1 |> dispatch)
                 ]
                 match state.Profiles with
                 | [] -> 

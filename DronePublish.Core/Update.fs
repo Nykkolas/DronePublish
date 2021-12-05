@@ -18,7 +18,7 @@ type Msg =
     | SaveState
     | ShowDialog
     | DialogShown
-    | EditProfile of (int * Profile)
+    | EditProfile of int
     | ProfileEdited of (int * Profile)
     | DeleteProfile of int
 
@@ -100,9 +100,9 @@ module Update =
         | DialogShown ->
             (state, Cmd.none)
 
-        | EditProfile (index, profile) ->
-            match profile with
-            | Empty -> (state, Cmd.OfAsync.perform dialogs.ShowEditProfileDialog (index, profile) ProfileEdited)
+        | EditProfile index ->
+            match index with
+            | -1 -> (state, Cmd.OfAsync.perform dialogs.ShowEditProfileDialog (index, Empty) ProfileEdited)
             | _ -> (state, Cmd.OfAsync.perform dialogs.ShowEditProfileDialog (index, state.Profiles.[index]) ProfileEdited)
             
         | ProfileEdited (index, newProfile) ->
