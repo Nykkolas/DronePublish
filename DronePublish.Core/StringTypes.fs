@@ -1,7 +1,7 @@
 ﻿namespace DronePublish.Core
 
 open System
-open FsToolkit.ErrorHandling.Operator.Validation
+open FsToolkit.ErrorHandling
 
 type StringError =
     | IsNullOrEmpty
@@ -23,9 +23,12 @@ module NonEmptyString100 =
             else
                 Ok s
 
-        (fun _ s -> NonEmptyString100 s)
-        <!^> isNullOrEmpty s
-        <*^> isLongerThan100 s
+        [ isNullOrEmpty s; isLongerThan100 s ]
+        |> List.sequenceResultA
+        |> function
+            | Ok [] -> NonEmptyString100 s |> Ok
+            | Ok (h::_) -> h |> NonEmptyString100 |> Ok
+            | Error e -> Error e
 
     let unWrap nonEmptyS100 =
         let (NonEmptyString100 s) = nonEmptyS100
