@@ -10,11 +10,11 @@ type Msg =
     | ChooseSourceFile
     | SourceFileChosen of string array
     | GetSourceFileInfos
-    | GotSourceFileInfos of Validation<IMediaInfo,ConversionError>
+    | GotSourceFileInfos of Result<IMediaInfo,ConversionError list>
     | ChooseDestDir
     | DestDirChosen of string
     | StartConvertion
-    | ConvertionDone of Validation<IConversionResult,ConversionError>
+    | ConvertionDone of Result<IConversionResult,ConversionError list>
     | SaveState
     | ShowDialog
     | DialogShown

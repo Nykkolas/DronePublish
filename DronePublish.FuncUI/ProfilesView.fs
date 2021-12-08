@@ -16,6 +16,15 @@ module ProfilesView =
         | Selected p | NotSelected p ->
             DockPanel.create [
                 DockPanel.margin (5.0, 5.0)
+                DockPanel.tip (sprintf "\
+                                    Suffixe : %s\n\
+                                    Bitrate : %i\n\
+                                    Resolution : %ix%i" 
+                                    (NonEmptyString100.unWrap p.Suffixe) 
+                                    (PositiveLong.unWrap p.Bitrate) 
+                                    (PositiveInt.unWrap p.Width)
+                                    (PositiveInt.unWrap p.Height)
+                                )
                 DockPanel.children [
                     CheckBox.create [
                         CheckBox.dock Dock.Left
@@ -45,16 +54,7 @@ module ProfilesView =
                         TextBlock.dock Dock.Left
                         TextBlock.verticalAlignment VerticalAlignment.Center
                         TextBlock.margin (5.0, 0.0)
-                        TextBlock.text (sprintf "%i : %s" index (NonEmptyString100.unWrap p.Nom))
-                        TextBlock.tip (sprintf "\
-                                            Suffixe : %s\n\
-                                            Bitrate : %i\n\
-                                            Resolution : %ix%i" 
-                                            (NonEmptyString100.unWrap p.Suffixe) 
-                                            (PositiveLong.unWrap p.Bitrate) 
-                                            (PositiveInt.unWrap p.Width)
-                                            (PositiveInt.unWrap p.Height)
-                                        )
+                        TextBlock.text (NonEmptyString100.unWrap p.Nom)
                     ]
                 ]
             ]

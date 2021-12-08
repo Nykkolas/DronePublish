@@ -4,12 +4,6 @@ open Xabe.FFmpeg
 open System.IO
 open FsToolkit.ErrorHandling.Operator.Validation
 
-type ConversionError =
-    | CantFindFFMpegExe
-    | CantFindSourceFile
-    | CantFindDestDir
-    | DestFileAlreadyExists
-
 type ConversionResult = {
     Duration: string
 }
@@ -21,7 +15,39 @@ type MediaFileInfos = {
     Bitrate: int64
 }
 
+type ConversionError =
+    | CantFindFFMpegExe
+    | CantFindSourceFile
+    | CantFindDestDir
+    | DestFileAlreadyExists
+
+type ConversionModel = {
+    Log: string
+    ProfileData: ProfileData array
+    Conversions: Deferred<Result<ConversionResult, ConversionError list>> array
+}
+
 module Conversion =
+    let init conv =
+        match conv with
+        | Some c -> { c with Log = ""}
+        | None ->
+            {
+                Log = ""
+                ProfileData = Array.empty
+                Conversions = Array.empty
+            }
+
+    let isStarted conv =
+        conv.Conversions
+        |> Array.exists (function
+                | Started -> true
+                | _ -> false
+            )
+
+    let log text conv =
+        { conv with Log = sprintf "%s\n%s" conv.Log text }
+
     let validateExecutablePath path =
         let ffmpeg = File.Exists (Path.Combine (path, "ffmpeg.exe"))
         let ffprobe = File.Exists (Path.Combine (path, "ffprobe.exe"))

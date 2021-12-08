@@ -130,7 +130,7 @@ module UpdateTests =
                 let dialogs = DialogsTest.create "" ""
                 let updateWithServices message state =
                     Update.update message state dialogs
-                let startConvertionErrors = [ CantFindFFMpegExe; CantFindSourceFile; CantFindDestDir ]
+                let startConvertionErrors = [ ConversionError.CantFindFFMpegExe; ConversionError.CantFindSourceFile; ConversionError.CantFindDestDir ]
                 let startConvertionMessage = Msg.ConvertionDone (Error startConvertionErrors)
 
                 let (resultState, resultCmd) = updateWithServices startConvertionMessage initialState

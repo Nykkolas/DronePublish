@@ -13,11 +13,6 @@ type ModelError =
     | CantFindSourceFile
     | CantFindDestDir
 
-type Deferred<'a> =
-    | NotStarted
-    | Started
-    | Resolved of 'a
-
 type Conf = {
     ExecutablesPath: string
 }
@@ -26,9 +21,9 @@ type Model = {
     ConfFile: string
     Conf: Conf
     SourceFile: string
-    SourceInfos: Deferred<Validation<MediaFileInfos, ConversionError>>
+    SourceInfos: Deferred<Result<MediaFileInfos, ConversionError list>>
     DestDir: string
-    Conversion: Deferred<Validation<ConversionResult, ConversionError>>
+    Conversion: Deferred<Result<ConversionResult, ConversionError list>>
     Profiles: Profile list
 }
 
