@@ -6,6 +6,8 @@ open Avalonia.Controls
 open Avalonia.Layout
 open Avalonia.FuncUI.Components
 
+(* TODO : Sélectionner tout / aucun *)
+
 module ProfilesView =
     let profileTemplate (index, profile) dispatch =
         match profile with 
