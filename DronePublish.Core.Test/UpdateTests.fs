@@ -120,10 +120,10 @@ module UpdateTests =
                 let updateWithServices message state =
                     Update.update message state dialogs
 
-                let (resultState, resultCmd) = updateWithServices Msg.StartConvertion initialState
+                let (resultState, resultCmd) = updateWithServices Msg.StartConversion initialState
 
                 resultState |> Expect.equal "l'état n'a pas changé" initialState
-                resultCmd |> TestHelpers.extractMsg |> Expect.equal "Resolved avec erreurs" [| Msg.ConvertionDone (Error [ CantFindFFMpegExe; CantFindSourceFile; CantFindDestDir ]) |]
+                resultCmd |> TestHelpers.extractMsg |> Expect.equal "Resolved avec erreurs" [| Msg.ConversionDone (Error [ CantFindFFMpegExe; CantFindSourceFile; CantFindDestDir ]) |]
             
             testCase "ConvertionDone - erreur : rien ne va" <| fun _ ->
                 let initialState = TestHelpers.initTestState "" "" "" ""  List.empty
@@ -131,7 +131,7 @@ module UpdateTests =
                 let updateWithServices message state =
                     Update.update message state dialogs
                 let startConvertionErrors = [ ConversionError.CantFindFFMpegExe; ConversionError.CantFindSourceFile; ConversionError.CantFindDestDir ]
-                let startConvertionMessage = Msg.ConvertionDone (Error startConvertionErrors)
+                let startConvertionMessage = Msg.ConversionDone (Error startConvertionErrors)
 
                 let (resultState, resultCmd) = updateWithServices startConvertionMessage initialState
 
@@ -144,7 +144,7 @@ module UpdateTests =
                 let updateWithServices message state =
                     Update.update message state dialogs
 
-                let (resultState, resultCmd) = updateWithServices Msg.StartConvertion initialState
+                let (resultState, resultCmd) = updateWithServices Msg.StartConversion initialState
 
                 resultState |> Expect.equal "l'état n'a pas changé" initialState
                 resultCmd |>  Expect.isEmpty "Pas de message"
@@ -159,7 +159,7 @@ module UpdateTests =
                 if File.Exists destFile then
                     File.Delete destFile
 
-                let (resultState, resultCmd) = updateWithServices Msg.StartConvertion initialState
+                let (resultState, resultCmd) = updateWithServices Msg.StartConversion initialState
              
                 resultState |> Expect.equal "L'état est Started" { initialState with Conversion = Started }
                 resultCmd |> Expect.isNonEmpty "Il y a une commande de prévue"
@@ -172,7 +172,7 @@ module UpdateTests =
 
                 let dummyConvertionResult = ConvertionResultTest () :> IConversionResult
 
-                let (resultState, resultCmd) = updateWithServices (Msg.ConvertionDone (Ok dummyConvertionResult))  initialState
+                let (resultState, resultCmd) = updateWithServices (Msg.ConversionDone (Ok dummyConvertionResult))  initialState
 
                 resultState |> Expect.equal "L'état contient le résultat" {initialState with Conversion = Resolved (Ok { Duration = dummyConvertionResult.Duration.ToString () } )}
                 resultCmd |> TestHelpers.extractMsg |> Expect.equal "On sauvegarde l'état" [| Msg.SaveState |]

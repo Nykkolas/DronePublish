@@ -16,6 +16,7 @@ module TestHelpers =
             SourceInfos = NotStarted
             DestDir = destDir
             Conversion = NotStarted
+            ConversionJobs = ConversionJobs.init ()
             Profiles = profileList
         }
 

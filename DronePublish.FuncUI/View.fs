@@ -81,7 +81,7 @@ module View =
             ]
         ]
 
-    let destDir state dispatch =
+    let destDir (state:Model) dispatch =
         DockPanel.create [
             DockPanel.dock Dock.Top
             DockPanel.margin 10.0
@@ -108,11 +108,7 @@ module View =
             Grid.column 2
             Grid.rowDefinitions "50,*"
             Grid.columnDefinitions "2*,3*"
-            Grid.isEnabled (
-                match state.Conversion with
-                | Started -> false
-                | _ -> true
-            )
+            Grid.isEnabled (not (ConversionJobs.isStarted state.ConversionJobs))
             //Grid.showGridLines true
             Grid.children [
                 (* Exécutables *)

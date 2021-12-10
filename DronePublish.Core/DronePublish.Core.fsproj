@@ -12,6 +12,7 @@
     <None Include="Ressources\bin\ffprobe.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Compile Include="Seq.fs" />
     <Compile Include="IntTypes.fs" />
     <Compile Include="StringTypes.fs" />
     <Compile Include="Profile.fs" />
@@ -38,6 +39,7 @@
     <Watch Remove="IntTypes.fs" />
     <Watch Remove="Model.fs" />
     <Watch Remove="Profile.fs" />
+    <Watch Remove="Seq.fs" />
     <Watch Remove="StringTypes.fs" />
     <Watch Remove="Update.fs" />
   </ItemGroup>

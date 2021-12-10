@@ -19,6 +19,7 @@ module ModelTests =
             let resultDirectoryExists = Directory.Exists (Path.GetDirectoryName saveFile)
             TestHelpers.cleanSaveFile saveFile
             resultDirectoryExists |> Expect.isTrue "Le répertoire de sauvegarde existe"
+        
         testCase "Crée le fichier si il n'existe pas" <| fun _ ->
             let saveFile = TestHelpers.generateSaveFileName ()
             let testState = TestHelpers.initTestState saveFile "" "" "" List.empty
@@ -27,6 +28,7 @@ module ModelTests =
             let resultFileExists = File.Exists saveFile
             TestHelpers.cleanSaveFile saveFile
             resultFileExists |> Expect.isTrue "Le fichier de sauvegarde a été créé"
+        
         testCase "Le contenu du fichier est le bon" <| fun _ ->
             let saveFile = TestHelpers.generateSaveFileName ()
             let testState = TestHelpers.initTestState saveFile "" "" "" List.empty

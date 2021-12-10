@@ -21,33 +21,28 @@ type ConversionError =
     | CantFindDestDir
     | DestFileAlreadyExists
 
-type ConversionModel = {
+type ConversionJobs = {
     Log: string
-    ProfileData: ProfileData array
-    Conversions: Deferred<Result<ConversionResult, ConversionError list>> array
+    SelectedProfileData: ProfileData array
+    JobsResults: Deferred<Result<ConversionResult, ConversionError list>> array
 }
 
-module Conversion =
-    let init conv =
-        match conv with
-        | Some c -> { c with Log = ""}
-        | None ->
-            {
-                Log = ""
-                ProfileData = Array.empty
-                Conversions = Array.empty
-            }
+module ConversionJobs =
+    let init () =
+        {
+            Log = ""
+            SelectedProfileData = Array.empty
+            JobsResults = Array.empty
+        }
 
     let isStarted conv =
-        conv.Conversions
+        conv.JobsResults
         |> Array.exists (function
-                | Started -> true
-                | _ -> false
-            )
+            | Started -> true
+            | _ -> false
+        )
 
-    let log text conv =
-        { conv with Log = sprintf "%s\n%s" conv.Log text }
-
+module Conversion =
     let validateExecutablePath path =
         let ffmpeg = File.Exists (Path.Combine (path, "ffmpeg.exe"))
         let ffprobe = File.Exists (Path.Combine (path, "ffprobe.exe"))

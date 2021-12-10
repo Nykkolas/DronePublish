@@ -24,6 +24,7 @@ type Model = {
     SourceInfos: Deferred<Result<MediaFileInfos, ConversionError list>>
     DestDir: string
     Conversion: Deferred<Result<ConversionResult, ConversionError list>>
+    ConversionJobs: ConversionJobs
     Profiles: Profile list
 }
 
@@ -59,6 +60,7 @@ module Model =
                     SourceInfos = NotStarted
                     DestDir = ""
                     Conversion = NotStarted
+                    ConversionJobs = ConversionJobs.init ()
                     Profiles = List.empty
                 }
         (state, Cmd.none)
