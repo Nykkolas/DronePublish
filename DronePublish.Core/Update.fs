@@ -167,10 +167,10 @@ module Update =
                     let jobsResults = 
                         state.ConversionJobs.JobsResults 
                         |> ArrayFunc.updateAt index (Resolved (ConversionResult.create r |> Ok))
-                    {
-                        state.ConversionJobs with
-                            Log = log
-                            JobsResults = jobsResults
+                    
+                    { state.ConversionJobs with
+                        Log = log
+                        JobsResults = jobsResults
                     }
 
             let cmd = 

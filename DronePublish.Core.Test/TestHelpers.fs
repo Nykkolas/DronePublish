@@ -3,7 +3,22 @@
 open DronePublish.Core
 open System
 open System.IO
+open Xabe.FFmpeg
 
+type ConvertionResultTest () =
+    interface IConversionResult with
+
+        member _.get_StartTime () =
+            DateTime (07, 11, 1978)
+
+        member _.get_EndTime () =
+            DateTime (07, 11, 1978)
+
+        member _.get_Duration () =
+            TimeSpan (0, 1, 0)
+
+        member _.get_Arguments () =
+            "--help"
 
 module TestHelpers =
     let initTestState confFile executablesPath sourceFile destDir profileList =

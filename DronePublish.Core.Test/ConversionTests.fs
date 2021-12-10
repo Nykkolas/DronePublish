@@ -6,6 +6,9 @@ open DronePublish.Core
 open System.IO
 open Xabe.FFmpeg
 
+(* TODO : fichier de test suffisamment petit pour aller sur GitHub *)
+(* TODO : Automatiser les tests GitHub *)
+
 module ConversionTests =
     [<Tests>]
     let tryStartTests =
@@ -469,3 +472,69 @@ module ConversionTests =
                 resultCmd |> TestHelpers.extractMsg |> Expect.equal "Job suivant" [| expectedMsg |]
         ]
 
+    [<Tests>]
+    let startConvertionTests =
+        testList "StartConvertion-ConvertionDone" [
+            testCase "StartConvertion - erreur : rien ne va" <| fun _ ->
+                let initialState = TestHelpers.initTestState "" "" "" ""  List.empty
+                let dialogs = DialogsTest.create "" ""
+                let updateWithServices message state =
+                    Update.update message state dialogs
+
+                let (resultState, resultCmd) = updateWithServices Msg.StartConversion initialState
+
+                resultState |> Expect.equal "l'état n'a pas changé" initialState
+                resultCmd |> TestHelpers.extractMsg |> Expect.equal "Resolved avec erreurs" [| Msg.ConversionDone (Error [ CantFindFFMpegExe; CantFindSourceFile; CantFindDestDir ]) |]
+                
+            testCase "ConvertionDone - erreur : rien ne va" <| fun _ ->
+                let initialState = TestHelpers.initTestState "" "" "" ""  List.empty
+                let dialogs = DialogsTest.create "" ""
+                let updateWithServices message state =
+                    Update.update message state dialogs
+                let startConvertionErrors = [ ConversionError.CantFindFFMpegExe; ConversionError.CantFindSourceFile; ConversionError.CantFindDestDir ]
+                let startConvertionMessage = Msg.ConversionDone (Error startConvertionErrors)
+
+                let (resultState, resultCmd) = updateWithServices startConvertionMessage initialState
+
+                resultState |> Expect.equal "L'erreur est affichée dans l'état" { initialState with Conversion = Resolved (Error startConvertionErrors) }
+                resultCmd |> Expect.isEmpty "Pas de commande"
+
+            testCase "StartConvertion - Rien si la convertion a déjà démarrée" <| fun _ ->
+                let initialState = { TestHelpers.initTestState "" @"./Ressources/bin" @"./Ressources/Peniche_Julien_TimeLine_1.mov" @"./Ressources/output"  List.empty with Conversion = Started }
+                let dialogs = DialogsTest.create "" ""
+                let updateWithServices message state =
+                    Update.update message state dialogs
+
+                let (resultState, resultCmd) = updateWithServices Msg.StartConversion initialState
+
+                resultState |> Expect.equal "l'état n'a pas changé" initialState
+                resultCmd |>  Expect.isEmpty "Pas de message"
+                    
+            testCase "StartConvertion - Cas passant" <| fun _ ->
+                let initialState = TestHelpers.initTestState "" @"./Ressources/bin" @"./Ressources/Peniche_Julien_TimeLine_1.mov" @"./Ressources/output" List.empty
+                let dialogs = DialogsTest.create "" ""
+                let updateWithServices message state =
+                    Update.update message state dialogs
+
+                let destFile = Path.Join (@"./Ressources/output", "output.mp4")
+                if File.Exists destFile then
+                    File.Delete destFile
+
+                let (resultState, resultCmd) = updateWithServices Msg.StartConversion initialState
+                 
+                resultState |> Expect.equal "L'état est Started" { initialState with Conversion = Started }
+                resultCmd |> Expect.isNonEmpty "Il y a une commande de prévue"
+
+            testCase "ConvertionDone - Cas passant" <| fun _ ->
+                let initialState = { TestHelpers.initTestState "" @"./Ressources/bin" @"./Ressources/Peniche_Julien_TimeLine_1.mov" @"./Ressources/output" List.empty with Conversion = Started }
+                let dialogs = DialogsTest.create "" ""
+                let updateWithServices message state =
+                    Update.update message state dialogs
+
+                let dummyConvertionResult = ConvertionResultTest () :> IConversionResult
+
+                let (resultState, resultCmd) = updateWithServices (Msg.ConversionDone (Ok dummyConvertionResult))  initialState
+
+                resultState |> Expect.equal "L'état contient le résultat" {initialState with Conversion = Resolved (Ok { Duration = dummyConvertionResult.Duration.ToString () } )}
+                resultCmd |> TestHelpers.extractMsg |> Expect.equal "On sauvegarde l'état" [| Msg.SaveState |]
+        ]
