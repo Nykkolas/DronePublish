@@ -110,7 +110,9 @@ module EditProfileDialog =
 
         | UpdateNom text ->
             let validatedNom = NonEmptyString100.tryCreate text
-            { state with NotValidatedProfileData = { state.NotValidatedProfileData with Nom = (text, validatedNom) } }
+            { state with 
+                NotValidatedProfileData = { state.NotValidatedProfileData with Nom = (text, validatedNom) } 
+            }
 
         | UpdateSuffixe text ->
             let validatedSuffixe = NonEmptyString100.tryCreate text
@@ -140,7 +142,8 @@ module EditProfileDialog =
             fieldToBool notValidatedProfileData.Width
             fieldToBool notValidatedProfileData.Height
         ]
-        |> List.fold (fun state elem -> if not (elem) then false else state) true
+        |> List.forall id 
+        (* TODO : Ajouter un test pour vérifier que le bon nombre de champs sont testés (possible ?) *)
 
     let ligne state dispatch label msgFunc (text, result) =
         DockPanel.create [
