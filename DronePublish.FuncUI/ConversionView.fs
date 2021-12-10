@@ -8,7 +8,7 @@ open Avalonia.FuncUI.DSL
 open FsToolkit.ErrorHandling
 open DronePublish.Core
 
-(* TODO : boite de dialogue pour demander quoi faire si le fichier de destination existe *)
+(* TODO : afficher le nom du profile échoué dans le log (plutôt que le numéro) *)
 
 module ConversionView =
     let view state dispatch =

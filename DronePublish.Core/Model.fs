@@ -17,6 +17,8 @@ type Conf = {
     ExecutablesPath: string
 }
 
+(* TODO : tester SourceFile ou DestDir avec une option (pour gérer le cas de l'initialisation + créer un type qui vérifie que le fichier existe) *)
+
 type Model = {
     ConfFile: string
     Conf: Conf

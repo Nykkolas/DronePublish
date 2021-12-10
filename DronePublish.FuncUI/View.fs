@@ -6,8 +6,6 @@ open Avalonia.FuncUI.DSL
 open Avalonia.Layout
 open Avalonia.Media
 
-(* TODO : Sélection de profiles et utilisation dans la conversion *)
-
 module View = 
     let executables state dispatch =
         StackPanel.create [

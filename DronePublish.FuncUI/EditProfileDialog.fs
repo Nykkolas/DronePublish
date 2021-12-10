@@ -75,7 +75,7 @@ module EditProfileDialog =
             state.Dialog.Close ((0, Empty))
             state
 
-        (* TODO : mais si les cas impossibles arrivent quand même ? (genre j'oublie de modifier la fonction isVald) *)
+        (* TODO : mais si les cas impossibles arrivent quand même ? (genre j'oublie de modifier la fonction isValid) *)
         | Enregistrer -> 
             let unWrapNotValidatedString = function
             | _, Ok s -> s
