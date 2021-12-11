@@ -48,7 +48,7 @@ module UpdateTests =
         testList "Get/Got-SourceFileInfos" [
             testCase "GetSourceFileInfos : cas passant" <| fun _ ->
                 let saveFile = TestHelpers.generateSaveFileName ()
-                let initialState = TestHelpers.initTestState saveFile @"./Ressources/bin" @"./Ressources/Peniche_Julien_TimeLine_1.mov" ""  List.empty
+                let initialState = TestHelpers.initTestState saveFile @"./Ressources/bin" TestHelpers.validTestFile ""  List.empty
                 let dialogs = DialogsTest.create "" ""
                 let updateWithServices message state =
                     Update.update message state dialogs
@@ -59,7 +59,7 @@ module UpdateTests =
             
             testCase "GetSourceFileInfos : manque ffprobe" <| fun _ ->
                 let saveFile = TestHelpers.generateSaveFileName ()
-                let initialState = TestHelpers.initTestState saveFile @"./Ressources/bin_only_ffmpeg" @"./Ressources/Peniche_Julien_TimeLine_1.mov" ""  List.empty
+                let initialState = TestHelpers.initTestState saveFile @"./Ressources/bin_only_ffmpeg" TestHelpers.validTestFile ""  List.empty
                 let dialogs = DialogsTest.create "" ""
                 let updateWithServices message state =
                     Update.update message state dialogs
@@ -70,16 +70,16 @@ module UpdateTests =
                 resultCmd |> TestHelpers.extractMsg |> Expect.equal "GotSourceFileInfos Error" [| (GotSourceFileInfos (Error [ CantFindFFMpegExe ])) |]
 
             testCase "GotSourceFileInfos : cas passant" <| fun _ ->
-                let initialState = TestHelpers.initTestState "" @"./Ressources/bin" @"./Ressources/Peniche_Julien_TimeLine_1.mov" ""  List.empty
+                let initialState = TestHelpers.initTestState "" @"./Ressources/bin" TestHelpers.validTestFile ""  List.empty
                 let dialogs = DialogsTest.create "" ""
                 let updateWithServices message state =
                     Update.update message state dialogs
                 
                 let expectedMediaInfos = {
-                    Width = 3840
-                    Height = 2160
+                    Width = 1280
+                    Height = 720
                     Codec = "dnxhd"
-                    Bitrate = int64 1747081078
+                    Bitrate = 194447472L
                 }
 
                 let (resultState, resultCmd) = 

@@ -32,7 +32,7 @@ module ConversionTests =
 
             testCase "Cas passant" <| fun _ ->
                 let destDir = @"./Ressources/output"
-                let sourceFile = @"./Ressources/Peniche_Julien_TimeLine_1.mov"
+                let sourceFile = TestHelpers.validTestFile
                 let profile = {
                     Nom = NonEmptyString100 "Pour les tests"
                     Suffixe = NonEmptyString100 "_TESTS"
@@ -58,7 +58,7 @@ module ConversionTests =
 
             testCase "Le fichier destination existe déjà" <| fun _ ->
                 let destDir = @"./Ressources/output"
-                let sourceFile = @"./Ressources/Peniche_Julien_TimeLine_1.mov"
+                let sourceFile = TestHelpers.validTestFile
                 let profile = {
                     Nom = NonEmptyString100 "Pour les tests"
                     Suffixe = NonEmptyString100 "_TESTS_Existe"
@@ -76,7 +76,7 @@ module ConversionTests =
                 let result = 
                     Conversion.tryStart 
                         @"./Ressources/bin" 
-                        @"./Ressources/Peniche_Julien_TimeLine_1.mov" 
+                        TestHelpers.validTestFile 
                         destDir 
                         profile
 
@@ -93,7 +93,7 @@ module ConversionTests =
         testList "createDestFileTests" [
             testCase "Cas passant" <| fun _ ->
                 let destDir = @"./Ressources/output"
-                let sourceFile = @"./Ressources/Peniche_Julien_TimeLine_1.mov"
+                let sourceFile = TestHelpers.validTestFile
                 let profile = {
                     Nom = NonEmptyString100 "Pour les tests"
                     Suffixe = NonEmptyString100 "_TESTS"
@@ -104,7 +104,7 @@ module ConversionTests =
                 }
 
                 Conversion.createDestFile destDir sourceFile profile
-                |> Expect.equal "création du nom de fichier" @"./Ressources/output\Peniche_Julien_TimeLine_1_TESTS.mp4"
+                |> Expect.equal "création du nom de fichier" @"./Ressources/output\Péniche Julien TimeLine 1_TESTS.mp4"
         ]
 
     [<Tests>]
@@ -114,7 +114,7 @@ module ConversionTests =
                 (* Conditions initiales *)
                 let dialogs = DialogsTest.create "" ""
                 let exePath = @"./Ressources/bin"
-                let sourceFile = @"./Ressources/Peniche_Julien_TimeLine_1.mov"
+                let sourceFile = TestHelpers.validTestFile
                 let destDir = @"./Ressources/output"
                 let profileData = {
                     Nom = NonEmptyString100 "Pour les tests"
@@ -147,7 +147,7 @@ module ConversionTests =
                 (* Conditions initiales *)
                 let dialogs = DialogsTest.create "" ""
                 let exePath = @"./Ressources/bin"
-                let sourceFile = @"./Ressources/Peniche_Julien_TimeLine_1.mov"
+                let sourceFile = TestHelpers.validTestFile
                 let destDir = @"./Ressources/output"
                 let profileData = {
                     Nom = NonEmptyString100 "Pour les tests"
@@ -185,7 +185,7 @@ module ConversionTests =
                  (* Conditions initiales *)
                 let dialogs = DialogsTest.create "" ""
                 let exePath = @"./Ressources/bin"
-                let sourceFile = @"./Ressources/Peniche_Julien_TimeLine_1.mov"
+                let sourceFile = TestHelpers.validTestFile
                 let destDir = @"./Ressources/output"
                 let profileData = {
                     Nom = NonEmptyString100 "Pour les tests"
@@ -224,7 +224,7 @@ module ConversionTests =
                 (* Conditions initiales *)
                 let dialogs = DialogsTest.create "" ""
                 let exePath = @"./Ressources/bin"
-                let sourceFile = @"./Ressources/Peniche_Julien_TimeLine_1.mov"
+                let sourceFile = TestHelpers.validTestFile
                 let destDir = @"./Ressources/output"
                 let profileData1 = {
                     Nom = NonEmptyString100 "Pour les tests - p1"
@@ -271,7 +271,7 @@ module ConversionTests =
                 (* Conditions initiales *)
                 let dialogs = DialogsTest.create "" ""
                 let exePath = @"./Ressources/bin"
-                let sourceFile = @"./Ressources/Peniche_Julien_TimeLine_1.mov"
+                let sourceFile = TestHelpers.validTestFile
                 let destDir = @"./Ressources/output"
                 let profileData = {
                     Nom = NonEmptyString100 "Pour les tests"
@@ -301,7 +301,7 @@ module ConversionTests =
                 (* Conditions initiales *)
                 let dialogs = DialogsTest.create "" ""
                 let exePath = @"./Ressources/bin"
-                let sourceFile = @"./Ressources/Peniche_Julien_TimeLine_1.mov"
+                let sourceFile = TestHelpers.validTestFile
                 let destDir = @"./Ressources/output"
                 let initialState = TestHelpers.initTestState "" exePath sourceFile destDir List.empty
                 
@@ -323,7 +323,7 @@ module ConversionTests =
                 (* Conditions initiales *)
                 let dialogs = DialogsTest.create "" ""
                 let exePath = @"./Ressources/bin"
-                let sourceFile = @"./Ressources/Peniche_Julien_TimeLine_1.mov"
+                let sourceFile = TestHelpers.validTestFile
                 let destDir = @"./Ressources/output"
                 let profileData = {
                     Nom = NonEmptyString100 "Pour les tests"
@@ -500,7 +500,7 @@ module ConversionTests =
                 resultCmd |> Expect.isEmpty "Pas de commande"
 
             testCase "StartConvertion - Rien si la convertion a déjà démarrée" <| fun _ ->
-                let initialState = { TestHelpers.initTestState "" @"./Ressources/bin" @"./Ressources/Peniche_Julien_TimeLine_1.mov" @"./Ressources/output"  List.empty with Conversion = Started }
+                let initialState = { TestHelpers.initTestState "" @"./Ressources/bin" TestHelpers.validTestFile @"./Ressources/output"  List.empty with Conversion = Started }
                 let dialogs = DialogsTest.create "" ""
                 let updateWithServices message state =
                     Update.update message state dialogs
@@ -511,7 +511,7 @@ module ConversionTests =
                 resultCmd |>  Expect.isEmpty "Pas de message"
                     
             testCase "StartConvertion - Cas passant" <| fun _ ->
-                let initialState = TestHelpers.initTestState "" @"./Ressources/bin" @"./Ressources/Peniche_Julien_TimeLine_1.mov" @"./Ressources/output" List.empty
+                let initialState = TestHelpers.initTestState "" @"./Ressources/bin" TestHelpers.validTestFile @"./Ressources/output" List.empty
                 let dialogs = DialogsTest.create "" ""
                 let updateWithServices message state =
                     Update.update message state dialogs
@@ -526,7 +526,7 @@ module ConversionTests =
                 resultCmd |> Expect.isNonEmpty "Il y a une commande de prévue"
 
             testCase "ConvertionDone - Cas passant" <| fun _ ->
-                let initialState = { TestHelpers.initTestState "" @"./Ressources/bin" @"./Ressources/Peniche_Julien_TimeLine_1.mov" @"./Ressources/output" List.empty with Conversion = Started }
+                let initialState = { TestHelpers.initTestState "" @"./Ressources/bin" TestHelpers.validTestFile @"./Ressources/output" List.empty with Conversion = Started }
                 let dialogs = DialogsTest.create "" ""
                 let updateWithServices message state =
                     Update.update message state dialogs

@@ -18,8 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
-Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "DronePublish.Packaging", "DronePublish.Packaging\DronePublish.Packaging.wapproj", "{8787B4A2-4CCD-4A61-8796-960B143423ED}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -134,36 +132,6 @@ Global
 		{60204A3C-56FF-4DD9-B3E9-BE7F1957CB05}.Release|x64.Build.0 = Release|Any CPU
 		{60204A3C-56FF-4DD9-B3E9-BE7F1957CB05}.Release|x86.ActiveCfg = Release|Any CPU
 		{60204A3C-56FF-4DD9-B3E9-BE7F1957CB05}.Release|x86.Build.0 = Release|Any CPU
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Debug|ARM.ActiveCfg = Debug|ARM
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Debug|ARM.Build.0 = Debug|ARM
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Debug|ARM.Deploy.0 = Debug|ARM
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Debug|ARM64.Build.0 = Debug|ARM64
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Debug|ARM64.Deploy.0 = Debug|ARM64
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Debug|x64.ActiveCfg = Debug|x64
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Debug|x64.Build.0 = Debug|x64
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Debug|x64.Deploy.0 = Debug|x64
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Debug|x86.ActiveCfg = Debug|x86
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Debug|x86.Build.0 = Debug|x86
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Debug|x86.Deploy.0 = Debug|x86
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Release|ARM.ActiveCfg = Release|ARM
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Release|ARM.Build.0 = Release|ARM
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Release|ARM.Deploy.0 = Release|ARM
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Release|ARM64.ActiveCfg = Release|ARM64
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Release|ARM64.Build.0 = Release|ARM64
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Release|ARM64.Deploy.0 = Release|ARM64
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Release|x64.ActiveCfg = Release|x64
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Release|x64.Build.0 = Release|x64
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Release|x64.Deploy.0 = Release|x64
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Release|x86.ActiveCfg = Release|x86
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Release|x86.Build.0 = Release|x86
-		{8787B4A2-4CCD-4A61-8796-960B143423ED}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -21,6 +21,8 @@ type ConvertionResultTest () =
             "--help"
 
 module TestHelpers =
+    let validTestFile = @"./Ressources/Péniche Julien TimeLine 1.mov"
+    
     let initTestState confFile executablesPath sourceFile destDir profileList =
         { 
             ConfFile = confFile
