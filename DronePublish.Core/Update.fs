@@ -21,13 +21,16 @@ type Msg =
     | SaveState
     | ShowDialog
     | DialogShown
-    | EditProfile of int
-    | ProfileEdited of (int * Profile)
-    | DeleteProfile of int
-    | CheckProfile of int
-    | UnCheckProfile of int
+    | ProfilesMsg of ProfilesCore.Msg
 
 module Update =
+    let handleProfilesExternal (msg:ProfilesCore.ExternalMsg option) =
+        match msg with
+        | None -> Cmd.none
+        | Some m ->
+            match m with
+            | ProfilesCore.ExternalMsg.SaveState -> Cmd.ofMsg SaveState
+
     let update msg state dialogs =
         match msg with
         | ChooseExecutablesPath -> 
@@ -189,35 +192,10 @@ module Update =
 
         | DialogShown ->
             (state, Cmd.none)
-
-        | EditProfile index ->
-            match index with
-            | -1 -> (state, Cmd.OfAsync.perform dialogs.ShowEditProfileDialog (index, Empty) ProfileEdited)
-            | _ -> (state, Cmd.OfAsync.perform dialogs.ShowEditProfileDialog (index, state.Profiles.[index]) ProfileEdited)
-            
-        | ProfileEdited (index, newProfile) ->
-            match newProfile with
-            | Empty -> (state, Cmd.none)
-            | _ -> 
-                match index with
-                | -1 -> ( { state with Profiles = state.Profiles @ [ newProfile ] }, Cmd.ofMsg SaveState)
-                | _ -> 
-                    let newProfiles = state.Profiles |> Profile.updateAt index newProfile
-                    ( { state with Profiles = newProfiles }, Cmd.ofMsg SaveState )
-
-        | DeleteProfile index ->
-            let newProfileList = state.Profiles |> Profile.removeAt index
-
-            ({ state with Profiles = newProfileList }, Cmd.ofMsg SaveState)
-            
-        | CheckProfile index ->
-            let newProfiles =
-                state.Profiles
-                |> List.mapi (fun i el -> if i = index then Profile.select el else el)
-            ({ state with Profiles = newProfiles }, Cmd.ofMsg SaveState)
-
-        | UnCheckProfile index ->
-            let newProfiles =
-                state.Profiles
-                |> List.mapi (fun i el -> if i = index then Profile.unSelect el else el)
-            ({ state with Profiles = newProfiles }, Cmd.ofMsg SaveState)
+        
+        | ProfilesMsg msg ->
+            let (profilesState, cmd, external) = ProfilesCore.update msg state.Profiles dialogs
+            let mapped = Cmd.map ProfilesMsg cmd
+            let handled = handleProfilesExternal external
+            let batch = Cmd.batch [ mapped; handled ]
+            ({ state with Profiles = profilesState }, batch)

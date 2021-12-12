@@ -119,7 +119,7 @@ module View =
                 //    Button.onClick (fun _ -> dispatch ShowDialog)
                 //]
 
-                ProfilesView.view state dispatch
+                ProfilesView.view state (ProfilesMsg >> dispatch)
 
                 DockPanel.create [
                     DockPanel.row 1

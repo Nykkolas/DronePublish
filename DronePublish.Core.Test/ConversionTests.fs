@@ -6,7 +6,6 @@ open DronePublish.Core
 open System.IO
 open Xabe.FFmpeg
 
-(* TODO : fichier de test suffisamment petit pour aller sur GitHub *)
 (* TODO : Automatiser les tests GitHub *)
 
 module ConversionTests =

@@ -3,9 +3,6 @@
 open System.IO
 open FSharp.Json
 open Elmish
-open FsToolkit.ErrorHandling
-open FsToolkit.ErrorHandling.Operator.Validation
-open Xabe.FFmpeg
 
 type ModelError =
     | CantDeserializeFile
@@ -25,9 +22,9 @@ type Model = {
     SourceFile: string
     SourceInfos: Deferred<Result<MediaFileInfos, ConversionError list>>
     DestDir: string
-    Conversion: Deferred<Result<ConversionResult, ConversionError list>>
+    Conversion: Deferred<Result<ConversionResult, ConversionError list>> // TO DELETE
     ConversionJobs: ConversionJobs
-    Profiles: Profile list
+    Profiles: ProfilesCore.Model
 }
 
 module Model =
@@ -49,6 +46,8 @@ module Model =
         with
             | _ -> Error CantDeserializeFile
 
+
+    (* TODO : vider le log au démarrage *)
     let init confFile = 
         let stateResult = loadStateFromFile confFile
         let state = 
@@ -63,6 +62,6 @@ module Model =
                     DestDir = ""
                     Conversion = NotStarted
                     ConversionJobs = ConversionJobs.init ()
-                    Profiles = List.empty
+                    Profiles = ProfilesCore.init ()
                 }
         (state, Cmd.none)

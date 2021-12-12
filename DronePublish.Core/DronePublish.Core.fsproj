@@ -20,6 +20,7 @@
     <Compile Include="Fichiers.fs" />
     <Compile Include="AsyncTypes.fs" />
     <Compile Include="Conversion.fs" />
+    <Compile Include="ProfilesCore.fs" />
     <Compile Include="Model.fs" />
     <Compile Include="Update.fs" />
   </ItemGroup>
@@ -39,6 +40,7 @@
     <Watch Remove="IntTypes.fs" />
     <Watch Remove="Model.fs" />
     <Watch Remove="Profile.fs" />
+    <Watch Remove="ProfilesCore.fs" />
     <Watch Remove="Seq.fs" />
     <Watch Remove="StringTypes.fs" />
     <Watch Remove="Update.fs" />

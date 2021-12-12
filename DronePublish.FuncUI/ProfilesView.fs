@@ -5,6 +5,7 @@ open Avalonia.FuncUI.DSL
 open Avalonia.Controls
 open Avalonia.Layout
 open Avalonia.FuncUI.Components
+open Elmish
 
 (* TODO : Sélectionner tout / aucun *)
 
@@ -28,12 +29,13 @@ module ProfilesView =
                                     (PositiveInt.unWrap p.Height)
                                 )
                 DockPanel.children [
+                    
                     CheckBox.create [
                         CheckBox.dock Dock.Left
                         CheckBox.margin (5.0, 0.0)
                         Profile.isSelected profile |> CheckBox.isChecked
-                        CheckBox.onChecked (fun _ -> CheckProfile index |> dispatch)
-                        CheckBox.onUnchecked (fun _ -> UnCheckProfile index |> dispatch)
+                        CheckBox.onChecked (fun _ -> ProfilesCore.Msg.CheckProfile index |> dispatch)
+                        CheckBox.onUnchecked (fun _ -> ProfilesCore.Msg.UnCheckProfile index |> dispatch)
                     ]
 
                     Button.create [
@@ -41,7 +43,7 @@ module ProfilesView =
                         Button.margin (5.0, 0.0)
                         Button.width 25.0
                         Button.content "..."
-                        Button.onClick (fun _ -> EditProfile index |> dispatch)
+                        Button.onClick (fun _ -> ProfilesCore.Msg.EditProfile index |> dispatch)
                     ]
 
                     Button.create [
@@ -49,7 +51,7 @@ module ProfilesView =
                         Button.margin (5.0, 0.0)
                         Button.width 25.0
                         Button.content "-"
-                        Button.onClick (fun _ -> dispatch (DeleteProfile index))
+                        Button.onClick (fun _ -> dispatch (ProfilesCore.Msg.DeleteProfile index))
                     ]
 
                     TextBlock.create [
@@ -67,13 +69,15 @@ module ProfilesView =
             DockPanel.column 0
             DockPanel.margin 10.0
             DockPanel.children [
+                
                 Button.create [
                     Button.dock Dock.Bottom
                     Button.margin 10.0
                     Button.content "Nouveau"
                     Button.width 60.0
-                    Button.onClick (fun _ -> EditProfile -1 |> dispatch)
+                    Button.onClick (fun _ -> ProfilesCore.Msg.EditProfile -1 |> dispatch)
                 ]
+
                 match state.Profiles with
                 | [] -> 
                     TextBlock.create [
