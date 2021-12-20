@@ -22,11 +22,13 @@ module ProfilesView =
                 DockPanel.tip (sprintf "\
                                     Suffixe : %s\n\
                                     Bitrate : %i\n\
-                                    Resolution : %ix%i" 
+                                    Resolution : %ix%i\n\
+                                    Codec : %A" 
                                     (NonEmptyString100.unWrap p.Suffixe) 
                                     (PositiveLong.unWrap p.Bitrate) 
                                     (PositiveInt.unWrap p.Width)
                                     (PositiveInt.unWrap p.Height)
+                                    p.Codec
                                 )
                 DockPanel.children [
                     

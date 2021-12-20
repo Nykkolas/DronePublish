@@ -41,6 +41,7 @@ module EditProfileDialog =
         | UpdateBitrate of string
         | UpdateWidth of string
         | UpdateHeight of string
+        | UpdateCodec of Codec
 
     let init ((dialog:HostWindow), (indexProfile:int * Profile)) =
         let create (profileData:ProfileData) =
@@ -130,10 +131,13 @@ module EditProfileDialog =
             let validatedHeight = PositiveInt.tryParse text
             { state with NotValidatedProfileData = { state.NotValidatedProfileData with Height = (text, validatedHeight) } }
 
+        | UpdateCodec codec ->
+            let notValidatedProfileData = { state.NotValidatedProfileData with Codec = codec }
+            { state with NotValidatedProfileData = notValidatedProfileData }
+
     let isValid notValidatedProfileData =
-        let fieldToBool field =
-            field 
-            ||> (fun _ result -> result |> Result.isOk)
+        let fieldToBool (_, result) =
+            result |> Result.isOk
 
         [ 
             fieldToBool notValidatedProfileData.Nom
@@ -154,7 +158,6 @@ module EditProfileDialog =
                     TextBlock.width 50.0
                     TextBlock.verticalAlignment VerticalAlignment.Center
                     TextBlock.margin (5.0, 0.0)
-                    TextBlock.dock Dock.Left
                     TextBlock.text label 
                 ]
                 TextBlock.create [
@@ -162,7 +165,6 @@ module EditProfileDialog =
                     TextBlock.width 5.0
                     TextBlock.verticalAlignment VerticalAlignment.Center
                     TextBlock.margin (5.0, 0.0)
-                    TextBlock.dock Dock.Right
                     match result with
                     | Ok _ -> TextBlock.text ""
                     | Error e -> 
@@ -170,7 +172,6 @@ module EditProfileDialog =
                         TextBlock.tip (sprintf "%A" e)
                 ]
                 TextBox.create [
-                    TextBlock.dock Dock.Right
                     TextBox.verticalAlignment VerticalAlignment.Center
                     TextBox.margin (5.0, 0.0)
                     TextBox.dock Dock.Right
@@ -180,10 +181,45 @@ module EditProfileDialog =
             ]
         ]
 
+    let codec state dispatch =
+        DockPanel.create [
+            DockPanel.margin 10.0
+            DockPanel.children [
+                TextBlock.create [ 
+                    TextBlock.dock Dock.Left
+                    TextBlock.width 50.0
+                    TextBlock.verticalAlignment VerticalAlignment.Center
+                    TextBlock.margin (5.0, 0.0)
+                    TextBlock.text "Codec" 
+                ]
+
+                TextBlock.create [
+                    TextBlock.dock Dock.Right
+                    TextBlock.width 5.0
+                    TextBlock.verticalAlignment VerticalAlignment.Center
+                    TextBlock.margin (5.0, 0.0)
+                    TextBlock.text ""
+                ]
+
+                ComboBox.create [
+                    ComboBox.dock Dock.Right
+                    ComboBox.margin (5.0, 0.0)
+                    ComboBox.dataItems [
+                        H264
+                        H264_NVENC
+                    ]
+                    ComboBox.selectedItem state.NotValidatedProfileData.Codec
+                    ComboBox.onSelectedItemChanged (
+                        tryUnbox >> Option.iter (UpdateCodec >> dispatch)
+                    )
+                ]
+            ]
+        ]
+
     let view state dispatch =
         Border.create [
-            Border.borderThickness 2.0
-            Border.borderBrush "red"
+            //Border.borderThickness 2.0
+            //Border.borderBrush "red"
             Border.child (
                 StackPanel.create [
                     StackPanel.margin 10.0
@@ -206,6 +242,8 @@ module EditProfileDialog =
                         ligne state dispatch "Largeur :" UpdateWidth state.NotValidatedProfileData.Width
                             
                         ligne state dispatch "Hauteur :" UpdateHeight state.NotValidatedProfileData.Height
+
+                        codec state dispatch
 
                         StackPanel.create [
                             StackPanel.orientation Orientation.Horizontal
@@ -235,7 +273,7 @@ module EditProfileDialog =
 
         do
             this.CanResize <- false
-            this.HasSystemDecorations <- false
+            //this.HasSystemDecorations <- false
             this.SizeToContent <- SizeToContent.Height
             this.Width <- 350.0
             this.WindowStartupLocation <- WindowStartupLocation.CenterOwner

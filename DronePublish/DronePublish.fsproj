@@ -7,6 +7,7 @@
   <ItemGroup>
     <None Include="proto\Proto_Lists.fsx" />
     <None Include="proto\Proto_Records.fsx" />
+    <None Include="proto\Proto_Reflection.fsx" />
     <None Include="proto\Proto_Elmish_Test.fsx" />
     <None Include="proto\Proto_Conf.fsx" />
     <None Include="proto\Proto_JSON.fsx" />
@@ -15,5 +16,7 @@
     <Compile Include="Fichiers.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="FsToolkit.ErrorHandling" Version="2.11.1" />
+  </ItemGroup>
 </Project>

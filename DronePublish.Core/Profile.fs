@@ -49,8 +49,7 @@ module Profile =
         | H264 -> VideoCodec.h264
         | H264_NVENC -> VideoCodec.h264_nvenc
 
-    let getProfileData profile =
-        match profile with
+    let getProfileData = function
         | Empty -> None
         | Selected p -> Some p
         | NotSelected p -> Some p
