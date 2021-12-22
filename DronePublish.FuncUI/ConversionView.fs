@@ -9,7 +9,6 @@ open FsToolkit.ErrorHandling
 open DronePublish.Core
 
 (* TODO : afficher le nom du profile échoué dans le log (plutôt que le numéro) *)
-(* TODO : BUG Blocage sans récupération quand codec sélectionné est NVENC sur portable *)
 
 module ConversionView =
     let view state dispatch =

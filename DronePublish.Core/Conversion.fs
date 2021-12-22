@@ -20,6 +20,7 @@ type ConversionError =
     | CantFindSourceFile
     | CantFindDestDir
     | DestFileAlreadyExists
+    | FFMpegError of exn
 
 type ConversionJobs = {
     Log: string

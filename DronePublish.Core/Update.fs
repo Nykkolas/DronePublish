@@ -149,7 +149,11 @@ module Update =
                             Log = log
                             JobsResults = jobsResults
                     }
-                    let cmd = Cmd.OfAsync.perform (fun _ -> c) () (fun r -> ConversionJobDone (index, Ok r))
+                    let cmd = Cmd.OfAsync.either 
+                                    (fun _ -> c) () 
+                                    (fun r -> ConversionJobDone (index, Ok r)) 
+                                    (fun ex -> ConversionJobDone (index, Error [ FFMpegError ex ]))
+                        
                     (conversionJobs, cmd)
 
             ({ state with ConversionJobs = conversionJobs }, cmd)
@@ -160,10 +164,14 @@ module Update =
             let conversionJobs =
                 match result with
                 | Error e -> 
+                    let log = sprintf "%s\nErreur de conversion pour le profile %i/%i : %A" state.ConversionJobs.Log (index + 1) length e
                     let jobsResults = 
                         state.ConversionJobs.JobsResults 
                         |> ArrayFunc.updateAt index (Resolved (Error e))
-                    { state.ConversionJobs with JobsResults = jobsResults }
+                    { state.ConversionJobs with 
+                        Log = log    
+                        JobsResults = jobsResults 
+                    }
             
                 | Ok r ->
                     let log = sprintf "%s\nConversion du profile %i/%i terminée" state.ConversionJobs.Log (index + 1) length

@@ -13,7 +13,6 @@ open FsToolkit.ErrorHandling
 open FsToolkit.ErrorHandling.Operator
 
 (* TODO : boite de dialogue plus jolie : bordure ? couleur ? *)
-(* TODO : unités pour le bitrate *)
 (* TODO : comment présenter la résolution ? *)
 
 module EditProfileDialog =

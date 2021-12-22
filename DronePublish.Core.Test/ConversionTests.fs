@@ -85,6 +85,46 @@ module ConversionTests =
 
                 if File.Exists (destFile) then
                     File.Delete destFile
+
+            testCase "Il y a une erreur dans le profile" <| fun _ ->
+                let destDir = @"./Ressources/output"
+                let sourceFile = TestHelpers.validTestFile
+                let profile = {
+                    Nom = NonEmptyString100 "Erreur dans le profile"
+                    Suffixe = NonEmptyString100 "_PROFILEKO"
+                    Bitrate = PositiveLong 8000000L
+                    Width = PositiveInt -1
+                    Height = PositiveInt 1080
+                    Codec = H264
+                }
+                let destFile = Conversion.createDestFile destDir sourceFile profile
+
+                if File.Exists (destFile) then
+                    File.Delete destFile
+
+                let conversionStart =
+                    Conversion.tryStart @"./Ressources/bin" sourceFile destDir profile
+                    |> function 
+                        | Ok t -> 
+                            try 
+                                Async.RunSynchronously t |> Ok
+                            with
+                                | e -> Error [ FFMpegError e ]
+                        | Error e -> Error e
+
+                File.Exists (destFile) |> Expect.isFalse "Le fichier output n'existe pas" 
+                let errorList =
+                    conversionStart 
+                        |> Expect.wantError "Une erreur a été renvoyée" 
+
+                Expect.hasLength errorList 1 "Une seule erreur"
+
+                match List.head errorList with
+                | FFMpegError e -> e.ToString() |> Expect.stringContains "Vérification de l'erreur" "Invalid frame size: -1x1080."
+                | _ -> Expect.isFalse "mauvais type d'erreur" true
+
+                if File.Exists (destFile) then
+                    File.Delete destFile
         ]
 
     [<Tests>]
