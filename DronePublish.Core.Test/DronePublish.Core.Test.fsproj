@@ -24,6 +24,7 @@
     </None>
     <Compile Include="DialogsTest.fs" />
     <Compile Include="TestHelpers.fs" />
+    <Compile Include="ProfileTests.fs" />
     <Compile Include="ProfilesCoreTests.fs" />
     <Compile Include="UpdateTests.fs" />
     <Compile Include="ConversionTests.fs" />

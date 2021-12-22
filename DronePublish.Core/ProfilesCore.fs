@@ -11,6 +11,8 @@ module ProfilesCore =
         | DeleteProfile of int
         | CheckProfile of int
         | UnCheckProfile of int
+        | CheckAllProfiles
+        | UnCheckAllProfiles
     
     type ExternalMsg =
         | SaveState
@@ -49,6 +51,18 @@ module ProfilesCore =
             let newProfiles =
                 state
                 |> List.mapi (fun i el -> if i = index then Profile.unSelect el else el)
+            (newProfiles, Cmd.none, Some SaveState)
+
+        | CheckAllProfiles ->
+            let newProfiles =
+                state
+                |> List.map Profile.select
+            (newProfiles, Cmd.none, Some SaveState)
+
+        | UnCheckAllProfiles ->
+            let newProfiles =
+                state
+                |> List.map Profile.unSelect
             (newProfiles, Cmd.none, Some SaveState)
     
         

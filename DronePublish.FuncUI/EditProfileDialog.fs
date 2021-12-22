@@ -12,7 +12,7 @@ open Avalonia.FuncUI.Elmish
 open FsToolkit.ErrorHandling
 open FsToolkit.ErrorHandling.Operator
 
-(* TODO : boite de dialogue plus jolie *)
+(* TODO : boite de dialogue plus jolie : bordure ? couleur ? *)
 (* TODO : unités pour le bitrate *)
 (* TODO : comment présenter la résolution ? *)
 
@@ -20,7 +20,7 @@ module EditProfileDialog =
     type NotValidatedProfileData = {
         Nom: string * Result<NonEmptyString100,StringError list>
         Suffixe: string * Result<NonEmptyString100,StringError list>
-        Bitrate: string * Result<PositiveLong,IntError>
+        Bitrate: string * Result<PositiveLong,ProfileError>
         Width: string * Result<PositiveInt,IntError>
         Height: string * Result<PositiveInt,IntError>
         Codec: Codec
@@ -62,7 +62,7 @@ module EditProfileDialog =
                 {
                     Nom = ("", Error [ IsNullOrEmpty ])
                     Suffixe = ("", Error [ IsNullOrEmpty ])
-                    Bitrate = ("", Error ErrorParsingText)
+                    Bitrate = ("", Error (PositiveLongBitrateError ErrorParsingText))
                     Width = ("", Error ErrorParsingText)
                     Height = ("", Error ErrorParsingText)
                     Codec = H264
@@ -120,7 +120,7 @@ module EditProfileDialog =
             { state with NotValidatedProfileData = { state.NotValidatedProfileData with Suffixe = (text, validatedSuffixe) } }
 
         | UpdateBitrate text ->
-            let validatedBitrate = PositiveLong.tryParse text
+            let validatedBitrate = Profile.tryParseBitrate text
             { state with NotValidatedProfileData = { state.NotValidatedProfileData with Bitrate = (text, validatedBitrate) } }
 
         | UpdateWidth text ->
@@ -155,7 +155,7 @@ module EditProfileDialog =
             DockPanel.children [
                 TextBlock.create [ 
                     TextBlock.dock Dock.Left
-                    TextBlock.width 50.0
+                    TextBlock.width 70.0
                     TextBlock.verticalAlignment VerticalAlignment.Center
                     TextBlock.margin (5.0, 0.0)
                     TextBlock.text label 
@@ -187,7 +187,7 @@ module EditProfileDialog =
             DockPanel.children [
                 TextBlock.create [ 
                     TextBlock.dock Dock.Left
-                    TextBlock.width 50.0
+                    TextBlock.width 70.0
                     TextBlock.verticalAlignment VerticalAlignment.Center
                     TextBlock.margin (5.0, 0.0)
                     TextBlock.text "Codec" 
@@ -237,7 +237,7 @@ module EditProfileDialog =
                                     
                         ligne state dispatch "Suffixe :" UpdateSuffixe state.NotValidatedProfileData.Suffixe
                     
-                        ligne state dispatch "Bitrate :" UpdateBitrate state.NotValidatedProfileData.Bitrate
+                        ligne state dispatch "Bitrate (bps) :" UpdateBitrate state.NotValidatedProfileData.Bitrate
                     
                         ligne state dispatch "Largeur :" UpdateWidth state.NotValidatedProfileData.Width
                             

@@ -9,6 +9,7 @@ open FsToolkit.ErrorHandling
 open DronePublish.Core
 
 (* TODO : afficher le nom du profile échoué dans le log (plutôt que le numéro) *)
+(* TODO : BUG Blocage sans récupération quand codec sélectionné est NVENC sur portable *)
 
 module ConversionView =
     let view state dispatch =
@@ -59,6 +60,8 @@ module ConversionView =
                         ]
                     ]                
                 ]
+
+                (* TODO : Si on lance la conversion sans avoir affiché les logs on n'a aucun retour *)
                 Expander.create [
                     Expander.dock Dock.Top
                     Expander.header "Logs de conversion"

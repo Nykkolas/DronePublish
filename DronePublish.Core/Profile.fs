@@ -1,10 +1,15 @@
 ﻿namespace DronePublish.Core
 
 open Xabe.FFmpeg
+open FParsec
 
 type Codec =
     | H264
     | H264_NVENC
+
+type ProfileError = 
+    | CantParseBitrate of string
+    | PositiveLongBitrateError of IntError
 
 type ProfileData = {
     Nom: NonEmptyString100
@@ -63,3 +68,11 @@ module Profile =
     let updateAt index value source =
         source
         |> List.mapi (fun i el -> if i = index then value else el)
+
+    (* TODO : Autoriser 8.2M *)
+    let tryParseBitrate str =
+        let parser = pint64 .>>. (choice [pchar 'k' >>% 1000L; pchar 'M' >>% 1000000L; eof >>% 1L])
+
+        match run parser str with
+        | Failure (e, _, _) -> Result.Error (CantParseBitrate e)
+        | Success ((l, u), _, _) -> PositiveLong.tryCreate (l * u) |> Result.mapError PositiveLongBitrateError

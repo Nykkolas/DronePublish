@@ -71,13 +71,35 @@ module ProfilesView =
             DockPanel.column 0
             DockPanel.margin 10.0
             DockPanel.children [
-                
-                Button.create [
-                    Button.dock Dock.Bottom
-                    Button.margin 10.0
-                    Button.content "Nouveau"
-                    Button.width 60.0
-                    Button.onClick (fun _ -> ProfilesCore.Msg.EditProfile -1 |> dispatch)
+                StackPanel.create [
+                    StackPanel.dock Dock.Bottom
+                    StackPanel.orientation Orientation.Horizontal
+                    StackPanel.horizontalAlignment HorizontalAlignment.Right
+                    StackPanel.children [
+                        Button.create [
+                            
+                            Button.margin 10.0
+                            Button.content "Nouveau"
+                            Button.width 60.0
+                            Button.onClick (fun _ -> ProfilesCore.Msg.EditProfile -1 |> dispatch)
+                        ]
+
+                        Button.create [
+                            Button.dock Dock.Bottom
+                            Button.margin 10.0
+                            Button.content "Tout désélectionner"
+                            Button.width 80.0
+                            Button.onClick (fun _ -> ProfilesCore.Msg.UnCheckAllProfiles |> dispatch)
+                        ]
+
+                        Button.create [
+                            Button.dock Dock.Bottom
+                            Button.margin 10.0
+                            Button.content "Tout sélectionner"
+                            Button.width 80.0
+                            Button.onClick (fun _ -> ProfilesCore.Msg.CheckAllProfiles |> dispatch)
+                        ]
+                    ]
                 ]
 
                 match state.Profiles with

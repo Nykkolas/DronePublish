@@ -11,6 +11,7 @@
     <None Include="proto\Proto_Elmish_Test.fsx" />
     <None Include="proto\Proto_Conf.fsx" />
     <None Include="proto\Proto_JSON.fsx" />
+    <None Include="proto\Proto_Parser.fsx" />
     <Compile Include="proto\ProtoFuncs.fs" />
     <Compile Include="Types.fs" />
     <Compile Include="Fichiers.fs" />
