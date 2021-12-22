@@ -444,7 +444,8 @@ module ConversionTests =
                 let initialState = {
                     TestHelpers.initTestState "" exePath sourceFile destDir [ Selected profileData ] with
                         ConversionJobs = {
-                            Log = sprintf "Conversion de 1 profile(s) démarré\nErreur lors du démarrage du profile 1/1 : %A" errors
+                            Log = sprintf "Conversion de 1 profile(s) démarré\n\
+                                Erreur lors du démarrage du profile 1/1 : %A" errors
                             SelectedProfileData = [| profileData |]
                             JobsResults = [| NotStarted |]
                         }
@@ -456,6 +457,7 @@ module ConversionTests =
                 (* Expected *)
                 let expectedConvertionJobs = {
                     initialState.ConversionJobs with
+                        Log = sprintf "%s\nErreur de conversion pour le profile 1/1 : %A" initialState.ConversionJobs.Log errors
                         JobsResults = [| Resolved (Error errors) |]
                 }
                 let expectedMsg = SaveState
@@ -490,7 +492,9 @@ module ConversionTests =
                 let initialState = {
                     TestHelpers.initTestState "" exePath sourceFile destDir [ Selected profileData1; Selected profileData2 ] with
                         ConversionJobs = {
-                            Log = sprintf "Conversion de 1 profile(s) démarré\nErreur lors du démarrage du profile 1/1 : %A" errors
+                            Log = sprintf "Conversion de 1 profile(s) démarré\n\
+                                            Erreur lors du démarrage du profile 1/1 : %A\n\
+                                            Erreur de conversion pour le profile 1/1 : %A" errors errors
                             SelectedProfileData = [| profileData1; profileData2 |]
                             JobsResults = [| NotStarted; NotStarted |]
                         }
@@ -502,6 +506,7 @@ module ConversionTests =
                 (* Expected *)
                 let expectedConvertionJobs = {
                     initialState.ConversionJobs with
+                        Log = sprintf "%s\nErreur de conversion pour le profile 1/2 : %A" initialState.ConversionJobs.Log errors
                         JobsResults = [| Resolved (Error errors); NotStarted |]
                 }
                 let expectedMsg = StartConversionJob 1

@@ -2,7 +2,6 @@
 
 open Elmish
 open Xabe.FFmpeg
-open FsToolkit.ErrorHandling
 
 type Msg =
     | ChooseExecutablesPath
