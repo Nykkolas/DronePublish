@@ -416,10 +416,11 @@ module ConversionTests =
 
                 (* Expected *)
                 let errors = [CantFindFFMpegExe; CantFindSourceFile; CantFindDestDir]
-                let expectedConvertionJobs = { 
-                    initialState.ConversionJobs with
-                        Log = sprintf "Conversion de 1 profile(s) démarré\nErreur lors du démarrage du profile 1/1 : %A" errors
-                }
+                //let expectedConvertionJobs = { 
+                //    initialState.ConversionJobs with
+                //        Log = sprintf "Conversion de 1 profile(s) démarré\nErreur lors du démarrage du profile 1/1 : %A" errors
+                //}
+                let expectedConvertionJobs = initialState.ConversionJobs
                 let expectedMsg = ConversionJobDone (0, Error errors)
 
                 (* Tests *)
@@ -444,8 +445,7 @@ module ConversionTests =
                 let initialState = {
                     TestHelpers.initTestState "" exePath sourceFile destDir [ Selected profileData ] with
                         ConversionJobs = {
-                            Log = sprintf "Conversion de 1 profile(s) démarré\n\
-                                Erreur lors du démarrage du profile 1/1 : %A" errors
+                            Log = sprintf "Conversion de 1 profile(s) démarré"
                             SelectedProfileData = [| profileData |]
                             JobsResults = [| NotStarted |]
                         }

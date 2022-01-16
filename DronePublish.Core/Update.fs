@@ -132,14 +132,7 @@ module Update =
         | StartConversionJob index ->
             let (conversionJobs, cmd) =
                 match Conversion.tryStart state.Conf.ExecutablesPath state.SourceFile state.DestDir state.ConversionJobs.SelectedProfileData.[index] with
-                | Error e -> 
-                    let log = sprintf "%s\nErreur lors du démarrage du profile %i/%i : %A" state.ConversionJobs.Log (index + 1) (Array.length state.ConversionJobs.SelectedProfileData) e
-                    let conversionJobs = {
-                        state.ConversionJobs with
-                            Log = log
-                    }
-                    (conversionJobs, Cmd.ofMsg (ConversionJobDone (index, Error e)))
-            
+                | Error e -> (state.ConversionJobs, Cmd.ofMsg (ConversionJobDone (index, Error e)))
                 | Ok c -> 
                     let log = sprintf "%s\nDémarrage du profile %i/%i" state.ConversionJobs.Log (index + 1) (Array.length state.ConversionJobs.SelectedProfileData)
                     let jobsResults = state.ConversionJobs.JobsResults |> ArrayFunc.updateAt index Started

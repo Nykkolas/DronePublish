@@ -21,17 +21,6 @@ module ConversionView =
                 DockPanel.create [
                     DockPanel.dock Dock.Top
                     DockPanel.children [
-                        //Button.create [
-                        //    Button.dock Dock.Right
-                        //    Button.verticalAlignment VerticalAlignment.Center
-                        //    Button.isEnabled (
-                        //        convertionReadyness
-                        //        |> Result.either (fun _ -> true) (fun _ -> false)
-                        //    )
-                        //    Button.content "Convertir"
-                        //    Button.onClick (fun _ -> StartConversion |> dispatch)
-                        //]
-
                         Button.create [
                             Button.dock Dock.Right
                             Button.verticalAlignment VerticalAlignment.Center
@@ -77,34 +66,6 @@ module ConversionView =
                         ]
                     )   
                 ]
-                //Expander.create [
-                //    Expander.dock Dock.Top
-                //    Expander.header "Logs de conversion"
-                //    Expander.content (
-                //        TextBox.create [ 
-                //            TextBox.textWrapping TextWrapping.Wrap
-                //            TextBox.isReadOnly true
-                //            TextBox.text (
-                //                convertionReadyness
-                //                |> function 
-                //                    | Error e -> sprintf "Erreurs à résoudre avant le lancer : \n%A" e
-                //                    | Ok _ ->  
-                //                        match state.Conversion with
-                //                        | NotStarted -> sprintf "Conversion pas démarrée"
-                //                        | Started -> sprintf "Conversion en cours..."
-                //                        | Resolved r -> 
-                //                            match r with
-                //                            | Ok c -> sprintf "\
-                //                                        La conversion a réussi\n\
-                //                                        Durée : %s" c.Duration
-                //                            | Error e -> sprintf "\
-                //                                            La conversion a échoué. Erreurs : \n\
-                //                                            %A" e
-                //            )
-                //        ]
-                //    )   
-                //]
-                
             ]
         ]
         
