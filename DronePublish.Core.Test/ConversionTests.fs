@@ -85,7 +85,8 @@ module ConversionTests =
 
                 if File.Exists (destFile) then
                     File.Delete destFile
-
+            
+            (** TODO : quelles erreurs de profile peuvent exister ?
             testCase "Il y a une erreur dans le profile" <| fun _ ->
                 let destDir = @"./Ressources/output"
                 let sourceFile = TestHelpers.validTestFile
@@ -125,6 +126,7 @@ module ConversionTests =
 
                 if File.Exists (destFile) then
                     File.Delete destFile
+            *)
         ]
 
     [<Tests>]
