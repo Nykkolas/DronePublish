@@ -74,6 +74,7 @@ module Program =
             window.Title <- "DronePublish"
             window.Width <- 600.0
             window.Height <- 400.0
+            window.Icon <- WindowIcon(@"Resources/Icon/DronePublish.ico")
             
             // Instead of just creating default init state, try to recover state from window.DataContext
             let hotInit confFile = 

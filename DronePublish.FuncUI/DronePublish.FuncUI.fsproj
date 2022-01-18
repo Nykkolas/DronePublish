@@ -2,8 +2,12 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
+    <ApplicationIcon>Resources/Icon/DronePublish.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Resources\Icon\DronePublish.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Compile Include="InfoDialogView.fs" />
     <Compile Include="ConversionView.fs" />
     <Compile Include="Dialogs.fs" />
@@ -28,7 +32,11 @@
     <PackageReference Include="Live.Avalonia" Version="1.1.1" />
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaXaml Remove="Assets\**" />
     <EmbeddedResource Remove=".template.config\**" />
+    <EmbeddedResource Remove="Assets\**" />
+    <Watch Remove="Assets\**" />
+    <AvaloniaResource Include="Resources\Icon\**" />
   </ItemGroup>
   <ItemGroup>
     <Watch Remove="ConversionView.fs" />
@@ -37,4 +45,5 @@
     <Watch Remove="InfoDialogView.fs" />
     <Watch Remove="ProfilesView.fs" />
   </ItemGroup>
+  <ItemGroup />
 </Project>
