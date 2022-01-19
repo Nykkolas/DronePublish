@@ -6,10 +6,10 @@
     <UseWpf>true</UseWpf>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="Ressources\bin\ffmpeg.exe">
+    <None Include="Resources\bin\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Ressources\bin\ffprobe.exe">
+    <None Include="Resources\bin\ffprobe.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="Seq.fs" />
