@@ -16,7 +16,7 @@ env:
 jobs:
   pre-release:
 
-    name: build-and-test-${{matrix.os}}
+    name: pre-release-${{matrix.os}}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
