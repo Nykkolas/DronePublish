@@ -5,7 +5,6 @@ AppName=DronePublish
 #else
 	AppVersion={#TAG}
 #endif
-
 DefaultDirName={commonpf}\DronePublish
 DefaultGroupName=DronePublish
 UninstallDisplayIcon={app}\DronePublish.FuncUI.exe

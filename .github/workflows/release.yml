@@ -1,7 +1,10 @@
-name: pre-release
+name: release
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - "v*"
   #push:
   #pull_request:
   #  branches: [ main ]
@@ -11,12 +14,11 @@ on:
 
 env:
   DOTNET_VERSION: '5.0' # The .NET SDK version to use
-  TAG: latest
 
 jobs:
-  pre-release:
+  release:
 
-    name: pre-release-${{matrix.os}}
+    name: release-${{matrix.os}}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -24,12 +26,21 @@ jobs:
         #os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Get Tag name
+      uses: olegtarasov/get-tag@v2.1
+      id: tagName
+
+    - name: Set TAG environment variable
+      run: echo "TAG=$GIT_TAG_NAME" >> $GITHUB_ENV
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-
+        
     - name: Install dependencies
       run: dotnet restore
       
@@ -49,6 +60,6 @@ jobs:
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: ${{ env.TAG }}
-        prerelease: true
-        title: "DronePublish : Development Build"
+        draft: true
+        title: "DronePublish : ${{ env.TAG }}"
         files: DronePublish.Installer/Output/*
