@@ -1,2 +1,0 @@
-MainPackage=C:\Users\EliteBook\source\repos\DronePublish\DronePublish.Packaging\bin\AnyCPU\Debug\DronePublish.Packaging_0.1.1.0_AnyCPU_Debug.msix
-SymbolPackage=C:\Users\EliteBook\source\repos\DronePublish\DronePublish.Packaging\obj\Debug\Symbols\DronePublish.Packaging_0.1.1.0_AnyCPU_Debug.appxsym

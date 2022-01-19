@@ -1,2 +1,0 @@
-MainPackage=C:\Users\EliteBook\source\repos\DronePublish\DronePublish.Packaging\bin\x64\Release\DronePublish.Packaging_0.1.2.0_x64.msix
-SymbolPackage=C:\Users\EliteBook\source\repos\DronePublish\DronePublish.Packaging\obj\x64\Release\Symbols\DronePublish.Packaging_0.1.2.0_x64.appxsym
