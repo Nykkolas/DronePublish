@@ -62,7 +62,7 @@ jobs:
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        pre-release: false
+        prerelease: false
         draft: true
         title: "DronePublish : ${{ env.GIT_TAG_NAME }}"
         files: DronePublish.Installer/Output/*
