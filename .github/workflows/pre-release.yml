@@ -19,7 +19,7 @@ jobs:
     uses: Nykkolas/DronePublish/.github/workflows/build-test-package.yml@master
     with:
         save-installer: true
-        tag: latest
+        tag: latest # TODO : a priori impossible d'utiliser $ {{env.TAG}} mais j'ai la flemme de creuser plus
 
   pre-release:
     name: pre-release-${{matrix.os}}
