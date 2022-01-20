@@ -62,6 +62,7 @@ jobs:
       run: |
         IF "${{ inputs.tag }}" == "" (SET TAG=latest) ELSE (SET TAG=${{ inputs.tag }})
         dotnet fake run build.fsx
+      shell: cmd
 
     - name: Upload installer
       if: inputs.save-installer == true
