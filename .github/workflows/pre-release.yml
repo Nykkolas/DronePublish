@@ -11,7 +11,7 @@ on:
 
 env:
   DOTNET_VERSION: '5.0' # The .NET SDK version to use
-  TAG: latest
+  TAG: "latest"
   INSTALLER_DIR: "DronePublish.Installer/Output"
 
 jobs:
