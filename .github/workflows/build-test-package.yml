@@ -50,10 +50,7 @@ jobs:
 
     - name: Package
       run: |
-        IF "${{ inputs.tag }}" == ""
-            SET TAG=latest
-        ELSE
-            SET TAG=${{ inputs.tag }}
+        IF "${{ inputs.tag }}" == "" (SET TAG=latest) ELSE (SET TAG=${{ inputs.tag }})
 
         "%programfiles(x86)%\Inno Setup 6\iscc.exe" /dTAG=%TAG% "DronePublish.Installer/InstallScript.iss"
       shell: cmd
