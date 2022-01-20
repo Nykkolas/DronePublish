@@ -16,7 +16,7 @@ env:
 
 jobs:
   build-test-package:
-    uses: nykkolas/DronePublish/.github/workflow/build-test-package.yml@main
+    uses: nykkolas/DronePublish/.github/workflows/build-test-package.yml@main
     with:
         save-installer: true
 
