@@ -23,7 +23,7 @@ jobs:
         id: tagName
     
       - name: Echo GIT_TAG_NAME
-        run: echo ${{ env.GIT_TAG_NAME }}
+        run: echo $GIT_TAG_NAME
     
   build-test-package:
     needs: get-tag
@@ -61,7 +61,10 @@ jobs:
     #  run: |
     #    "%programfiles(x86)%\Inno Setup 6\iscc.exe" /dTAG=${{ env.TAG }} "DronePublish.Installer/InstallScript.iss"
     #  shell: cmd
-    
+   
+    - name: Echo GIT_TAG_NAME
+      run: echo $GIT_TAG_NAME
+
     - name: Download installer
       uses: actions/download-artifact@v2
       with:
