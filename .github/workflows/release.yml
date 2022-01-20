@@ -24,6 +24,7 @@ jobs:
 
     release:
         name: release-${{matrix.os}}
+        needs: build-test-package
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
