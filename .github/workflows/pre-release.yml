@@ -19,11 +19,12 @@ jobs:
     uses: nykkolas/DronePublish/.github/workflows/build-test-package.yml@main
     with:
         save-installer: true
-        tag: "latest"
+        tag: ${{ env.TAG }}
 
   pre-release:
     name: pre-release-${{matrix.os}}
     runs-on: ${{ matrix.os }}
+    needs: build-test-package
     strategy:
       matrix:
         os: [windows-latest]
