@@ -39,20 +39,29 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Install dependencies
-      run: dotnet restore
+    #- name: Install dependencies
+    #  run: dotnet restore
       
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
+    #- name: Build
+    #  run: dotnet build --configuration Release --no-restore
     
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+    #- name: Test
+    #  run: dotnet test --no-restore --verbosity normal
 
-    - name: Package
+    #- name: Package
+    #  run: |
+    #    IF "${{ inputs.tag }}" == "" (SET TAG=latest) ELSE (SET TAG=${{ inputs.tag }})
+
+    #    "%programfiles(x86)%\Inno Setup 6\iscc.exe" /dTAG=%TAG% "DronePublish.Installer/InstallScript.iss"
+    #  shell: cmd
+
+    - name: Restore tools
+      run: dotnet tool restore
+
+    - name: build.fsx
       run: |
         IF "${{ inputs.tag }}" == "" (SET TAG=latest) ELSE (SET TAG=${{ inputs.tag }})
-
-        "%programfiles(x86)%\Inno Setup 6\iscc.exe" /dTAG=%TAG% "DronePublish.Installer/InstallScript.iss"
+        dotnet fake run build.fsx
       shell: cmd
 
     - name: Upload installer
