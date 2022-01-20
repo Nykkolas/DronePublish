@@ -50,7 +50,7 @@ jobs:
       shell: cmd
 
     - name: Upload installer
-      if: $ {{ inputs.save-installer }} == true
+      if: inputs.save-installer == true
       uses: actions/upload-artifact@v2
       with:
         name: installer
