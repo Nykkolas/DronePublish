@@ -33,41 +33,33 @@ jobs:
         #os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
-
-    #- name: Install dependencies
-    #  run: dotnet restore
-      
-    #- name: Build
-    #  run: dotnet build --configuration Release --no-restore
+        - name: Get Tag name
+          uses: olegtarasov/get-tag@v2.1
+          id: tagName
     
-    #- name: Test
-    #  run: dotnet test --no-restore --verbosity normal
+        #- name: Echo Tag name
+        #  run: echo ${{ env.GIT_TAG_NAME }}
 
-    #- name: Package
-    #  run: |
-    #    IF "${{ inputs.tag }}" == "" (SET TAG=latest) ELSE (SET TAG=${{ inputs.tag }})
+        - uses: actions/checkout@v2
+    
+        - name: Setup .NET Core
+          uses: actions/setup-dotnet@v1
+          with:
+            dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    #    "%programfiles(x86)%\Inno Setup 6\iscc.exe" /dTAG=%TAG% "DronePublish.Installer/InstallScript.iss"
-    #  shell: cmd
+        - name: Restore tools
+          run: dotnet tool restore
 
-    - name: Restore tools
-      run: dotnet tool restore
+        - name: Execute build.fsx
+          run: |
+            IF "${{ env.GIT_TAG_NAME }}" == "" (SET TAG=latest) ELSE (SET TAG=${{ env.GIT_TAG_NAME }})
+            dotnet fake run build.fsx
+          shell: cmd
 
-    - name: build.fsx
-      run: |
-        IF "${{ inputs.tag }}" == "" (SET TAG=latest) ELSE (SET TAG=${{ inputs.tag }})
-        dotnet fake run build.fsx
-      shell: cmd
-
-    - name: Upload installer
-      if: inputs.save-installer == true
-      uses: actions/upload-artifact@v2
-      with:
-        name: installer
-        path: ${{ env.INSTALLER_DIR }}
-        retention-days: 1
+        - name: Upload installer
+          if: inputs.save-installer == true
+          uses: actions/upload-artifact@v2
+          with:
+            name: installer
+            path: ${{ env.INSTALLER_DIR }}
+            retention-days: 1
