@@ -10,7 +10,7 @@ on:
   #  - '**.csproj'
 
 env:
-  DOTNET_VERSION: '5.0' # The .NET SDK version to use
+  DOTNET_VERSION: '5.0'
   TAG: "latest"
   INSTALLER_DIR: "DronePublish.Installer/Output"
 
@@ -61,7 +61,8 @@ jobs:
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: ${{ env.TAG }}
+        automatic_release_tag: ${{ jobs.build-test-package.with.tag }}
+        #automatic_release_tag: ${{ env.TAG }}
         prerelease: true
         title: "DronePublish : Development Build"
         files: ${{ env.INSTALLER_DIR }}/*
