@@ -22,6 +22,7 @@ on:
 env:
   DOTNET_VERSION: '5.0' # The .NET SDK version to use
   INSTALLER_DIR: "DronePublish.Installer/Output"
+  TAG: ${{ inputs.tag:-latest }}
 
 jobs:
   build-test-package:
@@ -50,7 +51,7 @@ jobs:
 
     - name: Package
       run: |
-        "%programfiles(x86)%\Inno Setup 6\iscc.exe" /dTAG=${{ inputs.tag }} "DronePublish.Installer/InstallScript.iss"
+        "%programfiles(x86)%\Inno Setup 6\iscc.exe" /dTAG=${{ env.TAG }} "DronePublish.Installer/InstallScript.iss"
       shell: cmd
 
     - name: Upload installer

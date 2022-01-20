@@ -19,6 +19,7 @@ jobs:
     uses: nykkolas/DronePublish/.github/workflows/build-test-package.yml@main
     with:
         save-installer: true
+        tag: "latest"
 
   pre-release:
     name: pre-release-${{matrix.os}}
