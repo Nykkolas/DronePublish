@@ -8,6 +8,10 @@ on:
           required: true
           default: false
           type: boolean
+      tag:
+          required: true
+          default: "latest"
+          type: string
 
   #pull_request:
   #  branches: [ main ]
@@ -46,7 +50,7 @@ jobs:
 
     - name: Package
       run: |
-        "%programfiles(x86)%\Inno Setup 6\iscc.exe" /dTAG=${{ env.TAG }} "DronePublish.Installer/InstallScript.iss"
+        "%programfiles(x86)%\Inno Setup 6\iscc.exe" /dTAG=${{ inputs.tag }} "DronePublish.Installer/InstallScript.iss"
       shell: cmd
 
     - name: Upload installer
