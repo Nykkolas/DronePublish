@@ -61,8 +61,7 @@ jobs:
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: ${{ jobs.build-test-package.with.tag }}
-        #automatic_release_tag: ${{ env.TAG }}
+        automatic_release_tag: ${{ env.TAG }}
         prerelease: true
         title: "DronePublish : Development Build"
         files: ${{ env.INSTALLER_DIR }}/*
