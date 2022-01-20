@@ -37,8 +37,8 @@ jobs:
           uses: olegtarasov/get-tag@v2.1
           id: tagName
     
-        - name: Echo Tag name
-          run: echo ${{ env.GIT_TAG_NAME }}
+        #- name: Echo Tag name
+        #  run: echo ${{ env.GIT_TAG_NAME }}
 
         - uses: actions/checkout@v2
     
