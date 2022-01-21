@@ -52,7 +52,7 @@ jobs:
 
         - name: Execute build.fsx
           run: |
-            IF "${{ env.GIT_TAG_NAME }}" == "" (SET TAG=latest) ELSE (SET TAG=${{ env.GIT_TAG_NAME }})
+            #IF "${{ env.GIT_TAG_NAME }}" == "" (SET TAG=latest) ELSE (SET TAG=${{ env.GIT_TAG_NAME }})
             dotnet fake run build.fsx
           shell: cmd
 
