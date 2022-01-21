@@ -16,7 +16,7 @@ env:
 
 jobs:
   build-test-package:
-    uses: Nykkolas/DronePublish/.github/workflows/build-test-package.yml@fake-refacto
+    uses: Nykkolas/DronePublish/.github/workflows/build-test-package.yml@master
     with:
         save-installer: true
         tag: "latest" # TODO : apparemment env n'est pas accessible ici... Tellement pourri Github Actions... Ou alors il y a un truc que je ne comprends pas dans les tags
