@@ -36,8 +36,9 @@ jobs:
           uses: olegtarasov/get-tag@v2.1
           id: tagName
     
-        #- name: Echo Tag name
-        #  run: echo $GIT_TAG_NAME
+        - name: Echo Tag name
+          run: echo %GIT_TAG_NAME%
+          shell: cmd
 
         - uses: actions/checkout@v2
     
@@ -51,7 +52,8 @@ jobs:
 
         - name: Execute build.fsx
           run: |
-            IF NOT "${{ inputs.tag }}" == "" (SET GIT_TAG_NAME=${{ inputs.tag }})
+            IF NOT "${{ inputs.tag }}" == "" (SET GIT_TAG_NAME=${{ inputs.tag }}) # ELSE (SET GIT_TAG_NAME=${{ env.GIT_TAG_NAME }})
+            echo %GIT_TAG_NAME%
             dotnet fake run build.fsx
           shell: cmd
 
