@@ -2,6 +2,8 @@ name: build test and create installer
 
 on:
   push:
+    tags-ignore:
+        - v*
   workflow_call:
     inputs:
       save-installer:
@@ -33,9 +35,6 @@ jobs:
           uses: olegtarasov/get-tag@v2.1
           id: tagName
     
-        - name: Echo Tag name
-          run: $GIT_TAG_NAME
-
         - uses: actions/checkout@v2
     
         - name: Setup .NET Core
@@ -47,14 +46,7 @@ jobs:
           run: dotnet tool restore
 
         - name: Execute build.fsx
-          run: |
-            $GIT_TAG_NAME
-            dotnet fake run build.fsx
-          #shell: cmd
-            #IF NOT "${{ inputs.tag }}" == "" (SET GIT_TAG_NAME=${{ inputs.tag }}) 
-            #if ("${{ inputs.tag }}" -ne "") {
-            #    $GIT_TAG_NAME="${{ inputs.tag }}"
-            #}
+          run: dotnet fake run build.fsx
 
         - name: Upload installer
           if: inputs.save-installer == true
