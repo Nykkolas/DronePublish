@@ -34,7 +34,7 @@ jobs:
           id: tagName
     
         - name: Echo Tag name
-          run: echo $GIT_TAG_NAME
+          run: $GIT_TAG_NAME
 
         - uses: actions/checkout@v2
     
@@ -48,7 +48,7 @@ jobs:
 
         - name: Execute build.fsx
           run: |
-            echo $GIT_TAG_NAME
+            $GIT_TAG_NAME
             dotnet fake run build.fsx
           #shell: cmd
             #IF NOT "${{ inputs.tag }}" == "" (SET GIT_TAG_NAME=${{ inputs.tag }}) 
