@@ -8,9 +8,6 @@ on:
           required: true
           default: false
           type: boolean
-      tag:
-          required: false
-          type: string
       
   #pull_request:
   #  branches: [ main ]
@@ -37,8 +34,7 @@ jobs:
           id: tagName
     
         - name: Echo Tag name
-          run: echo %GIT_TAG_NAME%
-          shell: cmd
+          run: echo $GIT_TAG_NAME
 
         - uses: actions/checkout@v2
     
@@ -52,10 +48,13 @@ jobs:
 
         - name: Execute build.fsx
           run: |
-            IF NOT "${{ inputs.tag }}" == "" (SET GIT_TAG_NAME=${{ inputs.tag }}) # ELSE (SET GIT_TAG_NAME=${{ env.GIT_TAG_NAME }})
-            echo %GIT_TAG_NAME%
+            echo $GIT_TAG_NAME
             dotnet fake run build.fsx
-          shell: cmd
+          #shell: cmd
+            #IF NOT "${{ inputs.tag }}" == "" (SET GIT_TAG_NAME=${{ inputs.tag }}) 
+            #if ("${{ inputs.tag }}" -ne "") {
+            #    $GIT_TAG_NAME="${{ inputs.tag }}"
+            #}
 
         - name: Upload installer
           if: inputs.save-installer == true

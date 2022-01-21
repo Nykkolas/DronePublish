@@ -39,7 +39,7 @@ Target.create "Test" (fun _ ->
 Target.create "Package" (fun _ ->
     InnoSetup.build (fun p -> 
         { p with
-            Defines = Map ["TAG", Environment.environVarOrDefault "GIT_TAG_NAME" "fake"]
+            Defines = Map ["TAG", Environment.environVarOrDefault "GIT_TAG_NAME" "latest"]
             ScriptFile = "DronePublish.Installer/InstallScript.iss"
             ToolPath = sprintf "%s\Inno Setup 6\iscc.exe" Environment.ProgramFilesX86
         }
