@@ -51,7 +51,7 @@ jobs:
 
         - name: Execute build.fsx
           run: |
-            IF "${{ inputs.tag }}" != "" (SET GIT_TAG_NAME=${{ inputs.tag }})
+            IF NOT "${{ inputs.tag }}" == "" (SET GIT_TAG_NAME=${{ inputs.tag }})
             dotnet fake run build.fsx
           shell: cmd
 
