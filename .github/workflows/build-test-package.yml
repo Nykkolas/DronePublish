@@ -9,10 +9,9 @@ on:
           default: false
           type: boolean
       tag:
-          required: true
-          default: "latest"
+          required: false
           type: string
-
+      
   #pull_request:
   #  branches: [ main ]
   #  paths:
@@ -38,7 +37,7 @@ jobs:
           id: tagName
     
         #- name: Echo Tag name
-        #  run: echo ${{ env.GIT_TAG_NAME }}
+        #  run: echo $GIT_TAG_NAME
 
         - uses: actions/checkout@v2
     
@@ -52,7 +51,7 @@ jobs:
 
         - name: Execute build.fsx
           run: |
-            IF "${{ env.GIT_TAG_NAME }}" == "" (SET TAG=latest) ELSE (SET TAG=${{ env.GIT_TAG_NAME }})
+            IF NOT "${{ inputs.tag }}" == "" (SET GIT_TAG_NAME=${{ inputs.tag }})
             dotnet fake run build.fsx
           shell: cmd
 
