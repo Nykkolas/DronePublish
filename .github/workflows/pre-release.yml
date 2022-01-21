@@ -11,15 +11,14 @@ on:
 
 env:
   DOTNET_VERSION: '5.0'
-  TAG: "latest"
+  GIT_TAG_NAME: "latest"
   INSTALLER_DIR: "DronePublish.Installer/Output"
 
 jobs:
   build-test-package:
-    uses: Nykkolas/DronePublish/.github/workflows/build-test-package.yml@master
+    uses: Nykkolas/DronePublish/.github/workflows/build-test-package.yml@fake-refacto
     with:
         save-installer: true
-        tag: latest # TODO : a priori impossible d'utiliser $ {{env.TAG}} mais j'ai la flemme de creuser plus
 
   pre-release:
     name: pre-release-${{matrix.os}}
